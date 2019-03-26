@@ -9,4 +9,49 @@ public class DataController implements IDataController{
     private Connection createConnection() throws SQLException {
         return  DriverManager.getConnection( url);
     }
+
+    @Override
+    public void opretIngrediens() throws DALException {
+
+    }
+
+    @Override
+    public void opdaterIngrediens() throws DALException {
+
+    }
+
+    @Override
+    public void sletIngrediens() throws DALException {
+
+    }
+
+    @Override
+    public void opretRåvarebatch() throws DALException {
+
+    }
+
+    @Override
+    public void opdaterRåvarebatch() throws DALException {
+
+    }
+
+    @Override
+    public void sletRåvarebatch() throws DALException {
+
+    }
+
+    @Override
+    public void opretProduktbatch() throws DALException {
+
+    }
+
+    @Override
+    public void opdaterProduktbatch() throws DALException {
+
+    }
+
+    @Override
+    public void sletProduktbatch() throws DALException {
+
+    }
 }
