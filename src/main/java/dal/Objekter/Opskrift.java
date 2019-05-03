@@ -7,16 +7,20 @@ public class Opskrift implements Test{
     private int id;
     private String navn;
     private ArrayList<Indholdsstof> indholdsStoffer;
+    // maengde måles i milligram
     private ArrayList<Integer> maengde;
     private ArrayList<Boolean> aktiv;
+    // opbevaringstid måles måneder
+    private int opbevaringstid;
 
 
-    public Opskrift(int id, String navn, ArrayList<Indholdsstof> indholdsStoffer, ArrayList<Integer> maengde, ArrayList<Boolean> aktiv){
+    public Opskrift(int id, String navn, ArrayList<Indholdsstof> indholdsStoffer, ArrayList<Integer> maengde, ArrayList<Boolean> aktiv, int opbevaringstid){
         this.id = id;
         this.navn = navn;
         this.indholdsStoffer = indholdsStoffer;
         this.maengde = maengde;
         this.aktiv = aktiv;
+        this.opbevaringstid = opbevaringstid;
     }
 
     @Override
@@ -52,6 +56,14 @@ public class Opskrift implements Test{
         this.aktiv = aktiv;
     }
 
+    public void setOpbevaringstid(int opbevaringstid){
+        this.opbevaringstid = opbevaringstid;
+    }
+
+
+
+
+
 
     public ArrayList<Indholdsstof> getIndholdsStoffer() {
         return indholdsStoffer;
@@ -71,6 +83,10 @@ public class Opskrift implements Test{
 
     public ArrayList<Boolean> getAktiv(){
         return aktiv;
+    }
+
+    public int getOpbevaringstid(){
+        return opbevaringstid;
     }
 
 }
