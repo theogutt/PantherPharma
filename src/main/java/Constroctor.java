@@ -1,4 +1,4 @@
-import Objekter.*;
+import dal.Objekter.*;
 
 public class Constroctor {
     private Indholdsstof[] indholdsstofs;

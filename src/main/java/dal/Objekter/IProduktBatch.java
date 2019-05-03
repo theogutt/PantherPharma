@@ -1,6 +1,7 @@
-package Objekter;
+package dal.Objekter;
 
 public interface IProduktBatch {
+    String toString();
     int getId();
 
     Opskrift getOpskrift();

@@ -1,13 +1,13 @@
-package Objekter;
+package dal.Objekter;
 
-public class RåvareBatch implements IRåvareBatch{
+public class RåvareBatch implements Test{
     private int id;
     private int mængde;
     private String producent;
     private Indholdsstof indholdsstof;
     private boolean genbestil = false;
 
-    public RåvareBatch(int id, int mængde, String producent, Indholdsstof indholdsstof){
+    public RåvareBatch(int id, int mengde, String producent, Indholdsstof indholdsstof){
         this.id = id;
         this.mængde = mængde;
         this.producent = producent;

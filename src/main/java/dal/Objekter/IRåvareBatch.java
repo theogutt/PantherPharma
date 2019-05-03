@@ -1,6 +1,7 @@
-package Objekter;
+package dal.Objekter;
 
 public interface IRåvareBatch {
+    String toString();
     int getId();
 
     Indholdsstof getIndholdsstof();

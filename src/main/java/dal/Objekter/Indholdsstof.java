@@ -1,6 +1,6 @@
-package Objekter;
+package dal.Objekter;
 
-public class Indholdsstof implements IIndholdsstof{
+public class Indholdsstof implements Test{
     private int id;
     private String name;
 

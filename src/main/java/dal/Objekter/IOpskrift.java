@@ -1,6 +1,7 @@
-package Objekter;
+package dal.Objekter;
 
 public interface IOpskrift {
+    String toString();
     void setId(int id);
 
     void setAktiveStoffer(Indholdsstof[] aktiveStoffer);
