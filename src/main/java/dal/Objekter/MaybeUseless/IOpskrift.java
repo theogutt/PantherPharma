@@ -1,4 +1,6 @@
-package dal.Objekter;
+package dal.Objekter.MaybeUseless;
+
+import dal.Objekter.Indholdsstof;
 
 public interface IOpskrift {
     String toString();

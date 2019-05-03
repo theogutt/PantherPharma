@@ -1,4 +1,6 @@
-package dal.Objekter;
+package dal.Objekter.MaybeUseless;
+
+import dal.Objekter.Opskrift;
 
 public interface IProduktBatch {
     String toString();
