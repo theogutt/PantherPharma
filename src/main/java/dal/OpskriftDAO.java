@@ -3,10 +3,7 @@ package dal;
 import dal.Objekter.Opskrift;
 import dal.Objekter.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class OpskriftDAO {
@@ -18,9 +15,9 @@ public class OpskriftDAO {
 
     void createOpskrift(Opskrift opskrift) throws IDAO.DALException{
         try (Connection c = createConnection()){
-            Statement statement = c.createStatement();
+            PreparedStatement statement = c.prepareStatement("INSERT INTO opskrifter (navn, opbevaringstid) VALUES (?, ?);");
 
-            String sqlCreateOpskrift = String.format();
+            String sqlCreateOpskrift = String.format(opskrift.getNavn(), opskrift.getOpbevaringstid());
 
             statement.executeUpdate(sqlCreateOpskrift);
 
@@ -36,9 +33,9 @@ public class OpskriftDAO {
         try (Connection c = createConnection()){
             Statement statement = c.createStatement();
 
-            String sqlCreateOpskrift = String.format();
+            String sqlGetOpskrift = String.format("fvgdsuyhijp");
 
-            statement.executeUpdate(sqlCreateOpskrift);
+            statement.executeUpdate(sqlGetOpskrift);
 
 
         } catch (SQLException e) {
@@ -70,9 +67,9 @@ public class OpskriftDAO {
         try (Connection c = createConnection()){
             Statement statement = c.createStatement();
 
-            String sqlCreateOpskrift = String.format();
+            String sqlUpdateOpskrift = String.format("vrgdsythufyåæp");
 
-            statement.executeUpdate(sqlCreateOpskrift);
+            statement.executeUpdate(sqlUpdateOpskrift);
 
 
         } catch (SQLException e) {
@@ -86,9 +83,9 @@ public class OpskriftDAO {
         try (Connection c = createConnection()){
             Statement statement = c.createStatement();
 
-            String sqlCreateOpskrift = String.format();
+            String sqlDeleteOpskrift = String.format("fgdstuhyijkl");
 
-            statement.executeUpdate(sqlCreateOpskrift);
+            statement.executeUpdate(sqlDeleteOpskrift);
 
 
         } catch (SQLException e) {

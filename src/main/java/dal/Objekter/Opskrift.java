@@ -1,20 +1,26 @@
 package dal.Objekter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Opskrift implements Test{
     private int id;
-    private List<Indholdsstof> aktiveStoffer;
-    private List<Indholdsstof> hjaelpeStoffer;
-    private int[] aktivMaengde;
-    private int[] hjaelpeMaengde;
+    private String navn;
+    private ArrayList<Indholdsstof> indholdsStoffer;
+    // maengde måles i milligram
+    private ArrayList<Integer> maengde;
+    private ArrayList<Boolean> aktiv;
+    // opbevaringstid måles måneder
+    private int opbevaringstid;
 
-    public Opskrift(int id, List<Indholdsstof> aktiveStoffer, List<Indholdsstof> hjaelpeStoffer, int[] aktivMaengde, int[] hjaelpeMaengde){
+
+    public Opskrift(int id, String navn, ArrayList<Indholdsstof> indholdsStoffer, ArrayList<Integer> maengde, ArrayList<Boolean> aktiv, int opbevaringstid){
         this.id = id;
-        this.aktiveStoffer = aktiveStoffer;
-        this.hjaelpeStoffer = hjaelpeStoffer;
-        this.aktivMaengde = aktivMaengde;
-        this.hjaelpeMaengde = hjaelpeMaengde;
+        this.navn = navn;
+        this.indholdsStoffer = indholdsStoffer;
+        this.maengde = maengde;
+        this.aktiv = aktiv;
+        this.opbevaringstid = opbevaringstid;
     }
 
     @Override
@@ -34,39 +40,53 @@ public class Opskrift implements Test{
         this.id = id;
     }
 
-    public void setAktiveStoffer(List<Indholdsstof> aktiveStoffer) {
-        this.aktiveStoffer = aktiveStoffer;
+    public void setIndholdsStoffer(ArrayList<Indholdsstof> aktiveStoffer) {
+        this.indholdsStoffer = indholdsStoffer;
     }
 
-    public void setAktivMaengde(int[] aktivMaengde) {
-        this.aktivMaengde = aktivMaengde;
+    public void setMaengde(ArrayList<Integer> maengde) {
+        this.maengde = maengde;
     }
 
-    public void setHjaelpeStoffer(List<Indholdsstof> hjaelpeStoffer) {
-        this.hjaelpeStoffer = hjaelpeStoffer;
+    public void setNavn(String navn){
+        this.navn = navn;
     }
 
-    public void setHjaelpeMaengde(int[] hjaelpeMaengde) {
-        this.hjaelpeMaengde = hjaelpeMaengde;
+    public void setAktiv(ArrayList<Boolean> aktiv){
+        this.aktiv = aktiv;
     }
 
-    public List<Indholdsstof> getAktiveStoffer() {
-        return aktiveStoffer;
+    public void setOpbevaringstid(int opbevaringstid){
+        this.opbevaringstid = opbevaringstid;
     }
 
-    public List<Indholdsstof> getHjaelpeStoffer() {
-        return hjaelpeStoffer;
+
+
+
+
+
+    public ArrayList<Indholdsstof> getIndholdsStoffer() {
+        return indholdsStoffer;
     }
 
     public int getId() {
         return id;
     }
 
-    public int[] getAktivMaengde() {
-        return aktivMaengde;
+    public ArrayList<Integer> getMaengde() {
+        return maengde;
     }
 
-    public int[] getHjaelpeMaengde() {
-        return hjaelpeMaengde;
+    public String getNavn(){
+        return navn;
     }
+
+    public ArrayList<Boolean> getAktiv(){
+        return aktiv;
+    }
+
+    public int getOpbevaringstid(){
+        return opbevaringstid;
+    }
+
 }
