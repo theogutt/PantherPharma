@@ -20,7 +20,8 @@ public class OpskriftDAO {
         try (Connection c = createConnection()){
             Statement statement = c.createStatement();
 
-            String sqlCreateOpskrift = String.format();
+            String sqlCreateOpskrift = String.format("INSERT INTO opskrifter VALUES (%s, \"%d)",
+                    opskrift.getNavn(), getOpbevaringstid());
 
             statement.executeUpdate(sqlCreateOpskrift);
 
@@ -36,9 +37,9 @@ public class OpskriftDAO {
         try (Connection c = createConnection()){
             Statement statement = c.createStatement();
 
-            String sqlCreateOpskrift = String.format();
+            String sqlGetOpskrift = String.format("fvgdsuyhijp");
 
-            statement.executeUpdate(sqlCreateOpskrift);
+            statement.executeUpdate(sqlGetOpskrift);
 
 
         } catch (SQLException e) {
@@ -70,9 +71,9 @@ public class OpskriftDAO {
         try (Connection c = createConnection()){
             Statement statement = c.createStatement();
 
-            String sqlCreateOpskrift = String.format();
+            String sqlUpdateOpskrift = String.format("vrgdsythufyåæp");
 
-            statement.executeUpdate(sqlCreateOpskrift);
+            statement.executeUpdate(sqlUpdateOpskrift);
 
 
         } catch (SQLException e) {
@@ -86,9 +87,9 @@ public class OpskriftDAO {
         try (Connection c = createConnection()){
             Statement statement = c.createStatement();
 
-            String sqlCreateOpskrift = String.format();
+            String sqlDeleteOpskrift = String.format("fgdstuhyijkl");
 
-            statement.executeUpdate(sqlCreateOpskrift);
+            statement.executeUpdate(sqlDeleteOpskrift);
 
 
         } catch (SQLException e) {
