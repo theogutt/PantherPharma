@@ -1,6 +1,6 @@
 package Objekter;
 
-public class ProduktBatch {
+public class ProduktBatch implements IProduktBatch{
     private int id;
     private String dato;
     private Opskrift opskrift;

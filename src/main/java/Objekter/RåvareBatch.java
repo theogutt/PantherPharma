@@ -1,6 +1,6 @@
 package Objekter;
 
-public class RåvareBatch {
+public class RåvareBatch implements IRåvareBatch{
     private int id;
     private int mængde;
     private String producent;

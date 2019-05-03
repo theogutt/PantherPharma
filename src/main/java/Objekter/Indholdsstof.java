@@ -1,6 +1,6 @@
 package Objekter;
 
-public class Indholdsstof {
+public class Indholdsstof implements IIndholdsstof{
     private int id;
     private String name;
 

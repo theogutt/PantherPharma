@@ -1,6 +1,6 @@
 package Objekter;
 
-public class Opskrift {
+public class Opskrift implements IOpskrift{
     private int id;
     private Indholdsstof[] aktiveStoffer;
     private Indholdsstof[] hjaelpeStoffer;
