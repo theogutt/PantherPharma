@@ -28,6 +28,7 @@ public class IndholdsstofDAO implements IDAO{
     }
 
     public Test get(int id) throws DALException {
+        Test stof;
 
         try (Connection connection = createConnection()) {
 
@@ -35,13 +36,13 @@ public class IndholdsstofDAO implements IDAO{
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-            Test stof = new Indholdsstof();
+            stof = new Indholdsstof(id, resultSet.getString(2));
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return null;
+        return stof;
     }
 
     public List<Test> getList() throws DALException {
