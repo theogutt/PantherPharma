@@ -3,10 +3,7 @@ package dal;
 import dal.Objekter.Opskrift;
 import dal.Objekter.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class OpskriftDAO {
@@ -18,10 +15,9 @@ public class OpskriftDAO {
 
     void createOpskrift(Opskrift opskrift) throws IDAO.DALException{
         try (Connection c = createConnection()){
-            Statement statement = c.createStatement();
+            PreparedStatement statement = c.prepareStatement("INSERT INTO opskrifter (navn, opbevaringstid) VALUES (?, ?);");
 
-            String sqlCreateOpskrift = String.format("INSERT INTO opskrifter VALUES (%s, \"%d)",
-                    opskrift.getNavn(), getOpbevaringstid());
+            String sqlCreateOpskrift = String.format(opskrift.getNavn(), opskrift.getOpbevaringstid());
 
             statement.executeUpdate(sqlCreateOpskrift);
 
