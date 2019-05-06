@@ -17,6 +17,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class DALTest {
+
+    //TODO lav råvarebatch test, update tests, en system test og få programmet til at overholde tests.
+
+
     IDAO indholdsstofDAO = new IndholdsstofDAO();
     IDAO OpskriftDAO = new OpskriftDAO();
     IDAO produktBatchDAO = new ProduktBatchDAO();
@@ -31,6 +35,7 @@ public class DALTest {
             produktBatch();
             råvareBatch();
             //Den store test
+            fullTest();
         }
         catch (IDAO.DALException e) {
             e.printStackTrace();
@@ -112,7 +117,7 @@ public class DALTest {
         Indholdsstof Magnesiumstearat  = new Indholdsstof(5,"Magnesiumstearat");
         //Laver råvarer til lister
         RåvareBatch batch1 = new RåvareBatch(99,4,2,"Sanofi",true);
-        RåvareBatch batch2 = new RåvareBatch(100,5,30,"EliLilly", false);
+        RåvareBatch batch2 = new RåvareBatch(100,5,30,"Eli Lilly", false);
         //Laver lister til produktbatch
         List<Integer> råvareBatchList = new ArrayList<>();
         råvareBatchList.add(100);
@@ -147,6 +152,9 @@ public class DALTest {
         //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void råvareBatch(){
+
+    }
+    public void fullTest(){
 
     }
 }
