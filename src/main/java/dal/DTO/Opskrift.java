@@ -5,7 +5,11 @@ import java.util.ArrayList;
 public class Opskrift implements Test{
     private int id;
     private String navn;
-    private ArrayList<Indholdsstof> indholdsStoffer;
+    //
+    //
+    //
+    //Denne SKAL refactors til kun at indeholde id, istedet ofr hele objektet!!!!!!
+    private ArrayList<Integer> indholdsStoffer;
     // maengde måles i milligram
     private ArrayList<Integer> maengde;
     private ArrayList<Boolean> aktiv;
@@ -13,7 +17,7 @@ public class Opskrift implements Test{
     private int opbevaringstid;
 
 
-    public Opskrift(int id, String navn, ArrayList<Indholdsstof> indholdsStoffer, ArrayList<Integer> maengde, ArrayList<Boolean> aktiv, int opbevaringstid){
+    public Opskrift(int id, String navn, ArrayList<Integer> indholdsStoffer, ArrayList<Integer> maengde, ArrayList<Boolean> aktiv, int opbevaringstid){
         this.id = id;
         this.navn = navn;
         this.indholdsStoffer = indholdsStoffer;
@@ -39,7 +43,7 @@ public class Opskrift implements Test{
         this.id = id;
     }
 
-    public void setIndholdsStoffer(ArrayList<Indholdsstof> indholdsStoffer) {
+    public void setIndholdsStoffer(ArrayList<Integer> indholdsStoffer) {
         this.indholdsStoffer = indholdsStoffer;
     }
 
@@ -64,7 +68,7 @@ public class Opskrift implements Test{
 
 
 
-    public ArrayList<Indholdsstof> getIndholdsStoffer() {
+    public ArrayList<Integer> getIndholdsStoffer() {
         return indholdsStoffer;
     }
 

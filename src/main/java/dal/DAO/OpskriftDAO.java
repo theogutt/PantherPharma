@@ -71,12 +71,12 @@ public class OpskriftDAO implements IDAO{
 
             ResultSet resultSet1 = statement1.executeQuery();
 
-            ArrayList<Indholdsstof> stof = new ArrayList<>();
+            ArrayList<Integer> stof = new ArrayList<>();
             ArrayList<Boolean> active = new ArrayList<>();
             ArrayList<Integer> amount = new ArrayList<>();
 
             while (resultSet1.next()){
-
+                //stof.add(resultSet1.get);
             }
 
             opskrift = new Opskrift(id, name, stof, amount,active, expdate);
