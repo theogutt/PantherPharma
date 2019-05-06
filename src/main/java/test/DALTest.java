@@ -1,17 +1,10 @@
 package test;
 
 import dal.DAO.*;
-import dal.DTO.Indholdsstof;
-import dal.DTO.MaybeUseless.IIndholdsstof;
-import dal.DTO.MaybeUseless.IOpskrift;
-import dal.DTO.MaybeUseless.IRåvareBatch;
-import dal.DTO.Opskrift;
-import dal.DTO.ProduktBatch;
-import dal.DTO.RåvareBatch;
+import dal.DTO.*;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
