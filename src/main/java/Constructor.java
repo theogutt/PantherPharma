@@ -6,11 +6,11 @@ public class Constructor {
     private Opskrift[] opskrifts;
     private RåvareBatch[] råvareBatches;
 
-    /*
+
     public void opstart() {
         indholdsstofs = new Indholdsstof[2];
         indholdsstofs[0] = new Indholdsstof(1, "sukker");
-        indholdsstofs[1] = new Indholdsstof(2, "pepper");
+        indholdsstofs[1] = new Indholdsstof(2, "peber");
 
         opskrifts = new Opskrift[1];
         int[] mængder = {1, 2, 5};
@@ -21,7 +21,7 @@ public class Constructor {
 
         råvareBatches = new RåvareBatch[2];
         råvareBatches[0] = new RåvareBatch(65, 500, "Novo Nordisk", indholdsstofs[0]);
-        råvareBatches[1] = new RåvareBatch(42, 2000, "Genmap", indholdsstofs[1]);
+        råvareBatches[1] = new RåvareBatch(42, 2000, "Genmab", indholdsstofs[1]);
 
 
         for (int i = 0; indholdsstofs.length > i; i++) {
@@ -29,7 +29,7 @@ public class Constructor {
         }
         for (int i = 0; opskrifts.length > i; i++) {
             System.out.println("Opskrifter " + opskrifts[i].toString());
-        }3
+        }
         for (int i = 0; produktBatches.length > i; i++) {
             System.out.println("Produkt batchs " + produktBatches[i].toString());
         }
@@ -37,5 +37,5 @@ public class Constructor {
             System.out.println("RåvareBatchs " + råvareBatches[i].toString());
         }
 
-    }*/
+    }
 }
