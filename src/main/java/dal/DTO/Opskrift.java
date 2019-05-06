@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Opskrift implements Test{
     private int id;
     private String navn;
+    //
+    //
+    //
+    //Denne SKAL refactors til kun at indeholde id, istedet ofr hele objektet!!!!!!
     private ArrayList<Indholdsstof> indholdsStoffer;
     // maengde måles i milligram
     private ArrayList<Integer> maengde;
