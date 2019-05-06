@@ -31,14 +31,14 @@ public class OpskriftDAO implements IOpskriftDAO{
 
             statement.executeUpdate();
 
-            ArrayList<Indholdsstof> ihs = opskrift.getIndholdsStoffer();
+            ArrayList<Integer> ihs = opskrift.getIndholdsStoffer();
             ArrayList<Integer> maengde = opskrift.getMaengde();
             ArrayList<Boolean> aktiv = opskrift.getAktiv();
 
             for (int i = 0;i < ihs.size();i++){
                 PreparedStatement statement1 = c.prepareStatement("INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (?, ?, ?, ?)");
                 statement1.setInt(1, opskrift.getId());
-                statement1.setInt(2, ihs.get(i).getId());
+                statement1.setInt(2, ihs.get(i));
                 statement1.setInt(3, maengde.get(i));
                 statement1.setBoolean(4, aktiv.get(i));
             }
@@ -69,12 +69,14 @@ public class OpskriftDAO implements IOpskriftDAO{
 
             ResultSet resultSet1 = statement1.executeQuery();
 
-            ArrayList<Indholdsstof> stof = new ArrayList<>();
+            ArrayList<Integer> stof = new ArrayList<>();
             ArrayList<Boolean> active = new ArrayList<>();
             ArrayList<Integer> amount = new ArrayList<>();
 
             while (resultSet1.next()){
-
+                stof.add(resultSet1.getInt("indholdsStoffer"));
+                active.add(resultSet1.getBoolean("aktiv"));
+                amount.add(resultSet1.getInt("maengde"));
             }
 
             opskrift = new Opskrift(id, name, stof, amount,active, expdate);
