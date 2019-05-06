@@ -1,6 +1,6 @@
 import dal.Objekter.*;
 
-public class Constroctor {
+public class Constructor {
     private Indholdsstof[] indholdsstofs;
     private ProduktBatch[] produktBatches;
     private Opskrift[] opskrifts;
