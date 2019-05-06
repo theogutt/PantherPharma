@@ -1,6 +1,8 @@
 package test;
 
 import dal.DAO.*;
+import dal.DTO.Indholdsstof;
+import dal.DTO.MaybeUseless.IIndholdsstof;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,7 +17,19 @@ public class DALTest {
     @Test
     public void test(){
         try{
+            //Opretter Indholdsstof
+            Indholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat");
+            //Indsætter indholdstofferne i databasen
+            indholdsstofDAO.create(Calciumhydrogenphospath);
+            //Prøver at hente det ned fra databasen
+            IIndholdsstof received = indholdsstofDAO.get(1);
+            //Tester om navnene stemmer overens
+            assertEquals(Calciumhydrogenphospath.getName(), received.getName());
 
+
+
+            //sletter i testen oprettede data
+            indholdsstofDAO.delete(1);
 
         }
         catch (IDAO.DALException e) {
