@@ -1,8 +1,10 @@
 package dal.DTO;
 
+import dal.DTO.MaybeUseless.IOpskrift;
+
 import java.util.ArrayList;
 
-public class Opskrift implements Test{
+public class Opskrift implements IOpskrift {
     private int id;
     private String navn;
     //

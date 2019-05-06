@@ -2,25 +2,29 @@ package dal.DTO.MaybeUseless;
 
 import dal.DTO.Indholdsstof;
 
+import java.util.ArrayList;
+
 public interface IOpskrift {
     String toString();
+
     void setId(int id);
 
-    void setAktiveStoffer(Indholdsstof[] aktiveStoffer);
+    void setIndholdsStoffer(ArrayList<Integer> indholdsStoffer);
 
-    void setAktivMaengde(int[] aktivMaengde);
+    void setMaengde(ArrayList<Integer> maengde) ;
 
-    void setHjaelpeStoffer(Indholdsstof[] hjaelpeStoffer);
+    void setNavn(String navn);
 
-    void setHjaelpeMaengde(int[] hjaelpeMaengde);
+    void setAktiv(ArrayList<Boolean> aktiv);
 
-    Indholdsstof[] getAktiveStoffer();
+    void setOpbevaringstid(int opbevaringstid);
+    ArrayList<Integer> getIndholdsStoffer();
 
-    Indholdsstof[] getHjaelpeStoffer();
+    int getId() ;
 
-    int getId();
+    ArrayList<Integer> getMaengde() ;
+    String getNavn();
 
-    int[] getAktivMaengde();
-
-    int[] getHjaelpeMaengde();
+    ArrayList<Boolean> getAktiv();
+    int getOpbevaringstid();
 }

@@ -2,6 +2,7 @@ package dal.DAO;
 
 
 import dal.DTO.Indholdsstof;
+import dal.DTO.MaybeUseless.IOpskrift;
 import dal.DTO.Opskrift;
 import dal.DTO.Test;
 
@@ -9,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpskriftDAO implements IDAO{
+public class OpskriftDAO implements IOpskriftDAO{
 
     private static final String url = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
 
@@ -17,7 +18,7 @@ public class OpskriftDAO implements IDAO{
         return  DriverManager.getConnection(url);
     }
 
-    public void create(Test objekt) throws IDAO.DALException {
+    public void create(IOpskrift objekt) throws IDAO.DALException {
 
         Opskrift opskrift = (Opskrift) objekt;
 
@@ -30,27 +31,24 @@ public class OpskriftDAO implements IDAO{
 
             statement.executeUpdate();
 
-            ArrayList<Indholdsstof> ihs = opskrift.getIndholdsStoffer();
+            ArrayList<Integer> ihs = opskrift.getIndholdsStoffer();
             ArrayList<Integer> maengde = opskrift.getMaengde();
             ArrayList<Boolean> aktiv = opskrift.getAktiv();
 
             for (int i = 0;i < ihs.size();i++){
                 PreparedStatement statement1 = c.prepareStatement("INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (?, ?, ?, ?)");
                 statement1.setInt(1, opskrift.getId());
-                statement1.setInt(2, ihs.get(i).getId());
+                statement1.setInt(2, ihs.get(i));
                 statement1.setInt(3, maengde.get(i));
                 statement1.setBoolean(4, aktiv.get(i));
             }
-
-
-
 
         } catch (SQLException e) {
             throw new IDAO.DALException(e.getMessage());
         }
     }
 
-    public Opskrift get(int id) throws IDAO.DALException{
+    public IOpskrift get(int id) throws IDAO.DALException{
 
         Opskrift opskrift = null;
 
@@ -76,7 +74,9 @@ public class OpskriftDAO implements IDAO{
             ArrayList<Integer> amount = new ArrayList<>();
 
             while (resultSet1.next()){
-                //stof.add(resultSet1.get);
+                stof.add(resultSet1.getInt("indholdsStoffer"));
+                active.add(resultSet1.getBoolean("aktiv"));
+                amount.add(resultSet1.getInt("maengde"));
             }
 
             opskrift = new Opskrift(id, name, stof, amount,active, expdate);
@@ -90,7 +90,7 @@ public class OpskriftDAO implements IDAO{
     }
 
     @Override
-    public List<Test> getList() throws IDAO.DALException{
+    public List<IOpskrift> getList() throws IDAO.DALException{
 
         List<Test> opskrifter = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class OpskriftDAO implements IDAO{
         return opskrifter;
     }
 
-    public void update(Test objekt) throws IDAO.DALException{
+    public void update(IOpskrift objekt) throws IDAO.DALException{
 
         Opskrift opskrift = (Opskrift) objekt;
 

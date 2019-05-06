@@ -1,12 +1,14 @@
 package dal.DTO;
 
+import dal.DTO.MaybeUseless.IProduktBatch;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProduktBatch implements Test{
+public class ProduktBatch implements IProduktBatch {
     private int id;
     private String dato;
     private int opskriftID;

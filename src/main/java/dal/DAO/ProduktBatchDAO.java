@@ -1,5 +1,6 @@
 package dal.DAO;
 
+import dal.DTO.MaybeUseless.IProduktBatch;
 import dal.DTO.ProduktBatch;
 import dal.DTO.Test;
 
@@ -7,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProduktBatchDAO implements IDAO {
+public class ProduktBatchDAO implements IProduktBacthDAO {
 
     private static final String url = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
 
@@ -15,7 +16,8 @@ public class ProduktBatchDAO implements IDAO {
         return  DriverManager.getConnection(url);
     }
 
-    public void create(Test produkt){
+    @Override
+    public void create(IProduktBatch produkt) throws IDAO.DALException{
         ProduktBatch produktBatch = (ProduktBatch) produkt;
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
@@ -69,14 +71,14 @@ public class ProduktBatchDAO implements IDAO {
         return produktBatch;
     }
 
-    public List<Test> getList(){
+    public List<IProduktBatch> getList(){
 
 
 
         return
     }
 
-    public void update(Test produktBatch){
+    public void update(IProduktBatch produktBatch){
 
     }
 
