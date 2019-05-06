@@ -22,7 +22,7 @@ public class ProduktBatchDAO implements IDAO {
                     ("INSERT INTO produktBatch (produktBatchID, dato, opskriftIDs) VALUES (?,?,?)");
             statement.setInt(1, produktBatch.getId());
             statement.setString(2, produktBatch.getDato());
-            statement.setInt(3, produktBatch.getOpskriftID();
+            statement.setInt(3, produktBatch.getOpskriftID());
 
             PreparedStatement statement2 = connection.prepareStatement
                     ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?,?,?) ");
@@ -35,11 +35,13 @@ public class ProduktBatchDAO implements IDAO {
             e.printStackTrace();
         }
     }
+
     public ProduktBatch get(int produktBatchID){
-        int opskriftID = 0, ravareBatchID = 0, ravareMengde = 0;
+        int opskriftID = 0;
         String dato = "";
-        ArrayList<Integer> ravareBatchIDList = new ArrayList<Integer>();
-        ArrayList<Integer> ravareMengdeList = new ArrayList<Integer>();
+        ArrayList<Integer> ravareBatchID = new ArrayList<Integer>();
+        ArrayList<Integer> ravareMengde = new ArrayList<Integer>();
+
 
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
@@ -47,15 +49,24 @@ public class ProduktBatchDAO implements IDAO {
             statement.setInt(1, produktBatchID);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
+            opskriftID = resultSet.getInt("opskriftID");
+            dato = resultSet.getString("dato");
 
+            PreparedStatement statement1 = connection.prepareStatement
+                    ("SELECT * FROM produkt_råvarer WHERE prouktBatchID = ?");
+            statement1.setInt(1,produktBatchID);
+            ResultSet resultSet1 = statement1.executeQuery();
+            resultSet1.next();
 
-
+            for (int i = 0 ; resultSet1.next() ; i++){
+                ravareBatchID.add(resultSet1.getInt("råvareBatchID"));
+                ravareMengde.add(resultSet1.getInt("mængde"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-        return
+        ProduktBatch produktBatch = new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde);
+        return produktBatch;
     }
 
     public List<Test> getList(){
