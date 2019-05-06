@@ -6,6 +6,7 @@ public class Constroctor {
     private Opskrift[] opskrifts;
     private RåvareBatch[] råvareBatches;
 
+    /*
     public void opstart() {
         indholdsstofs = new Indholdsstof[2];
         indholdsstofs[0] = new Indholdsstof(1, "sukker");
@@ -28,7 +29,7 @@ public class Constroctor {
         }
         for (int i = 0; opskrifts.length > i; i++) {
             System.out.println("Opskrifter " + opskrifts[i].toString());
-        }
+        }3
         for (int i = 0; produktBatches.length > i; i++) {
             System.out.println("Produkt batchs " + produktBatches[i].toString());
         }
@@ -36,5 +37,5 @@ public class Constroctor {
             System.out.println("RåvareBatchs " + råvareBatches[i].toString());
         }
 
-    }
+    }*/
 }

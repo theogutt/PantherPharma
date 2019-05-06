@@ -21,7 +21,8 @@ public class RaavareBatchDAO implements IDAO {
 
         try (Connection connection = createConnection()) {
 
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO råvareBatch (råvareBacthID, mængde, producent, genbestil) VALUES (? ,? , ?, ?);");
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO råvareBatch (stofID, mængde, producent, genbestil) VALUES (? ,? , ?, ?);");
             statement.setInt(1, batch.getIndholdsstof());
             statement.setInt(2, batch.getMængde());
             statement.setString(3, batch.getProducent());
@@ -80,21 +81,25 @@ public class RaavareBatchDAO implements IDAO {
             e.printStackTrace();
         }
 
-        return stoffer;
+        return null;
+        //return stoffer;
     }
 
     @Override
     public void update(Test object) throws IDAO.DALException {
 
-        Indholdsstof stof = (Indholdsstof) object;
+        RåvareBatch råvareBatch = (RåvareBatch) object;
 
         try (Connection connection = createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE indholdsstoffer SET navn = ? WHERE stofID = ?;");
+                    "UPDATE råvareBatch SET stofID = ?, mængde = ?, producent = ?, genbestil = ? WHERE råvareBacthID = ?;");
 
-            statement.setString(1, stof.getName());
-            statement.setInt(2, stof.getId());
+            statement.setInt(1,råvareBatch.getIndholdsstof());
+            statement.setInt(2, råvareBatch.getMængde());
+            statement.setString(3, råvareBatch.getProducent());
+            statement.setBoolean(4, råvareBatch.isGenbestil());
+            statement.setInt(5, råvareBatch.getId());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -108,7 +113,7 @@ public class RaavareBatchDAO implements IDAO {
         try (Connection connection = createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE indholdsstoffer WHERE stofID = ?;");
+                    "DELETE råvareBatch WHERE råvareBacthID = ?;");
 
             statement.setInt(1, id);
             statement.executeUpdate();
