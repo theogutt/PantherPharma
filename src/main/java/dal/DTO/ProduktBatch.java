@@ -1,33 +1,37 @@
 package dal.DTO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProduktBatch implements Test{
     private int id;
     private String dato;
-    private Opskrift opskrift;
-    private List<Integer> ravareBatches;
+    private int opskriftID;
+    private List<Integer> ravareBatchID;
     private List<Integer> ravareMengde;
 
-    public ProduktBatch(int id, String dato, Opskrift opskrift, List<Integer> ravareBatches, List<Integer> ravareMengde){
+    public ProduktBatch(int id, String dato, int opskriftID, List<Integer> ravareBatchID, List<Integer> ravareMengde){
         this.id = id;
         this.dato = dato;
-        this.opskrift = opskrift;
-        this.ravareBatches = ravareBatches;
+        this.opskriftID = opskriftID;
+        this.ravareBatchID = ravareBatchID;
         this.ravareMengde = ravareMengde;
     }
 
     @Override
     public String toString() {
-        return "Id: " + id + " Dato: " + dato + " Opskrift: " + opskrift.toString();
+        return "Id: " + id + " Dato: " + dato + " Opskrift: " + opskriftID;
     }
 
     public int getId() {
         return id;
     }
 
-    public List<Integer> getRavareBatches() {
-        return ravareBatches;
+    public List<Integer> getRavareBatchIDs() {
+        return ravareBatchID;
     }
 
     public void setRavareMengde(List<Integer> ravareMengde) {
@@ -38,15 +42,13 @@ public class ProduktBatch implements Test{
         return ravareMengde;
     }
 
-    public void setRavareBatches(List<Integer> ravareBatches) {
-        this.ravareBatches = ravareBatches;
+    public void setRavareBatchIDs(List<Integer> ravareBatchID) {
+        this.ravareBatchID = ravareBatchID;
     }
 
-    public Opskrift getOpskrift() {
-        return opskrift;
+    public int getOpskriftID() {
+        return opskriftID;
     }
-
-    public int getOpskriftID(){return opskrift.getId();}
 
     public String getDato() {
         return dato;
@@ -60,8 +62,8 @@ public class ProduktBatch implements Test{
         this.dato = dato;
     }
 
-    public void setOpskrift(Opskrift opskrift) {
-        this.opskrift = opskrift;
+    public void setOpskriftID(int opskriftID) {
+        this.opskriftID = opskriftID;
     }
 }
 
