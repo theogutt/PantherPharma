@@ -9,10 +9,11 @@ import java.util.List;
 
 public class RaavareBatchDAO implements IDAO {
 
+    private static final String url = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
+
     private Connection createConnection() throws SQLException {
-    return DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?"
-            + "user=s185103&password=A6fE9rT4KIhs53G05jsqL");
-}
+        return  DriverManager.getConnection(url);
+    }
 
     @Override
     public void create(Test objekt) throws IDAO.DALException {
