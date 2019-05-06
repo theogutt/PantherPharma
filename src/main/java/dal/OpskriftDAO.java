@@ -4,6 +4,7 @@ import dal.Objekter.Opskrift;
 import dal.Objekter.Test;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OpskriftDAO {
@@ -54,13 +55,25 @@ public class OpskriftDAO {
 
             ResultSet resultSet1 = statement1.executeQuery();
 
+            ArrayList<indholdsstof> stof = new ArrayList<indholdsstof>();
 
+            while (resultSet1.next()){
+                stof.add(getindholdsstof());
+            }
 
+            ArrayList<Boolean> active = new ArrayList<>();
 
+            while (resultSet1.next()){
+                active.add(getAktiv);
+            }
 
+            ArrayList<Integer> amount = new ArrayList<>();
 
+            while (resultSet1.next()){
+                amount.add(getMeangde);
+            }
 
-            opskrift = new Opskrift(id, name, , , , expdate);
+            opskrift = new Opskrift(id, name, stof, amount,active, expdate);
 
 
         } catch (SQLException e) {
