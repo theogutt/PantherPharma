@@ -55,7 +55,6 @@ public class ProduktBatchDAO implements IDAO {
                     ("SELECT * FROM produkt_råvarer WHERE prouktBatchID = ?");
             statement1.setInt(1,produktBatchID);
             ResultSet resultSet1 = statement1.executeQuery();
-            resultSet1.next();
 
             for (int i = 0 ; resultSet1.next() ; i++){
                 ravareBatchID.add(resultSet1.getInt("råvareBatchID"));
@@ -88,13 +87,21 @@ public class ProduktBatchDAO implements IDAO {
 
             PreparedStatement statement1;
             for (int i = 0 ; i < produktBatches.size() ; i++){
-                statement1 = connection.prepareStatement("SELECT * FORM produkt_råvarer");
+                statement1 = connection.prepareStatement
+                        ("SELECT * FORM produkt_råvarer WHERE produktBatchID = ?");
+                statement1.setInt(1, produktBatches.get(i).getId());
+                ResultSet resultSet1 = statement1.executeQuery();
+                for (int j = 0 ; resultSet1.next() ; j++){
+                    ravareBatchID.add(resultSet1.getInt("råvareBatchID"));
+                    ravareMengde.add(resultSet1.getInt("mængde"));
+                }
+                produktBatches.get(i).setRavareBatchIDs(ravareBatchID);
+                produktBatches.get(i).setRavareMengde(ravareMengde);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return
+        return produktBatches;
     }
 
     public void update(Test produktBatch){
@@ -102,6 +109,13 @@ public class ProduktBatchDAO implements IDAO {
     }
 
     public void delete(int produktBatchID){
-
+        try (Connection connection = createConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM produktBatch WHERE produktBatchID = ?");
+            statement.setInt(1, produktBatchID);
+            PreparedStatement statement1 = connection.prepareStatement("DELETE FROM produktBatch WHERE produkt_råvare = ?");
+            statement1.setInt(1, produktBatchID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
