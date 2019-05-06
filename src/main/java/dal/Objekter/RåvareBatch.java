@@ -4,26 +4,31 @@ public class RåvareBatch implements Test{
     private int id;
     private int mængde;
     private String producent;
-    private Indholdsstof indholdsstof;
-    private boolean genbestil = false;
+    private int indholdsstof;
+    private boolean genbestil;
 
-    public RåvareBatch(int id, int mengde, String producent, Indholdsstof indholdsstof){
+    public RåvareBatch(int id, int indholdsstof, int mengde, String producent, boolean genbestil){
         this.id = id;
-        this.mængde = mængde;
-        this.producent = producent;
         this.indholdsstof = indholdsstof;
+        this.mængde = mengde;
+        this.producent = producent;
+        this.genbestil = genbestil;
     }
 
     @Override
     public String toString() {
-        return "Id: " + id + " Mængde: " + mængde + " Producent: " + producent + " Indholdsstof: " + indholdsstof.toString() + " Skalgenbestilles? = " + genbestil;
+        return "Id: " + id + " Mængde: " + mængde + " Producent: " + producent + " Indholdsstof: " + indholdsstof + " Skalgenbestilles? = " + genbestil;
     }
 
     public int getId() {
         return id;
     }
 
-    public Indholdsstof getIndholdsstof() {
+    public boolean isGenbestil() {
+        return genbestil;
+    }
+
+    public int getIndholdsstof() {
         return indholdsstof;
     }
 
@@ -43,7 +48,7 @@ public class RåvareBatch implements Test{
         this.genbestil = genbestil;
     }
 
-    public void setIndholdsstof(Indholdsstof indholdsstof) {
+    public void setIndholdsstof(int indholdsstof) {
         this.indholdsstof = indholdsstof;
     }
 
