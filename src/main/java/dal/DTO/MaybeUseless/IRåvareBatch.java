@@ -3,20 +3,24 @@ package dal.DTO.MaybeUseless;
 import dal.DTO.Indholdsstof;
 
 public interface IRåvareBatch {
+    @Override
     String toString();
-    int getId();
 
-    Indholdsstof getIndholdsstof();
+    int getId() ;
+
+    boolean isGenbestil() ;
+
+    int getIndholdsstof() ;
 
     int getMængde();
 
-    String getProducent();
+    String getProducent() ;
 
-    void setId(int id);
+    void setId(int id) ;
 
     void setGenbestil(boolean genbestil);
 
-    void setIndholdsstof(Indholdsstof indholdsstof);
+    void setIndholdsstof(int indholdsstof);
 
     void setMængde(int mængde);
 

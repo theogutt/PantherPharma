@@ -1,6 +1,8 @@
 package dal.DTO;
 
-public class RåvareBatch implements Test{
+import dal.DTO.MaybeUseless.IRåvareBatch;
+
+public class RåvareBatch implements IRåvareBatch {
     private int id;
     private int mængde;
     private String producent;

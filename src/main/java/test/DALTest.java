@@ -21,10 +21,12 @@ public class DALTest {
     @Test
     public void test(){
         try{
+            //create, read, update, delete tests
             indholdsstof();
             opskrift();
             produktBatch();
             råvareBatch();
+            //Den store test
         }
         catch (IDAO.DALException e) {
             e.printStackTrace();
@@ -43,6 +45,10 @@ public class DALTest {
 
         //sletter i testen oprettede data
         indholdsstofDAO.delete(1);
+        //tester om dataen er blevet slettet
+        if(indholdsstofDAO.get(1)!=null){
+            fail();
+        }
     }
     public void opskrift() throws IDAO.DALException {
         //Opretter Indholdsstof
@@ -83,6 +89,18 @@ public class DALTest {
         indholdsstofDAO.delete(2);
         indholdsstofDAO.delete(3);
         OpskriftDAO.delete(1);
+        //---------nedenstående skal lige verificeres------------------------------------------
+        //tester om dataen er blevet slettet
+        if(indholdsstofDAO.get(2)!=null){
+            fail();
+        }
+        if(indholdsstofDAO.get(2)!=null){
+            fail();
+        }
+        if(OpskriftDAO.get(1)!=null){
+            fail();
+        }
+        //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void produktBatch(){
 

@@ -1,5 +1,6 @@
 package dal.DAO;
 
+import dal.DTO.MaybeUseless.IRåvareBatch;
 import dal.DTO.RåvareBatch;
 import dal.DTO.Test;
 
@@ -7,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RåvareBatchDAO implements IDAO {
+public class RåvareBatchDAO implements IRåvareBatchDAO {
 
     private static final String url = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
 
@@ -16,7 +17,7 @@ public class RåvareBatchDAO implements IDAO {
     }
 
     @Override
-    public void create(Test objekt) throws IDAO.DALException {
+    public void create(IRåvareBatch objekt) throws IDAO.DALException {
         RåvareBatch batch = (RåvareBatch) objekt;
 
         try (Connection connection = createConnection()) {
@@ -35,7 +36,7 @@ public class RåvareBatchDAO implements IDAO {
     }
 
     @Override
-    public Test get(int id) throws IDAO.DALException {
+    public IRåvareBatch get(int id) throws IDAO.DALException {
         RåvareBatch råvareBatch = null;
 
         try (Connection connection = createConnection()) {
@@ -59,7 +60,7 @@ public class RåvareBatchDAO implements IDAO {
     }
 
     @Override
-    public List<Test> getList() throws IDAO.DALException {
+    public List<IRåvareBatch> getList() throws IDAO.DALException {
 
         List<RåvareBatch> stoffer = new ArrayList<>();
 
@@ -86,7 +87,7 @@ public class RåvareBatchDAO implements IDAO {
     }
 
     @Override
-    public void update(Test object) throws IDAO.DALException {
+    public void update(IRåvareBatch object) throws IDAO.DALException {
 
         RåvareBatch råvareBatch = (RåvareBatch) object;
 
