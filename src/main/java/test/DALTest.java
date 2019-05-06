@@ -4,10 +4,14 @@ import dal.DAO.*;
 import dal.DTO.Indholdsstof;
 import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.MaybeUseless.IOpskrift;
+import dal.DTO.MaybeUseless.IRåvareBatch;
 import dal.DTO.Opskrift;
+import dal.DTO.ProduktBatch;
+import dal.DTO.RåvareBatch;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -102,8 +106,45 @@ public class DALTest {
         }
         //---------ovenstående skal lige verificeres------------------------------------------
     }
-    public void produktBatch(){
+    public void produktBatch() throws IDAO.DALException {
+        //Laver indholsstoffer til råvarer
+        Indholdsstof Croscarmellosenatrium  = new Indholdsstof(4,"Croscarmellosenatrium");
+        Indholdsstof Magnesiumstearat  = new Indholdsstof(5,"Magnesiumstearat");
+        //Laver råvarer til lister
+        RåvareBatch batch1 = new RåvareBatch(99,4,2,"Sanofi",true);
+        RåvareBatch batch2 = new RåvareBatch(100,5,30,"EliLilly", false);
+        //Laver lister til produktbatch
+        List<Integer> råvareBatchList = new ArrayList<>();
+        råvareBatchList.add(100);
+        råvareBatchList.add(99);
+        List<Integer>råvareMængdeList = new ArrayList<>();
+        råvareMængdeList.add(10);
+        råvareMængdeList.add(20);
+        //Opretter ProduktBatch
+        ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList);
+        ProduktBatch test = new ProduktBatch();
+        //Indsætter det i databasen
+        råvareBatchDAO.create(test);
+        //henter det ned fra databasen
+        IRåvareBatch receivedRåvareBatch = råvareBatchDAO.get(10);
 
+        assertEquals(test.getId(),receivedRåvareBatch.getId());
+        assertEquals(test.getDato(),receivedRåvareBatch.getDato());
+        assertEquals(test.getOpskriftID(),receivedRåvareBatch.getOpskriftID());
+        for(int i = 0; i<test.getRavareMengde().size(); i++) {
+            assertEquals(test.getRavareMengde().get(i), receivedRåvareBatch.getRavareMengde().get(i));
+        }
+        for(int j = 0; j<test.getRavareBatchIDs().size();j++) {
+            assertEquals(test.getRavareBatchIDs().get(j), receivedRåvareBatch.getRavareBatchIDs().get(j));
+        }
+        //sletter oprettet data
+        råvareBatchDAO.delete(test);
+        //---------nedenstående skal lige verificeres------------------------------------------
+        //tester om dataen er blevet slettet
+        if(råvareBatchDAO.get(10)!=null){
+            fail();
+        }
+        //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void råvareBatch(){
 
