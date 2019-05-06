@@ -4,14 +4,14 @@ import dal.DTO.Test;
 
 import java.util.List;
 
-public interface IDAO {
-    void create(Test objekt) throws DALException;
+public interface IDAO<T> {
+    void create(T objekt) throws DALException;
 
-    Test get(int id) throws DALException;
+    T get(int id) throws DALException;
 
-    List<Test> getList() throws DALException;
+    List<T> getList() throws DALException;
 
-    void update(Test objekt) throws DALException;
+    void update(T objekt) throws DALException;
 
     void delete(int id) throws DALException;
 
