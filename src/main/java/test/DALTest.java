@@ -80,8 +80,8 @@ public class DALTest {
         assertEquals(Sildenafil.getOpbevaringstid(),receivedOpskrift.getOpbevaringsstid());
 
         //sletter i testen oprettede data
-        indholdsstofDAO.delete(1);
-        indholdsstofDAO.delete(1);
+        indholdsstofDAO.delete(2);
+        indholdsstofDAO.delete(3);
         OpskriftDAO.delete(1);
     }
     public void produktBatch(){
