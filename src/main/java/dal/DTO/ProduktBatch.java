@@ -46,6 +46,8 @@ public class ProduktBatch implements Test{
         return opskrift;
     }
 
+    public int getOpskriftID(){return opskrift.getId();}
+
     public String getDato() {
         return dato;
     }
