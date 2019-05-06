@@ -1,12 +1,15 @@
 package dal.DAO;
 
+
 import dal.DTO.Indholdsstof;
 import dal.DTO.Opskrift;
+import dal.DTO.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class OpskriftDAO implements IDAO {
+public class OpskriftDAO implements IDAO{
 
     private static final String url = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
 
@@ -14,7 +17,10 @@ public class OpskriftDAO implements IDAO {
         return  DriverManager.getConnection(url);
     }
 
-    public void createOpskrift(Opskrift opskrift) throws IDAO.DALException {
+    public void create(Test objekt) throws IDAO.DALException {
+
+        Opskrift opskrift = (Opskrift) objekt;
+
         try (Connection c = createConnection()){
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO opskrifter (navn, opbevaringstid) VALUES (?, ?);");
@@ -30,7 +36,7 @@ public class OpskriftDAO implements IDAO {
         }
     }
 
-    public Opskrift getOpskrift(int id) throws IDAO.DALException{
+    public Opskrift get(int id) throws IDAO.DALException{
 
         Opskrift opskrift = null;
 
@@ -71,9 +77,10 @@ public class OpskriftDAO implements IDAO {
         return opskrift;
     }
 
-    public ArrayList<Opskrift> getOpskriftList() throws IDAO.DALException{
+    @Override
+    public List<Test> getList() throws IDAO.DALException{
 
-        ArrayList<Opskrift> opskrifter = null;
+        List<Test> opskrifter = new ArrayList<>();
 
         try (Connection c = createConnection()){
             PreparedStatement statement = c.prepareStatement("SELECT * FROM opskrifer");
@@ -81,7 +88,7 @@ public class OpskriftDAO implements IDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()){
-                opskrifter.add(getOpskrift(resultSet.getInt("opskriftID")));
+                opskrifter.add(get(resultSet.getInt("opskriftID")));
             }
 
 
@@ -92,7 +99,9 @@ public class OpskriftDAO implements IDAO {
         return opskrifter;
     }
 
-    public void updateOpskrift(Opskrift opskrift) throws IDAO.DALException{
+    public void update(Test objekt) throws IDAO.DALException{
+
+        Opskrift opskrift = (Opskrift) objekt;
 
         try (Connection c = createConnection()){
             PreparedStatement statement = c.prepareStatement("UPDATE opskrifter SET navn = ? SET opbevaringstid = ? WHERE opskriftID = ?");
@@ -109,7 +118,7 @@ public class OpskriftDAO implements IDAO {
         }
     }
 
-    public void deleteOpskrift(int id) throws IDAO.DALException{
+    public void delete(int id) throws IDAO.DALException{
 
         try (Connection c = createConnection()){
             PreparedStatement statement = c.prepareStatement("DELETE * FROM opskrifer WHERE opskriftID = ?");
