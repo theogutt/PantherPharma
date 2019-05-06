@@ -1,5 +1,6 @@
 package dal;
 
+import dal.Objekter.Indholdsstof;
 import dal.Objekter.Opskrift;
 import dal.Objekter.Test;
 
@@ -55,21 +56,13 @@ public class OpskriftDAO {
 
             ResultSet resultSet1 = statement1.executeQuery();
 
-            ArrayList<indholdsstof> stof = new ArrayList<indholdsstof>();
-
-            while (resultSet1.next()){
-                stof.add(getindholdsstof());
-            }
-
+            ArrayList<Indholdsstof> stof = new ArrayList<>();
             ArrayList<Boolean> active = new ArrayList<>();
-
-            while (resultSet1.next()){
-                active.add(getAktiv);
-            }
-
             ArrayList<Integer> amount = new ArrayList<>();
 
             while (resultSet1.next()){
+                stof.add(getindholdsstof());
+                active.add(getAktiv);
                 amount.add(getMeangde);
             }
 
