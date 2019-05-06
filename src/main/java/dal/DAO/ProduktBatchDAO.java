@@ -42,7 +42,6 @@ public class ProduktBatchDAO implements IDAO {
         ArrayList<Integer> ravareBatchID = new ArrayList<Integer>();
         ArrayList<Integer> ravareMengde = new ArrayList<Integer>();
 
-
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
                     ("SELECT * FROM produktBatch WHERE produktBatchID = ?");
@@ -69,10 +68,32 @@ public class ProduktBatchDAO implements IDAO {
         return produktBatch;
     }
 
-    public List<Test> getList(){
+    public List<Test> getList() {
+        int opskriftID = 0, produktBatchID = 0;
+        String dato = "";
+        ArrayList<Integer> ravareBatchID = new ArrayList<>();
+        ArrayList<Integer> ravareMengde = new ArrayList<>();
+        ArrayList<ProduktBatch> produktBatches = new ArrayList<>();
 
+        try (Connection connection = createConnection()) {
+            PreparedStatement statement = connection.prepareStatement
+                    ("SELECT * FROM produktBatch");
+            ResultSet resultSet = statement.executeQuery();
+            for (int i = 0 ; resultSet.next() ; i++){
+                produktBatchID = resultSet.getInt("produktBatchID");
+                opskriftID = resultSet.getInt("opskriftID");
+                dato = resultSet.getString("dato");
+                produktBatches.add(new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde));
+            }
 
+            PreparedStatement statement1;
+            for (int i = 0 ; i < produktBatches.size() ; i++){
+                statement1 = connection.prepareStatement("SELECT * FORM produkt_råvarer");
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return
     }
 
