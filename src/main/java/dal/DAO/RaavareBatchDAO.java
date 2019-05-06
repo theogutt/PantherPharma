@@ -1,8 +1,7 @@
-package dal;
+package dal.DAO;
 
-import dal.Objekter.Indholdsstof;
-import dal.Objekter.RåvareBatch;
-import dal.Objekter.Test;
+import dal.DTO.RåvareBatch;
+import dal.DTO.Test;
 
 import java.sql.*;
 import java.util.ArrayList;

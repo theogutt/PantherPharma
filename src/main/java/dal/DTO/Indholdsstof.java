@@ -1,4 +1,4 @@
-package dal.Objekter;
+package dal.DTO;
 
 public class Indholdsstof implements Test{
     private int id;

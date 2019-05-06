@@ -1,4 +1,4 @@
-import dal.Objekter.*;
+import dal.DTO.*;
 
 public class Constructor {
     private Indholdsstof[] indholdsstofs;
@@ -14,7 +14,7 @@ public class Constructor {
 
         opskrifts = new Opskrift[1];
         int[] mængder = {1, 2, 5};
-        opskrifts[0] = new Opskrift(1, indholdsstofs, indholdsstofs, mængder, mængder);
+        opskrifts[0] = new Opskrift(1, indholdsstofs, indholdsstofs,null, mængder, mængder);
 
         produktBatches = new ProduktBatch[1];
         produktBatches[0] = new ProduktBatch(1, "02-05-2019", opskrifts[0]);

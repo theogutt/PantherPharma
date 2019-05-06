@@ -1,4 +1,4 @@
-package dal.Objekter;
+package dal.DTO;
 
 public class RåvareBatch implements Test{
     private int id;

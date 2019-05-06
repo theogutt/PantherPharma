@@ -1,4 +1,4 @@
-package dal.Objekter;
+package dal.DTO;
 
 import java.util.List;
 

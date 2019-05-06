@@ -1,4 +1,4 @@
-package dal.Objekter.MaybeUseless;
+package dal.DTO.MaybeUseless;
 
 public interface IIndholdsstof {
     String toString();

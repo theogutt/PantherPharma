@@ -1,12 +1,10 @@
-package dal;
+package dal.DAO;
 
-import dal.Objekter.Indholdsstof;
-import dal.Objekter.Opskrift;
-import dal.Objekter.Test;
+import dal.DTO.Indholdsstof;
+import dal.DTO.Opskrift;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class OpskriftDAO {
 
@@ -15,7 +13,7 @@ public class OpskriftDAO {
                 + "user=s185103&password=A6fE9rT4KIhs53G05jsqL");
     }
 
-    public void createOpskrift(Opskrift opskrift) throws IDAO.DALException{
+    public void createOpskrift(Opskrift opskrift) throws IDAO.DALException {
         try (Connection c = createConnection()){
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO opskrifter (navn, opbevaringstid) VALUES (?, ?);");

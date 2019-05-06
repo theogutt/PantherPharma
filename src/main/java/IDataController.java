@@ -1,1 +1,1 @@
-//public interface qwIDataController {}
+public interface IDataController {}

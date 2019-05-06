@@ -1,6 +1,6 @@
-package dal.Objekter.MaybeUseless;
+package dal.DTO.MaybeUseless;
 
-import dal.Objekter.Indholdsstof;
+import dal.DTO.Indholdsstof;
 
 public interface IRåvareBatch {
     String toString();

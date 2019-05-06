@@ -1,6 +1,6 @@
-package dal;
+package dal.DAO;
 
-import dal.Objekter.Test;
+import dal.DTO.Test;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package dal.Objekter;
+package dal.DTO;
 
 public interface Test {
     int getId();

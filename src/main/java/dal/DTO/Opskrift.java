@@ -1,7 +1,6 @@
-package dal.Objekter;
+package dal.DTO;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Opskrift implements Test{
     private int id;
