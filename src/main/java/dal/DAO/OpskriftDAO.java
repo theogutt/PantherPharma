@@ -30,6 +30,20 @@ public class OpskriftDAO implements IDAO{
 
             statement.executeUpdate();
 
+            ArrayList<Indholdsstof> ihs = opskrift.getIndholdsStoffer();
+            ArrayList<Integer> maengde = opskrift.getMaengde();
+            ArrayList<Boolean> aktiv = opskrift.getAktiv();
+
+            for (int i = 0;i < ihs.size();i++){
+                PreparedStatement statement1 = c.prepareStatement("INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (?, ?, ?, ?)");
+                statement1.setInt(1, opskrift.getId());
+                statement1.setInt(2, ihs.get(i).getId());
+                statement1.setInt(3, maengde.get(i));
+                statement1.setBoolean(4, aktiv.get(i));
+            }
+
+
+
 
         } catch (SQLException e) {
             throw new IDAO.DALException(e.getMessage());
@@ -62,9 +76,7 @@ public class OpskriftDAO implements IDAO{
             ArrayList<Integer> amount = new ArrayList<>();
 
             while (resultSet1.next()){
-                //stof.add(opskrift_indholdDAO.getindholdsstof());
-                //active.add(opskrift_indholdDAO.getAktiv);
-                //amount.add(opskrift_indholdDAO.getMeangde);
+
             }
 
             opskrift = new Opskrift(id, name, stof, amount,active, expdate);

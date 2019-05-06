@@ -1,6 +1,8 @@
 package dal.DTO;
 
-public class Indholdsstof implements Test{
+import dal.DTO.MaybeUseless.IIndholdsstof;
+
+public class Indholdsstof implements IIndholdsstof {
     private int id;
     private String name;
 
@@ -8,6 +10,7 @@ public class Indholdsstof implements Test{
         this.id = id;
         this.name = name;
     }
+    public Indholdsstof(){}
 
     @Override
     public String toString() {

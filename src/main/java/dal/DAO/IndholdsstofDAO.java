@@ -1,13 +1,14 @@
 package dal.DAO;
 
 import dal.DTO.Indholdsstof;
+import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndholdsstofDAO implements IDAO {
+public class IndholdsstofDAO implements IIndholdsstofDAO {
 
     private static final String url = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
 
@@ -16,7 +17,7 @@ public class IndholdsstofDAO implements IDAO {
     }
 
     @Override
-    public void create(Test objekt) throws DALException {
+    public void create(IIndholdsstof objekt) throws DALException {
         Indholdsstof stof = (Indholdsstof) objekt;
 
         try (Connection connection = createConnection()) {
@@ -31,8 +32,9 @@ public class IndholdsstofDAO implements IDAO {
     }
 
     @Override
-    public Test get(int id) throws DALException {
-        Test stof = null;
+    public IIndholdsstof get(int id) throws DALException {
+
+        IIndholdsstof stof = new Indholdsstof();
 
         try (Connection connection = createConnection()) {
 
@@ -50,9 +52,9 @@ public class IndholdsstofDAO implements IDAO {
     }
 
     @Override
-    public List<Test> getList() throws DALException {
+    public List<IIndholdsstof> getList() throws DALException {
 
-        List<Test> stoffer = new ArrayList<>();
+        List<IIndholdsstof> stoffer = new ArrayList<>();
 
         try (Connection connection = createConnection()) {
 
@@ -74,7 +76,7 @@ public class IndholdsstofDAO implements IDAO {
     }
 
     @Override
-    public void update(Test object) throws DALException {
+    public void update(IIndholdsstof object) throws DALException {
 
         Indholdsstof stof = (Indholdsstof) object;
 
