@@ -57,9 +57,9 @@ public class OpskriftDAO {
             ArrayList<Integer> amount = new ArrayList<>();
 
             while (resultSet1.next()){
-                stof.add(opskrift_indholdDAO.getindholdsstof());
-                active.add(opskrift_indholdDAO.getAktiv);
-                amount.add(opskrift_indholdDAO.getMeangde);
+                //stof.add(opskrift_indholdDAO.getindholdsstof());
+                //active.add(opskrift_indholdDAO.getAktiv);
+                //amount.add(opskrift_indholdDAO.getMeangde);
             }
 
             opskrift = new Opskrift(id, name, stof, amount,active, expdate);

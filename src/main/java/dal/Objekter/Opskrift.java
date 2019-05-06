@@ -40,7 +40,7 @@ public class Opskrift implements Test{
         this.id = id;
     }
 
-    public void setIndholdsStoffer(ArrayList<Indholdsstof> aktiveStoffer) {
+    public void setIndholdsStoffer(ArrayList<Indholdsstof> indholdsStoffer) {
         this.indholdsStoffer = indholdsStoffer;
     }
 
