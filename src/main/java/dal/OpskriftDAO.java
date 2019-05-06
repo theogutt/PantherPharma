@@ -15,11 +15,13 @@ public class OpskriftDAO {
 
     void createOpskrift(Opskrift opskrift) throws IDAO.DALException{
         try (Connection c = createConnection()){
-            PreparedStatement statement = c.prepareStatement("INSERT INTO opskrifter (navn, opbevaringstid) VALUES (?, ?);");
+            PreparedStatement statement = c.prepareStatement(
+                    "INSERT INTO opskrifter (navn, opbevaringstid) VALUES (?, ?);");
 
-            String sqlCreateOpskrift = String.format(opskrift.getNavn(), opskrift.getOpbevaringstid());
+            statement.setString(1, opskrift.getNavn());
+            statement.setInt(2, opskrift.getOpbevaringstid());
 
-            statement.executeUpdate(sqlCreateOpskrift);
+            statement.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -29,20 +31,43 @@ public class OpskriftDAO {
 
     public Test getOpskrift(int id) throws IDAO.DALException{
 
+        Opskrift opskrift = null;
 
         try (Connection c = createConnection()){
-            Statement statement = c.createStatement();
+            PreparedStatement statement = c.prepareStatement(
+                    "SELECT * FROM opskrifter WHERE opskriftID = ?");
 
-            String sqlGetOpskrift = String.format("fvgdsuyhijp");
+            statement.setInt(1, id);
 
-            statement.executeUpdate(sqlGetOpskrift);
+            ResultSet resultSet = statement.executeQuery();
+
+
+            String name = resultSet.getString("navn");
+
+            int expdate = resultSet.getInt("opbevaringstid");
+
+
+
+            PreparedStatement statement1 = c.prepareStatement("SELECT * FROM opskrif_indhold WHERE  opskriftID = ?");
+
+            statement1.setInt(1, id);
+
+            ResultSet resultSet1 = statement1.executeQuery();
+
+
+
+
+
+
+
+            opskrift = new Opskrift(id, name, , , , expdate);
 
 
         } catch (SQLException e) {
             throw new IDAO.DALException(e.getMessage());
         }
 
-        return ;
+        return opskrift;
     }
 
     public List<Test> getOpskriftList() throws IDAO.DALException{
