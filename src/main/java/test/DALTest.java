@@ -105,7 +105,7 @@ public class DALTest {
         råvareMængdeList.add(10);
         råvareMængdeList.add(20);
         //Opretter ProduktBatch
-        ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList);
+        ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList,10);
         //Indsætter det i databasen
         produktBatchDAO.create(test);
         //henter det ned fra databasen
@@ -247,12 +247,83 @@ public class DALTest {
         IRåvareBatch råvareBatchMagnesiumstearat = new RåvareBatch(5,5,15000,"Teva",false);
         IRåvareBatch råvareBatchMajsstivelse = new RåvareBatch(6,6,120000,"Teva",false);
         //Laver lister med råvarebatches til test
-        ArrayList<IRåvareBatch>råvareBatchList = new ArrayList<>();
+        List<IRåvareBatch>råvareBatchList = new ArrayList<>();
         råvareBatchList.add(råvareBatchEstradiol);
         råvareBatchList.add(råvareBatchNorethisteronacetat);
         råvareBatchList.add(råvareBatchOpovidon);
         råvareBatchList.add(råvareBatchLaktosemonohydrat);
         råvareBatchList.add(råvareBatchMagnesiumstearat);
         råvareBatchList.add(råvareBatchMajsstivelse);
+        //indsætter råvarebatches i databasen
+        for(int m = 0; m<6; m++){
+            råvareBatchDAO.create(råvareBatchList.get(m));
+        }
+        //henter råvarebatch liste til test og tester
+        for(int k = 0; k<råvareBatchDAO.getList().size(); k++){
+            IRåvareBatch rinstance = råvareBatchDAO.getList().get(k);
+            IRåvareBatch instance = råvareBatchList.get(k);
+            assertEquals(instance.getIndholdsstof(), rinstance.getIndholdsstof());
+            assertEquals(instance.getMængde(), rinstance.getMængde());
+            assertEquals(instance.getProducent(), rinstance.getProducent());
+            assertEquals(instance.isGenbestil(), rinstance.isGenbestil());
+        }
+        //laver ændringer i råvareBatches
+        råvareBatchMagnesiumstearat.setId(7);
+        råvareBatchMagnesiumstearat.setIndholdsstof(7);
+        råvareBatchMagnesiumstearat.setMængde(7);
+        råvareBatchMagnesiumstearat.setProducent("7");
+        råvareBatchMagnesiumstearat.setGenbestil(true);
+        råvareBatchDAO.update(råvareBatchMagnesiumstearat);
+        //henter det ned fra databasen
+        IRåvareBatch r7 = råvareBatchDAO.get(7);
+        //tester om ændringer passer
+        assertEquals(r7.getId(),7);
+        assertEquals(r7.getIndholdsstof(),7);
+        assertEquals(r7.getMængde(),7);
+        assertEquals(r7.getProducent(),"7");
+        assertEquals(r7.isGenbestil(),true);
+        //Opretter mængdeliste og råvare liste
+        List<Integer>råvareBatchIDList = new ArrayList<>();
+        råvareBatchIDList.add(1);
+        råvareBatchIDList.add(2);
+        råvareBatchIDList.add(3);
+        råvareBatchIDList.add(4);
+        råvareBatchIDList.add(5);
+        råvareBatchIDList.add(7);
+        List<Integer>PBmængdeList = new ArrayList<>();
+        PBmængdeList.add(100);
+        PBmængdeList.add(50);
+        PBmængdeList.add(5000);
+        PBmængdeList.add(1000);
+        PBmængdeList.add(1500);
+        PBmængdeList.add(12000);
+        //Opretter produktBatches
+        IProduktBatch PBEstrogen = new ProduktBatch(1,"07-05-2019",2,råvareBatchIDList,PBmængdeList,100);
+        //Indsætter produktBatch i databasen
+        produktBatchDAO.create(PBEstrogen);
+        //henter produktbatch ned fra databasen
+        IProduktBatch rPBEstrogen = produktBatchDAO.get(1);
+        //tester
+        assertEquals(rPBEstrogen.getId(),1);
+        assertEquals(rPBEstrogen.getDato(),"07-05-2019");
+        assertEquals(rPBEstrogen.getOpskriftID(),2);
+        for(int n=0; n<råvareBatchIDList.size();n++) {
+            assertEquals(rPBEstrogen.getRavareBatchIDs().get(n), råvareBatchIDList.get(n));
+            assertEquals(rPBEstrogen.getRavareMengde().get(n), PBmængdeList.get(n));
+        }
+        assertEquals(rPBEstrogen.getAntal(),100);
+        //laver ændringer og opdaterer
+        PBEstrogen.setDato("22-05-2019");
+        PBEstrogen.setAntal(50);
+        PBEstrogen.setId(2);
+        PBEstrogen.setOpskriftID(3);
+        produktBatchDAO.update(PBEstrogen);
+        //tester ændringer
+        IProduktBatch rPBEstrogen = produktBatchDAO.get(2);
+        assertEquals(rPBEstrogen.getDato(),"22-05-2019");
+        assertEquals(rPBEstrogen.getAntal(),50);
+        assertEquals(rPBEstrogen.getId(),2);
+        assertEquals(rPBEstrogen.getOpskriftID(),"22-05-2019");
+
     }
 }
