@@ -31,7 +31,7 @@ public class IndholdsstofDAO implements IIndholdsstofDAO {
     }
 
     @Override
-    public IIndholdsstof get(int id) throws DALException {
+    public Indholdsstof get(int id) throws DALException {
 
         IIndholdsstof stof = new Indholdsstof();
 
