@@ -2,7 +2,6 @@ package dal.DAO;
 
 import dal.DTO.Indholdsstof;
 import dal.DTO.MaybeUseless.IIndholdsstof;
-import dal.DTO.Test;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,10 +1,8 @@
 package dal.DAO;
 
 
-import dal.DTO.Indholdsstof;
 import dal.DTO.MaybeUseless.IOpskrift;
 import dal.DTO.Opskrift;
-import dal.DTO.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,14 +29,14 @@ public class OpskriftDAO implements IOpskriftDAO {
             statement.executeUpdate();
 
             ArrayList<Integer> ihs = opskrift.getIndholdsStoffer();
-            ArrayList<Integer> maengde = opskrift.getMaengde();
+            ArrayList<Double> maengde = opskrift.getMaengde();
             ArrayList<Boolean> aktiv = opskrift.getAktiv();
 
             for (int i = 0; i < ihs.size(); i++) {
                 PreparedStatement statement1 = c.prepareStatement(
                         "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(), ?, ?, ?)");
                 statement1.setInt(1, ihs.get(i));
-                statement1.setInt(2, maengde.get(i));
+                statement1.setDouble(2, maengde.get(i));
                 statement1.setBoolean(3, aktiv.get(i));
             }
 

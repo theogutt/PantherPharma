@@ -4,7 +4,7 @@ import dal.DTO.MaybeUseless.IRåvareBatch;
 
 public class RåvareBatch implements IRåvareBatch {
     private int id;
-    private int mængde;
+    private double mængde;
     private String producent;
     private int indholdsstof;
     private boolean genbestil;
@@ -34,7 +34,7 @@ public class RåvareBatch implements IRåvareBatch {
         return indholdsstof;
     }
 
-    public int getMængde() {
+    public double getMængde() {
         return mængde;
     }
 
@@ -54,7 +54,7 @@ public class RåvareBatch implements IRåvareBatch {
         this.indholdsstof = indholdsstof;
     }
 
-    public void setMængde(int mængde) {
+    public void setMængde(double mængde) {
         this.mængde = mængde;
     }
 

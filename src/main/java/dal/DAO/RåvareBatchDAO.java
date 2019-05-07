@@ -2,7 +2,6 @@ package dal.DAO;
 
 import dal.DTO.MaybeUseless.IRåvareBatch;
 import dal.DTO.RåvareBatch;
-import dal.DTO.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class RåvareBatchDAO implements IRåvareBatchDAO {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO råvareBatch (stofID, mængde, producent, genbestil) VALUES (? ,? , ?, ?);");
             statement.setInt(1, batch.getIndholdsstof());
-            statement.setInt(2, batch.getMængde());
+            statement.setDouble(2, batch.getMængde());
             statement.setString(3, batch.getProducent());
             statement.setBoolean(4, batch.isGenbestil());
             statement.executeUpdate();
@@ -97,7 +96,7 @@ public class RåvareBatchDAO implements IRåvareBatchDAO {
                     "UPDATE råvareBatch SET stofID = ?, mængde = ?, producent = ?, genbestil = ? WHERE råvareBacthID = ?;");
 
             statement.setInt(1,råvareBatch.getIndholdsstof());
-            statement.setInt(2, råvareBatch.getMængde());
+            statement.setDouble(2, råvareBatch.getMængde());
             statement.setString(3, råvareBatch.getProducent());
             statement.setBoolean(4, råvareBatch.isGenbestil());
             statement.setInt(5, råvareBatch.getId());

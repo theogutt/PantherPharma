@@ -65,11 +65,6 @@ public class Opskrift implements IOpskrift {
         this.opbevaringstid = opbevaringstid;
     }
 
-
-
-
-
-
     public ArrayList<Integer> getIndholdsStoffer() {
         return indholdsStoffer;
     }
