@@ -1,7 +1,5 @@
 package dal.DTO.MaybeUseless;
 
-import dal.DTO.Opskrift;
-
 import java.util.List;
 
 public interface IProduktBatch {
