@@ -27,4 +27,8 @@ public interface IProduktBatch {
     void setDato(String dato);
 
     void setOpskriftID(int opskriftID);
+
+    int getAntal();
+
+    void setAntal(int antal);
 }

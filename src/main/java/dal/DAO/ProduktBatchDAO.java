@@ -2,8 +2,6 @@ package dal.DAO;
 
 import dal.DTO.MaybeUseless.IProduktBatch;
 import dal.DTO.ProduktBatch;
-import dal.DTO.Test;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +15,21 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
     }
 
     @Override
-    public void create(IProduktBatch produkt) throws IDAO.DALException{
+    public void create(IProduktBatch produkt){
         ProduktBatch produktBatch = (ProduktBatch) produkt;
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
-                    ("INSERT INTO produktBatch (produktBatchID, dato, opskriftIDs) VALUES (?,?,?)");
+                    ("INSERT INTO produktBatch (produktBatchID, dato, opskriftIDs, antal) VALUES (?,?,?,?)");
             statement.setInt(1, produktBatch.getId());
             statement.setString(2, produktBatch.getDato());
             statement.setInt(3, produktBatch.getOpskriftID());
+            statement.setInt(4, produktBatch.getAntal());
             statement.executeUpdate();
 
             PreparedStatement statement1 = connection.prepareStatement
                     ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?,?,?) ");
+            statement1.setInt(1, produktBatch.getId());
             for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
-                statement1.setInt(1, produktBatch.getId());
                 statement1.setInt(2, produktBatch.getRavareBatchIDs().get(i));
                 statement1.setInt(3, produktBatch.getRavareMengde().get(i));
                 statement1.executeUpdate();
@@ -43,8 +42,8 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
     public ProduktBatch get(int produktBatchID){
         int opskriftID = 0, antal = 0;
         String dato = "";
-        ArrayList<Integer> ravareBatchID = new ArrayList<Integer>();
-        ArrayList<Integer> ravareMengde = new ArrayList<Integer>();
+        ArrayList<Integer> ravareBatchID = new ArrayList<>();
+        ArrayList<Integer> ravareMengde = new ArrayList<>();
 
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
@@ -61,20 +60,19 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
             statement1.setInt(1,produktBatchID);
             ResultSet resultSet1 = statement1.executeQuery();
 
-            for (int i = 0 ; resultSet1.next() ; i++){
+            while(resultSet1.next()){
                 ravareBatchID.add(resultSet1.getInt("råvareBatchID"));
                 ravareMengde.add(resultSet1.getInt("mængde"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ProduktBatch produktBatch = new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde, antal);
-        return produktBatch;
+        return new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde, antal);
     }
 
     public List<IProduktBatch> getList() {
-        int opskriftID = 0, produktBatchID = 0, antal = 0;
-        String dato = "";
+        int opskriftID, produktBatchID, antal;
+        String dato;
         ArrayList<Integer> ravareBatchID = new ArrayList<>();
         ArrayList<Integer> ravareMengde = new ArrayList<>();
         ArrayList<IProduktBatch> produktBatches = new ArrayList<>();
@@ -83,7 +81,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
             PreparedStatement statement = connection.prepareStatement
                     ("SELECT * FROM produktBatch");
             ResultSet resultSet = statement.executeQuery();
-            for (int i = 0 ; resultSet.next() ; i++){
+            while(resultSet.next()){
                 produktBatchID = resultSet.getInt("produktBatchID");
                 opskriftID = resultSet.getInt("opskriftID");
                 dato = resultSet.getString("dato");
@@ -92,17 +90,17 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
             }
 
             PreparedStatement statement1;
-            for (int i = 0 ; i < produktBatches.size() ; i++){
+            for (IProduktBatch produktBatch : produktBatches) {
                 statement1 = connection.prepareStatement
                         ("SELECT * FORM produkt_råvarer WHERE produktBatchID = ?");
-                statement1.setInt(1, produktBatches.get(i).getId());
+                statement1.setInt(1, produktBatch.getId());
                 ResultSet resultSet1 = statement1.executeQuery();
-                for (int j = 0 ; resultSet1.next() ; j++){
+                while (resultSet1.next()) {
                     ravareBatchID.add(resultSet1.getInt("råvareBatchID"));
                     ravareMengde.add(resultSet1.getInt("mængde"));
                 }
-                produktBatches.get(i).setRavareBatchIDs(ravareBatchID);
-                produktBatches.get(i).setRavareMengde(ravareMengde);
+                produktBatch.setRavareBatchIDs(ravareBatchID);
+                produktBatch.setRavareMengde(ravareMengde);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,7 +109,31 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
     }
 
     public void update(IProduktBatch produktBatch){
+        try (Connection connection = createConnection()){
+            PreparedStatement statement = connection.prepareStatement
+                    ("UPDATE produktBatch SET produktBatchID = ?, opskriftID = ?, dato = ?, antal = ? WHERE userId = ?");
+            statement.setInt(1, produktBatch.getId());
+            statement.setInt(2, produktBatch.getOpskriftID());
+            statement.setString(3, produktBatch.getDato());
+            statement.setInt(4, produktBatch.getAntal());
+            statement.executeUpdate();
 
+            PreparedStatement statement1 = connection.prepareStatement
+                    ("DELETE FROM produkt_råvare WHERE produktBatchID = ?");
+            statement1.setInt(1, produktBatch.getId());
+            statement1.executeUpdate();
+
+            PreparedStatement statement2 = connection.prepareStatement
+                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?,?,?) ");
+            statement2.setInt(1, produktBatch.getId());
+            for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
+                statement2.setInt(2, produktBatch.getRavareBatchIDs().get(i));
+                statement2.setInt(3, produktBatch.getRavareMengde().get(i));
+                statement2.executeUpdate();
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public void delete(int produktBatchID){
