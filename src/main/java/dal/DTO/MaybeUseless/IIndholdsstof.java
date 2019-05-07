@@ -10,4 +10,8 @@ public interface IIndholdsstof {
     void setName(String name);
 
     String getName();
+
+    void setGenbestil(Boolean genbestil);
+
+    Boolean getGenbestil();
 }

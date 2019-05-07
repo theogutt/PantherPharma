@@ -23,11 +23,10 @@ public class RåvareBatchDAO implements IRåvareBatchDAO {
         try (Connection connection = createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO råvareBatch (stofID, mængde, producent, genbestil) VALUES (? ,? , ?, ?);");
+                    "INSERT INTO råvareBatch (stofID, mængde, producent) VALUES (? ,? , ?);");
             statement.setInt(1, batch.getIndholdsstof());
             statement.setDouble(2, batch.getMængde());
             statement.setString(3, batch.getProducent());
-            statement.setBoolean(4, batch.isGenbestil());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -50,8 +49,7 @@ public class RåvareBatchDAO implements IRåvareBatchDAO {
                     id,
                     resultSet.getInt(2),
                     resultSet.getInt(3),
-                    resultSet.getString(4),
-                    resultSet.getBoolean(5));
+                    resultSet.getString(4));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,8 +72,7 @@ public class RåvareBatchDAO implements IRåvareBatchDAO {
                                 resultSet.getInt(1),
                                 resultSet.getInt(2),
                                 resultSet.getInt(3),
-                                resultSet.getString(4),
-                                resultSet.getBoolean(5)));
+                                resultSet.getString(4)));
             }
 
         } catch (SQLException e) {
@@ -94,13 +91,12 @@ public class RåvareBatchDAO implements IRåvareBatchDAO {
         try (Connection connection = createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE råvareBatch SET stofID = ?, mængde = ?, producent = ?, genbestil = ? WHERE råvareBacthID = ?;");
+                    "UPDATE råvareBatch SET stofID = ?, mængde = ?, producent = ? WHERE råvareBacthID = ?;");
 
             statement.setInt(1,råvareBatch.getIndholdsstof());
             statement.setDouble(2, råvareBatch.getMængde());
             statement.setString(3, råvareBatch.getProducent());
-            statement.setBoolean(4, råvareBatch.isGenbestil());
-            statement.setInt(5, råvareBatch.getId());
+            statement.setInt(4, råvareBatch.getId());
             statement.executeUpdate();
 
         } catch (SQLException e) {

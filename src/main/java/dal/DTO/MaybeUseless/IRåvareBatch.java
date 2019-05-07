@@ -8,8 +8,6 @@ public interface IRåvareBatch {
 
     int getId() ;
 
-    boolean isGenbestil() ;
-
     int getIndholdsstof() ;
 
     double getMængde();
@@ -17,8 +15,6 @@ public interface IRåvareBatch {
     String getProducent() ;
 
     void setId(int id) ;
-
-    void setGenbestil(boolean genbestil);
 
     void setIndholdsstof(int indholdsstof);
 
