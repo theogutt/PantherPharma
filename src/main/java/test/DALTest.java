@@ -226,7 +226,7 @@ public class DALTest {
         for(int i = 1; i>=6; i++) {
             assertEquals(Estrogen.getAktiv().get(i), rEstrogen.getAktiv().get(i));
         }
-        assertEquals(Estrogen.getOpbevaringstid(),rEstrogen.getOpbevaringstid());
+        assertEquals(Estrogen.getOpbevaringsstid(),rEstrogen.getOpbevaringsstid());
         //prøver at lave ændringer i opskriften
         Estrogen.setId(2);
         Estrogen.setNavn("Østrogen");
@@ -237,11 +237,11 @@ public class DALTest {
         //verificerer ændringer
         assertEquals(rØstrogen.getId(),2);
         assertEquals(rØstrogen.getNavn(),"Østrogen");
-        assertEquals(rØstrogen.getOpbevaringstid(),40);
+        assertEquals(rØstrogen.getOpbevaringsstid(),40);
         //tester om ændringer gik igennem
         assertEquals(Estrogen.getId(),rØstrogen.getId());
         assertEquals(Estrogen.getNavn(),rØstrogen.getNavn());
-        assertEquals(Estrogen.getOpbevaringstid(),rØstrogen.getOpbevaringstid());
+        assertEquals(Estrogen.getOpbevaringsstid(),rØstrogen.getOpbevaringsstid());
         //Opretter råvareBatches
         IRåvareBatch råvareBatchEstradiol = new RåvareBatch(1,1,1000,"Teva",false);
         IRåvareBatch råvareBatchNorethisteronacetat = new RåvareBatch(2,2,500,"Teva",false);

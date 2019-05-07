@@ -26,5 +26,6 @@ public interface IOpskrift {
     String getNavn();
 
     ArrayList<Boolean> getAktiv();
-    int getOpbevaringstid();
+    int getOpbevaringsstid();
+
 }
