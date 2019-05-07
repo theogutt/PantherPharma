@@ -189,17 +189,17 @@ public class DALTest {
         assertEquals(rEstradiol.getName(),"Macrogol");
         //Opretter lister til opskrift
         ArrayList<Integer>indholdsstofList = new ArrayList<>();
-        ArrayList<Integer>mængdeList = new ArrayList<>();
+        ArrayList<Double>mængdeList = new ArrayList<>();
         ArrayList<Boolean>aktivList = new ArrayList<>();
         for(int i = 1; i>=6; i++){
             indholdsstofList.add(i);
         }
-        mængdeList.add(1);
+        mængdeList.add(1.0);
         mængdeList.add(0.5);
-        mængdeList.add(50);
-        mængdeList.add(10);
-        mængdeList.add(15);
-        mængdeList.add(120);
+        mængdeList.add(50.0);
+        mængdeList.add(10.0);
+        mængdeList.add(15.0);
+        mængdeList.add(120.0);
         for(int i = 1; i>=6; i++){
             if(i==1||i==2){
                 aktivList.add(true);
