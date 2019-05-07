@@ -3,6 +3,7 @@ package test;
 import dal.DAO.*;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.IProduktBatch;
+import dal.DTO.MaybeUseless.IRåvareBatch;
 import org.junit.Test;
 
 import java.util.*;
@@ -136,7 +137,7 @@ public class DALTest {
             assertEquals(test.getRavareBatchIDs().get(j), receivedProduktBatch.getRavareBatchIDs().get(j));
         }
         //sletter oprettet data
-        produktBatchDAO.delete(test);
+        produktBatchDAO.delete(10);
         //---------nedenstående skal lige verificeres------------------------------------------
         //tester om dataen er blevet slettet
         if(produktBatchDAO.get(10)!=null){
@@ -144,8 +145,27 @@ public class DALTest {
         }
         //---------ovenstående skal lige verificeres------------------------------------------
     }
-    public void råvareBatch(){
-
+    public void råvareBatch() throws IDAO.DALException {
+        //opretter råvarebatch
+        IRåvareBatch test = new RåvareBatch(21,10,1100,"Lundbeck",false);
+        //Indsætter det i databasen
+        råvareBatchDAO.create(test);
+        //Henter det ned fra databasen og sammenligner
+        IRåvareBatch receivedRåvareBatch = råvareBatchDAO.get(21);
+        //tester om dataen er den samme
+        assertEquals(test.getId(),receivedRåvareBatch.getId());
+        assertEquals(test.getIndholdsstof(),receivedRåvareBatch.getIndholdsstof());
+        assertEquals(test.getMængde(),receivedRåvareBatch.getMængde());
+        assertEquals(test.getProducent(),receivedRåvareBatch.getProducent());
+        assertEquals(test.isGenbestil(),receivedRåvareBatch.isGenbestil());
+        //sletter oprettet data
+        råvareBatchDAO.delete(21);
+        //---------nedenstående skal lige verificeres------------------------------------------
+        //tester om dataen er blevet slettet
+        if(råvareBatchDAO.get(21)!=null){
+            fail();
+        }
+        //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void fullTest(){
 
