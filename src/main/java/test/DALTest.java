@@ -94,9 +94,6 @@ public class DALTest {
         //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void produktBatch() throws IDAO.DALException {
-        //Laver indholsstoffer til råvarer
-        IIndholdsstof Croscarmellosenatrium  = new Indholdsstof(4,"Croscarmellosenatrium");
-        IIndholdsstof Magnesiumstearat  = new Indholdsstof(5,"Magnesiumstearat");
         //Laver råvarer til lister
         IRåvareBatch batch1 = new RåvareBatch(99,4,2,"Sanofi",true);
         IRåvareBatch batch2 = new RåvareBatch(100,5,30,"Eli Lilly", false);
@@ -230,14 +227,32 @@ public class DALTest {
         //prøver at lave ændringer i opskriften
         Estrogen.setId(2);
         Estrogen.setNavn("Østrogen");
-        Estrogen.setIndholdsStoffer();
-        Estrogen.setMaengde();
-        Estrogen.setAktiv();
-        Estrogen.setOpbevaringstid();
+        Estrogen.setOpbevaringstid(40);
         OpskriftDAO.update(Estrogen);
         //henter opskrift ned fra databasen
         IOpskrift rØstrogen = OpskriftDAO.get(2);
-        //tester om ændringer
-
+        //verificerer ændringer
+        assertEquals(rØstrogen.getId(),2);
+        assertEquals(rØstrogen.getNavn(),"Østrogen");
+        assertEquals(rØstrogen.getOpbevaringstid(),40);
+        //tester om ændringer gik igennem
+        assertEquals(Estrogen.getId(),rØstrogen.getId());
+        assertEquals(Estrogen.getNavn(),rØstrogen.getNavn());
+        assertEquals(Estrogen.getOpbevaringstid(),rØstrogen.getOpbevaringstid());
+        //Opretter råvareBatches
+        IRåvareBatch råvareBatchEstradiol = new RåvareBatch(1,1,1000,"Teva",false);
+        IRåvareBatch råvareBatchNorethisteronacetat = new RåvareBatch(2,2,500,"Teva",false);
+        IRåvareBatch råvareBatchOpovidon = new RåvareBatch(3,3,50000,"Teva",false);
+        IRåvareBatch råvareBatchLaktosemonohydrat = new RåvareBatch(4,4,10000,"Teva",false);
+        IRåvareBatch råvareBatchMagnesiumstearat = new RåvareBatch(5,5,15000,"Teva",false);
+        IRåvareBatch råvareBatchMajsstivelse = new RåvareBatch(6,6,120000,"Teva",false);
+        //Laver lister med råvarebatches til test
+        ArrayList<IRåvareBatch>råvareBatchList = new ArrayList<>();
+        råvareBatchList.add(råvareBatchEstradiol);
+        råvareBatchList.add(råvareBatchNorethisteronacetat);
+        råvareBatchList.add(råvareBatchOpovidon);
+        råvareBatchList.add(råvareBatchLaktosemonohydrat);
+        råvareBatchList.add(råvareBatchMagnesiumstearat);
+        råvareBatchList.add(råvareBatchMajsstivelse);
     }
 }
