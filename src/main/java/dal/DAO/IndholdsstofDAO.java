@@ -17,8 +17,7 @@ public class IndholdsstofDAO implements IIndholdsstofDAO {
     }
 
     @Override
-    public void create(IIndholdsstof objekt) throws DALException {
-        Indholdsstof stof = (Indholdsstof) objekt;
+    public void create(IIndholdsstof stof) throws DALException {
 
         try (Connection connection = createConnection()) {
 
