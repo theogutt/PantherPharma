@@ -78,7 +78,7 @@ public class Opskrift implements IOpskrift {
         return id;
     }
 
-    public ArrayList<Integer> getMaengde() {
+    public ArrayList<Double> getMaengde() {
         return maengde;
     }
 
