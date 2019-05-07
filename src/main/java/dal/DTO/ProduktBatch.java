@@ -14,13 +14,15 @@ public class ProduktBatch implements IProduktBatch {
     private int opskriftID;
     private List<Integer> ravareBatchID;
     private List<Integer> ravareMengde;
+    private int antal;
 
-    public ProduktBatch(int id, String dato, int opskriftID, List<Integer> ravareBatchID, List<Integer> ravareMengde){
+    public ProduktBatch(int id, String dato, int opskriftID, List<Integer> ravareBatchID, List<Integer> ravareMengde, int antal){
         this.id = id;
         this.dato = dato;
         this.opskriftID = opskriftID;
         this.ravareBatchID = ravareBatchID;
         this.ravareMengde = ravareMengde;
+        this.antal = antal;
     }
 
     @Override
@@ -66,6 +68,14 @@ public class ProduktBatch implements IProduktBatch {
 
     public void setOpskriftID(int opskriftID) {
         this.opskriftID = opskriftID;
+    }
+
+    public int getAntal() {
+        return antal;
+    }
+
+    public void setAntal(int antal) {
+        this.antal = antal;
     }
 }
 
