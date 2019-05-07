@@ -65,11 +65,6 @@ public class Opskrift implements IOpskrift {
         this.opbevaringstid = opbevaringstid;
     }
 
-
-
-
-
-
     public ArrayList<Integer> getIndholdsStoffer() {
         return indholdsStoffer;
     }
@@ -78,7 +73,7 @@ public class Opskrift implements IOpskrift {
         return id;
     }
 
-    public ArrayList<Integer> getMaengde() {
+    public ArrayList<Double> getMaengde() {
         return maengde;
     }
 

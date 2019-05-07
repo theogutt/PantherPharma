@@ -10,9 +10,9 @@ public interface IProduktBatch {
 
     List<Integer> getRavareBatchIDs();
 
-    void setRavareMengde(List<Integer> ravareMengde);
+    void setRavareMengde(List<Double> ravareMengde);
 
-    List<Integer> getRavareMengde() ;
+    List<Double> getRavareMengde() ;
 
     void setRavareBatchIDs(List<Integer> ravareBatchID);
 

@@ -12,7 +12,7 @@ public interface IRåvareBatch {
 
     int getIndholdsstof() ;
 
-    int getMængde();
+    double getMængde();
 
     String getProducent() ;
 
@@ -22,7 +22,7 @@ public interface IRåvareBatch {
 
     void setIndholdsstof(int indholdsstof);
 
-    void setMængde(int mængde);
+    void setMængde(double mængde);
 
     void setProducent(String producent);
 }

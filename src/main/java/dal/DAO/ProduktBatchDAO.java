@@ -31,7 +31,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
             statement1.setInt(1, produktBatch.getId());
             for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
                 statement1.setInt(2, produktBatch.getRavareBatchIDs().get(i));
-                statement1.setInt(3, produktBatch.getRavareMengde().get(i));
+                statement1.setDouble(3, produktBatch.getRavareMengde().get(i));
                 statement1.executeUpdate();
             }
         } catch (SQLException e) {
@@ -43,7 +43,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
         int opskriftID = 0, antal = 0;
         String dato = "";
         ArrayList<Integer> ravareBatchID = new ArrayList<>();
-        ArrayList<Integer> ravareMengde = new ArrayList<>();
+        ArrayList<Double> ravareMengde = new ArrayList<>();
 
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
@@ -62,7 +62,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
 
             while(resultSet1.next()){
                 ravareBatchID.add(resultSet1.getInt("råvareBatchID"));
-                ravareMengde.add(resultSet1.getInt("mængde"));
+                ravareMengde.add(resultSet1.getDouble("mængde"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
         int opskriftID, produktBatchID, antal;
         String dato;
         ArrayList<Integer> ravareBatchID = new ArrayList<>();
-        ArrayList<Integer> ravareMengde = new ArrayList<>();
+        ArrayList<Double> ravareMengde = new ArrayList<>();
         ArrayList<IProduktBatch> produktBatches = new ArrayList<>();
 
         try (Connection connection = createConnection()) {
@@ -97,7 +97,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
                 ResultSet resultSet1 = statement1.executeQuery();
                 while (resultSet1.next()) {
                     ravareBatchID.add(resultSet1.getInt("råvareBatchID"));
-                    ravareMengde.add(resultSet1.getInt("mængde"));
+                    ravareMengde.add(resultSet1.getDouble("mængde"));
                 }
                 produktBatch.setRavareBatchIDs(ravareBatchID);
                 produktBatch.setRavareMengde(ravareMengde);
@@ -128,7 +128,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
             statement2.setInt(1, produktBatch.getId());
             for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
                 statement2.setInt(2, produktBatch.getRavareBatchIDs().get(i));
-                statement2.setInt(3, produktBatch.getRavareMengde().get(i));
+                statement2.setDouble(3, produktBatch.getRavareMengde().get(i));
                 statement2.executeUpdate();
             }
         }catch (SQLException e){

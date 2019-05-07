@@ -8,6 +8,7 @@ public class Constructor {
 
 
     public void opstart() {
+        /*
         indholdsstofs = new Indholdsstof[2];
         indholdsstofs[0] = new Indholdsstof(1, "sukker");
         indholdsstofs[1] = new Indholdsstof(2, "peber");
@@ -36,6 +37,7 @@ public class Constructor {
         for (int i = 0; råvareBatches.length > i; i++) {
             System.out.println("RåvareBatchs " + råvareBatches[i].toString());
         }
+        */
 
     }
 }

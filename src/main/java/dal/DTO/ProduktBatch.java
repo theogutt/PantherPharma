@@ -8,10 +8,10 @@ public class ProduktBatch implements IProduktBatch {
     private String dato;
     private int opskriftID;
     private List<Integer> ravareBatchID;
-    private List<Integer> ravareMengde;
+    private List<Double> ravareMengde;
     private int antal;
 
-    public ProduktBatch(int id, String dato, int opskriftID, List<Integer> ravareBatchID, List<Integer> ravareMengde, int antal){
+    public ProduktBatch(int id, String dato, int opskriftID, List<Integer> ravareBatchID, List<Double> ravareMengde, int antal){
         this.id = id;
         this.dato = dato;
         this.opskriftID = opskriftID;
@@ -33,11 +33,11 @@ public class ProduktBatch implements IProduktBatch {
         return ravareBatchID;
     }
 
-    public void setRavareMengde(List<Integer> ravareMengde) {
+    public void setRavareMengde(List<Double> ravareMengde) {
         this.ravareMengde = ravareMengde;
     }
 
-    public List<Integer> getRavareMengde() {
+    public List<Double> getRavareMengde() {
         return ravareMengde;
     }
 

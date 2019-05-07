@@ -1,7 +1,5 @@
 package dal.DAO;
 
-import dal.DTO.Test;
-
 import java.util.List;
 
 public interface IDAO<T> {
