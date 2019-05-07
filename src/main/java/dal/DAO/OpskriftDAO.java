@@ -22,10 +22,11 @@ public class OpskriftDAO implements IOpskriftDAO {
 
         try (Connection c = createConnection()) {
             PreparedStatement statement = c.prepareStatement(
-                    "INSERT INTO opskrifter (navn, opbevaringstid) VALUES (?, ?);");
+                    "INSERT INTO opskrifter (navn, opbevaringstid, genbestil) VALUES (?,?,?);");
 
             statement.setString(1, opskrift.getNavn());
             statement.setInt(2, opskrift.getOpbevaringstid());
+            statement.setBoolean(3,opskrift.getIbrug());
             statement.executeUpdate();
 
             ArrayList<Integer> ihs = opskrift.getIndholdsStoffer();
@@ -34,7 +35,7 @@ public class OpskriftDAO implements IOpskriftDAO {
 
             for (int i = 0; i < ihs.size(); i++) {
                 PreparedStatement statement1 = c.prepareStatement(
-                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(), ?, ?, ?)");
+                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(),?,?,?)");
                 statement1.setInt(1, ihs.get(i));
                 statement1.setDouble(2, maengde.get(i));
                 statement1.setBoolean(3, aktiv.get(i));
@@ -58,6 +59,7 @@ public class OpskriftDAO implements IOpskriftDAO {
 
             String name = resultSet.getString("navn");
             int expdate = resultSet.getInt("opbevaringstid");
+            Boolean ibrug = resultSet.getBoolean(3);
 
             PreparedStatement statement1 = c.prepareStatement(
                     "SELECT * FROM opskrif_indhold WHERE opskriftID = ?");
@@ -74,7 +76,7 @@ public class OpskriftDAO implements IOpskriftDAO {
                 amount.add(resultSet1.getDouble("maengde"));
             }
 
-            opskrift = new Opskrift(id, name, stof, amount, active, expdate);
+            opskrift = new Opskrift(id, name, stof, amount, active, expdate, ibrug);
 
 
         } catch (SQLException e) {
@@ -113,7 +115,7 @@ public class OpskriftDAO implements IOpskriftDAO {
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         stof, amount, active,
-                        resultSet.getInt(3)));
+                        resultSet.getInt(3),resultSet.getBoolean("ibrug")));
 
                 //Tømmer arraylists
                 stof.clear(); amount.clear(); active.clear();
@@ -134,9 +136,10 @@ public class OpskriftDAO implements IOpskriftDAO {
 
         try (Connection c = createConnection()) {
             PreparedStatement statement = c.prepareStatement(
-                    "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,TRUE);");
+                    "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
             statement.setString(1, opskrift.getNavn());
             statement.setInt(2, opskrift.getOpbevaringstid());
+            statement.setBoolean(3, opskrift.getIbrug());
             statement.executeUpdate();
 
             for (int i = 0; i < indholdsStoffer.size(); i++) {

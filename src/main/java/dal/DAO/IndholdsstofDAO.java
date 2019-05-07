@@ -20,8 +20,9 @@ public class IndholdsstofDAO implements IIndholdsstofDAO {
 
         try (Connection connection = createConnection()) {
 
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO indholdsstoffer (navn) VALUES (?);");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
             statement.setString(1, stof.getName());
+            statement.setBoolean(2,stof.getGenbestil());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -40,7 +41,7 @@ public class IndholdsstofDAO implements IIndholdsstofDAO {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-            stof = new Indholdsstof(id, resultSet.getString(2));
+            stof = new Indholdsstof(id, resultSet.getString(2), resultSet.getBoolean(3));
 
 
         } catch (SQLException e) {
@@ -63,7 +64,7 @@ public class IndholdsstofDAO implements IIndholdsstofDAO {
                 stoffer.add(
                         new Indholdsstof(
                         resultSet.getInt(1),
-                        resultSet.getString(2)));
+                        resultSet.getString(2), resultSet.getBoolean(3)));
             }
 
         } catch (SQLException e) {
@@ -81,10 +82,11 @@ public class IndholdsstofDAO implements IIndholdsstofDAO {
         try (Connection connection = createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE indholdsstoffer SET navn = ? WHERE stofID = ?;");
+                    "UPDATE indholdsstoffer SET navn = ?, genbestil = ? WHERE stofID = ?;");
 
             statement.setString(1, stof.getName());
-            statement.setInt(2, stof.getId());
+            statement.setBoolean(2, stof.getGenbestil());
+            statement.setInt(3, stof.getId());
             statement.executeUpdate();
 
         } catch (SQLException e) {

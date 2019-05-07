@@ -17,15 +17,17 @@ public class Opskrift implements IOpskrift {
     private ArrayList<Boolean> aktiv;
     // opbevaringstid måles måneder
     private int opbevaringstid;
+    private Boolean ibrug;
 
 
-    public Opskrift(int id, String navn, ArrayList<Integer> indholdsStoffer, ArrayList<Double> maengde, ArrayList<Boolean> aktiv, int opbevaringstid){
+    public Opskrift(int id, String navn, ArrayList<Integer> indholdsStoffer, ArrayList<Double> maengde, ArrayList<Boolean> aktiv, int opbevaringstid, Boolean ibrug){
         this.id = id;
         this.navn = navn;
         this.indholdsStoffer = indholdsStoffer;
         this.maengde = maengde;
         this.aktiv = aktiv;
         this.opbevaringstid = opbevaringstid;
+        this.ibrug = ibrug;
     }
 
     @Override
@@ -43,6 +45,14 @@ public class Opskrift implements IOpskrift {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setIbrug(Boolean ibrug) {
+        this.ibrug = ibrug;
+    }
+
+    public Boolean getIbrug() {
+        return ibrug;
     }
 
     public void setIndholdsStoffer(ArrayList<Integer> indholdsStoffer) {

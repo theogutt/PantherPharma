@@ -7,27 +7,21 @@ public class RåvareBatch implements IRåvareBatch {
     private double mængde;
     private String producent;
     private int indholdsstof;
-    private boolean genbestil;
 
-    public RåvareBatch(int id, int indholdsstof, int mengde, String producent, boolean genbestil){
+    public RåvareBatch(int id, int indholdsstof, int mengde, String producent){
         this.id = id;
         this.indholdsstof = indholdsstof;
         this.mængde = mengde;
         this.producent = producent;
-        this.genbestil = genbestil;
     }
 
     @Override
     public String toString() {
-        return "Id: " + id + " Mængde: " + mængde + " Producent: " + producent + " Indholdsstof: " + indholdsstof + " Skalgenbestilles? = " + genbestil;
+        return "Id: " + id + " Mængde: " + mængde + " Producent: " + producent + " Indholdsstof: " + indholdsstof;
     }
 
     public int getId() {
         return id;
-    }
-
-    public boolean isGenbestil() {
-        return genbestil;
     }
 
     public int getIndholdsstof() {
@@ -44,10 +38,6 @@ public class RåvareBatch implements IRåvareBatch {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setGenbestil(boolean genbestil) {
-        this.genbestil = genbestil;
     }
 
     public void setIndholdsstof(int indholdsstof) {

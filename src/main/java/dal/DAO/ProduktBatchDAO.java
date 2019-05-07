@@ -27,7 +27,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
             statement.executeUpdate();
 
             PreparedStatement statement1 = connection.prepareStatement
-                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?,?,?) ");
+                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?, ?, ?) ");
             statement1.setInt(1, produktBatch.getId());
             for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
                 statement1.setInt(2, produktBatch.getRavareBatchIDs().get(i));
