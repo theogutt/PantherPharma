@@ -46,7 +46,7 @@ public class OpskriftDAO implements IOpskriftDAO {
             throw new IDAO.DALException(e.getMessage());
         }
     }
-
+    @Override
     public IOpskrift get(int id) throws IDAO.DALException {
 
         IOpskrift opskrift;

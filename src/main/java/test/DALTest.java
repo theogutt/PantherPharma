@@ -70,7 +70,9 @@ public class DALTest {
         //Opretter opskrift
         Opskrift Sildenafil = new Opskrift(1,"Sildenafil",indholdsstofIDList,mængdeList,aktivList,30);
         //Indsætter opskrift i databasen
-        IOpskrift receivedOpskrift = OpskriftDAO.create(Sildenafil);
+        OpskriftDAO.create(Sildenafil);
+        //henter opskriften fra databasen
+        IOpskrift receivedOpskrift = OpskriftDAO.get(1);
         //tester om vi får samme data tilbage
         assertEquals(Sildenafil.getId(),receivedOpskrift.getId());
         assertEquals(Sildenafil.getNavn(), receivedOpskrift.getNavn());

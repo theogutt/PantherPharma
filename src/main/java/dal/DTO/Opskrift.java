@@ -13,13 +13,13 @@ public class Opskrift implements IOpskrift {
     //Denne SKAL refactors til kun at indeholde id, istedet ofr hele objektet!!!!!!
     private ArrayList<Integer> indholdsStoffer;
     // maengde måles i milligram
-    private ArrayList<Integer> maengde;
+    private ArrayList<Double> maengde;
     private ArrayList<Boolean> aktiv;
     // opbevaringstid måles måneder
     private int opbevaringstid;
 
 
-    public Opskrift(int id, String navn, ArrayList<Integer> indholdsStoffer, ArrayList<Integer> maengde, ArrayList<Boolean> aktiv, int opbevaringstid){
+    public Opskrift(int id, String navn, ArrayList<Integer> indholdsStoffer, ArrayList<Double> maengde, ArrayList<Boolean> aktiv, int opbevaringstid){
         this.id = id;
         this.navn = navn;
         this.indholdsStoffer = indholdsStoffer;
@@ -49,7 +49,7 @@ public class Opskrift implements IOpskrift {
         this.indholdsStoffer = indholdsStoffer;
     }
 
-    public void setMaengde(ArrayList<Integer> maengde) {
+    public void setMaengde(ArrayList<Double> maengde) {
         this.maengde = maengde;
     }
 

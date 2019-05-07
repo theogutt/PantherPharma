@@ -11,7 +11,7 @@ public interface IOpskrift {
 
     void setIndholdsStoffer(ArrayList<Integer> indholdsStoffer);
 
-    void setMaengde(ArrayList<Integer> maengde) ;
+    void setMaengde(ArrayList<Double> maengde) ;
 
     void setNavn(String navn);
 
@@ -22,7 +22,7 @@ public interface IOpskrift {
 
     int getId() ;
 
-    ArrayList<Integer> getMaengde() ;
+    ArrayList<Double> getMaengde() ;
     String getNavn();
 
     ArrayList<Boolean> getAktiv();
