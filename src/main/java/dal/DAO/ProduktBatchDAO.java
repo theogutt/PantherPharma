@@ -39,7 +39,7 @@ public class ProduktBatchDAO implements IProduktBacthDAO {
         }
     }
 
-    public ProduktBatch get(int produktBatchID){
+    public IProduktBatch get(int produktBatchID){
         int opskriftID = 0, antal = 0;
         String dato = "";
         ArrayList<Integer> ravareBatchID = new ArrayList<>();
