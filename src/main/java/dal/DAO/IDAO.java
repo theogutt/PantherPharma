@@ -1,15 +1,14 @@
 package dal.DAO;
-
 import java.util.List;
 
-public interface IDAO<T> {
-    void create(T objekt) throws DALException;
+public interface IDAO<E> {
+    void create(E objekt) throws DALException;
 
-    T get(int id) throws DALException;
+    E get(int id) throws DALException;
 
-    List<T> getList() throws DALException;
+    List<E> getList() throws DALException;
 
-    void update(T objekt) throws DALException;
+    void update(E objekt) throws DALException;
 
     void delete(int id) throws DALException;
 

@@ -14,10 +14,10 @@ public class DALTest {
     //TODO  få programmet til at overholde tests.
 
 
-    IDAO indholdsstofDAO = new IndholdsstofDAO();
-    IDAO OpskriftDAO = new OpskriftDAO();
-    IDAO produktBatchDAO = new ProduktBatchDAO();
-    IDAO råvareBatchDAO = new RåvareBatchDAO();
+    IIndholdsstofDAO indholdsstofDAO = new IndholdsstofDAO();
+    IOpskriftDAO OpskriftDAO = new OpskriftDAO();
+    IProduktBacthDAO produktBatchDAO = new ProduktBatchDAO();
+    IRåvareBatchDAO råvareBatchDAO = new RåvareBatchDAO();
 
     @Test
     public void test(){
@@ -104,9 +104,9 @@ public class DALTest {
         List<Integer> råvareBatchList = new ArrayList<>();
         råvareBatchList.add(100);
         råvareBatchList.add(99);
-        List<Integer>råvareMængdeList = new ArrayList<>();
-        råvareMængdeList.add(10);
-        råvareMængdeList.add(20);
+        List<Double>råvareMængdeList = new ArrayList<>();
+        råvareMængdeList.add(10.0);
+        råvareMængdeList.add(20.0);
         //Opretter ProduktBatch
         ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList,10);
         //Indsætter det i databasen
@@ -293,13 +293,13 @@ public class DALTest {
         råvareBatchIDList.add(4);
         råvareBatchIDList.add(5);
         råvareBatchIDList.add(7);
-        List<Integer>PBmængdeList = new ArrayList<>();
-        PBmængdeList.add(100);
-        PBmængdeList.add(50);
-        PBmængdeList.add(5000);
-        PBmængdeList.add(1000);
-        PBmængdeList.add(1500);
-        PBmængdeList.add(12000);
+        List<Double>PBmængdeList = new ArrayList<>();
+        PBmængdeList.add(100.0);
+        PBmængdeList.add(50.0);
+        PBmængdeList.add(5000.0);
+        PBmængdeList.add(1000.0);
+        PBmængdeList.add(1500.0);
+        PBmængdeList.add(12000.0);
         //Opretter produktBatches
         IProduktBatch PBEstrogen = new ProduktBatch(1,"07-05-2019",2,råvareBatchIDList,PBmængdeList,100);
         //Indsætter produktBatch i databasen
