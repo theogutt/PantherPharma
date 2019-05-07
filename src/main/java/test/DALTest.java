@@ -35,7 +35,7 @@ public class DALTest {
     }
     public void indholdsstof() throws IDAO.DALException {
         //Opretter Indholdsstof
-        IIndholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat");
+        IIndholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat",false);
         //Indsætter indholdstofferne i databasen
         indholdsstofDAO.create(Calciumhydrogenphospath);
         //Prøver at hente det ned fra databasen
@@ -52,8 +52,8 @@ public class DALTest {
     }
     public void opskrift() throws IDAO.DALException {
         //Opretter Indholdsstof
-        IIndholdsstof Hypromellose  = new Indholdsstof(2,"Hypromellose ");
-        IIndholdsstof Talcum = new Indholdsstof(3,"Talcum");
+        IIndholdsstof Hypromellose  = new Indholdsstof(2,"Hypromellose ", false);
+        IIndholdsstof Talcum = new Indholdsstof(3,"Talcum",false);
         //laver lister til opskrift
         ArrayList<Integer>indholdsstofIDList = new ArrayList<>();
         indholdsstofIDList.add(2);
@@ -68,7 +68,7 @@ public class DALTest {
         aktivList.add(false);
         aktivList.add(false);
         //Opretter opskrift
-        Opskrift Sildenafil = new Opskrift(1,"Sildenafil",indholdsstofIDList,mængdeList,aktivList,30);
+        Opskrift Sildenafil = new Opskrift(1,"Sildenafil",indholdsstofIDList,mængdeList,aktivList,30, true);
         //Indsætter opskrift i databasen
         OpskriftDAO.create(Sildenafil);
         //henter opskriften fra databasen
@@ -85,7 +85,7 @@ public class DALTest {
         for(int i = 0; i<Sildenafil.getAktiv().size();i++){
             assertEquals(Sildenafil.getAktiv().get(i),receivedOpskrift.getAktiv().get(i));
         }
-        assertEquals(Sildenafil.getOpbevaringstid(),receivedOpskrift.getOpbevaringsstid());
+        assertEquals(Sildenafil.getOpbevaringstid(),receivedOpskrift.getOpbevaringstid());
 
         //sletter i testen oprettede data
         OpskriftDAO.delete(1);
@@ -98,8 +98,8 @@ public class DALTest {
     }
     public void produktBatch() throws IDAO.DALException {
         //Laver råvarer til lister
-        IRåvareBatch batch1 = new RåvareBatch(99,4,2,"Sanofi",true);
-        IRåvareBatch batch2 = new RåvareBatch(100,5,30,"Eli Lilly", false);
+        IRåvareBatch batch1 = new RåvareBatch(99,4,2,"Sanofi");
+        IRåvareBatch batch2 = new RåvareBatch(100,5,30,"Eli Lilly");
         //Laver lister til produktbatch
         List<Integer> råvareBatchList = new ArrayList<>();
         råvareBatchList.add(100);
@@ -134,7 +134,7 @@ public class DALTest {
     }
     public void råvareBatch() throws IDAO.DALException {
         //opretter råvarebatch
-        IRåvareBatch test = new RåvareBatch(21,10,1100,"Lundbeck",false);
+        IRåvareBatch test = new RåvareBatch(21,10,1100,"Lundbeck");
         //Indsætter det i databasen
         råvareBatchDAO.create(test);
         //Henter det ned fra databasen og sammenligner
@@ -144,7 +144,6 @@ public class DALTest {
         assertEquals(test.getIndholdsstof(),receivedRåvareBatch.getIndholdsstof());
         assertEquals(test.getMængde(),receivedRåvareBatch.getMængde());
         assertEquals(test.getProducent(),receivedRåvareBatch.getProducent());
-        assertEquals(test.isGenbestil(),receivedRåvareBatch.isGenbestil());
         //sletter oprettet data
         råvareBatchDAO.delete(21);
         //---------nedenstående skal lige verificeres------------------------------------------
@@ -156,12 +155,12 @@ public class DALTest {
     }
     public void fullTest() throws IDAO.DALException {
         //Opretter Indholdsstoffer til Estrogen
-        IIndholdsstof Estradiol = new Indholdsstof(1,"Estradiol");
-        IIndholdsstof Norethisteronacetat = new Indholdsstof(2, "Norethisteronacetat");
-        IIndholdsstof Opovidon = new Indholdsstof(3, "Opovidon");
-        IIndholdsstof Laktosemonohydrat = new Indholdsstof(4,"Laktosemonohydrat");
-        IIndholdsstof Magnesiumstearat = new Indholdsstof(5,"Magnesiumstearat");
-        IIndholdsstof Majsstivelse = new Indholdsstof(6,"Majsstivelse");
+        IIndholdsstof Estradiol = new Indholdsstof(1,"Estradiol",false);
+        IIndholdsstof Norethisteronacetat = new Indholdsstof(2, "Norethisteronacetat",false);
+        IIndholdsstof Opovidon = new Indholdsstof(3, "Opovidon",false);
+        IIndholdsstof Laktosemonohydrat = new Indholdsstof(4,"Laktosemonohydrat",false);
+        IIndholdsstof Magnesiumstearat = new Indholdsstof(5,"Magnesiumstearat",false);
+        IIndholdsstof Majsstivelse = new Indholdsstof(6,"Majsstivelse", false);
         //Indsætter indholdsstoffer
         indholdsstofDAO.create(Estradiol);
         indholdsstofDAO.create(Norethisteronacetat);
@@ -209,7 +208,7 @@ public class DALTest {
             }
         }
         //Opretter en opskrift
-        IOpskrift Estrogen = new Opskrift(1,"Estrogen",indholdsstofList,mængdeList,aktivList,36);
+        IOpskrift Estrogen = new Opskrift(1,"Estrogen",indholdsstofList,mængdeList,aktivList,36, true);
         //Indsætter opskriften i databasen
         OpskriftDAO.create(Estrogen);
         //henter opskriften fra databasen
@@ -226,7 +225,7 @@ public class DALTest {
         for(int i = 1; i>=6; i++) {
             assertEquals(Estrogen.getAktiv().get(i), rEstrogen.getAktiv().get(i));
         }
-        assertEquals(Estrogen.getOpbevaringsstid(),rEstrogen.getOpbevaringsstid());
+        assertEquals(Estrogen.getOpbevaringstid(),rEstrogen.getOpbevaringstid());
         //prøver at lave ændringer i opskriften
         Estrogen.setId(2);
         Estrogen.setNavn("Østrogen");
@@ -237,18 +236,18 @@ public class DALTest {
         //verificerer ændringer
         assertEquals(rØstrogen.getId(),2);
         assertEquals(rØstrogen.getNavn(),"Østrogen");
-        assertEquals(rØstrogen.getOpbevaringsstid(),40);
+        assertEquals(rØstrogen.getOpbevaringstid(),40);
         //tester om ændringer gik igennem
         assertEquals(Estrogen.getId(),rØstrogen.getId());
         assertEquals(Estrogen.getNavn(),rØstrogen.getNavn());
-        assertEquals(Estrogen.getOpbevaringsstid(),rØstrogen.getOpbevaringsstid());
+        assertEquals(Estrogen.getOpbevaringstid(),rØstrogen.getOpbevaringstid());
         //Opretter råvareBatches
-        IRåvareBatch råvareBatchEstradiol = new RåvareBatch(1,1,1000,"Teva",false);
-        IRåvareBatch råvareBatchNorethisteronacetat = new RåvareBatch(2,2,500,"Teva",false);
-        IRåvareBatch råvareBatchOpovidon = new RåvareBatch(3,3,50000,"Teva",false);
-        IRåvareBatch råvareBatchLaktosemonohydrat = new RåvareBatch(4,4,10000,"Teva",false);
-        IRåvareBatch råvareBatchMagnesiumstearat = new RåvareBatch(5,5,15000,"Teva",false);
-        IRåvareBatch råvareBatchMajsstivelse = new RåvareBatch(6,6,120000,"Teva",false);
+        IRåvareBatch råvareBatchEstradiol = new RåvareBatch(1,1,1000,"Teva");
+        IRåvareBatch råvareBatchNorethisteronacetat = new RåvareBatch(2,2,500,"Teva");
+        IRåvareBatch råvareBatchOpovidon = new RåvareBatch(3,3,50000,"Teva");
+        IRåvareBatch råvareBatchLaktosemonohydrat = new RåvareBatch(4,4,10000,"Teva");
+        IRåvareBatch råvareBatchMagnesiumstearat = new RåvareBatch(5,5,15000,"Teva");
+        IRåvareBatch råvareBatchMajsstivelse = new RåvareBatch(6,6,120000,"Teva");
         //Laver lister med råvarebatches til test
         List<IRåvareBatch>råvareBatchList = new ArrayList<>();
         råvareBatchList.add(råvareBatchEstradiol);
@@ -268,14 +267,12 @@ public class DALTest {
             assertEquals(instance.getIndholdsstof(), rinstance.getIndholdsstof());
             assertEquals(instance.getMængde(), rinstance.getMængde());
             assertEquals(instance.getProducent(), rinstance.getProducent());
-            assertEquals(instance.isGenbestil(), rinstance.isGenbestil());
         }
         //laver ændringer i råvareBatches
         råvareBatchMagnesiumstearat.setId(7);
         råvareBatchMagnesiumstearat.setIndholdsstof(7);
         råvareBatchMagnesiumstearat.setMængde(7);
         råvareBatchMagnesiumstearat.setProducent("7");
-        råvareBatchMagnesiumstearat.setGenbestil(true);
         råvareBatchDAO.update(råvareBatchMagnesiumstearat);
         //henter det ned fra databasen
         IRåvareBatch r7 = råvareBatchDAO.get(7);
@@ -284,7 +281,6 @@ public class DALTest {
         assertEquals(r7.getIndholdsstof(),7);
         assertEquals(r7.getMængde(),7);
         assertEquals(r7.getProducent(),"7");
-        assertEquals(r7.isGenbestil(),true);
         //Opretter mængdeliste og råvare liste
         List<Integer>råvareBatchIDList = new ArrayList<>();
         råvareBatchIDList.add(1);
