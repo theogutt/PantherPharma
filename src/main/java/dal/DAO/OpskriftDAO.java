@@ -47,7 +47,7 @@ public class OpskriftDAO implements IOpskriftDAO {
         }
     }
     @Override
-    public Opskrift get(int id) throws IDAO.DALException {
+    public IOpskrift get(int id) throws IDAO.DALException {
 
         IOpskrift opskrift;
 
@@ -68,12 +68,12 @@ public class OpskriftDAO implements IOpskriftDAO {
 
             ArrayList<Integer> stof = new ArrayList<>();
             ArrayList<Boolean> active = new ArrayList<>();
-            ArrayList<Integer> amount = new ArrayList<>();
+            ArrayList<Double> amount = new ArrayList<>();
 
             while (resultSet1.next()) {
                 stof.add(resultSet1.getInt("indholdsStoffer"));
                 active.add(resultSet1.getBoolean("aktiv"));
-                amount.add(resultSet1.getInt("maengde"));
+                amount.add(resultSet1.getDouble("maengde"));
             }
 
             opskrift = new Opskrift(id, name, stof, amount, active, expdate);
@@ -91,7 +91,7 @@ public class OpskriftDAO implements IOpskriftDAO {
 
         List<IOpskrift> opskrifter = new ArrayList<>();
         ArrayList<Integer> stof = new ArrayList<>();
-        ArrayList<Integer> amount = new ArrayList<>();
+        ArrayList<Double> amount = new ArrayList<>();
         ArrayList<Boolean> active = new ArrayList<>();
 
         try (Connection c = createConnection()) {
@@ -107,7 +107,7 @@ public class OpskriftDAO implements IOpskriftDAO {
 
                 while (resultSet1.next()) {
                     stof.add(resultSet1.getInt(2));
-                    amount.add(resultSet1.getInt(3));
+                    amount.add(resultSet1.getDouble(3));
                     active.add(resultSet1.getBoolean(4));
                 }
 
@@ -131,7 +131,7 @@ public class OpskriftDAO implements IOpskriftDAO {
     public void update(IOpskrift opskrift) throws IDAO.DALException {
 
         ArrayList<Integer> indholdsStoffer = opskrift.getIndholdsStoffer();
-        ArrayList<Integer> maengde = opskrift.getMaengde();
+        ArrayList<Double> maengde = opskrift.getMaengde();
         ArrayList<Boolean> aktiv = opskrift.getAktiv();
 
         try (Connection c = createConnection()) {
@@ -145,7 +145,7 @@ public class OpskriftDAO implements IOpskriftDAO {
                 PreparedStatement statement1 = c.prepareStatement(
                         "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(), ?, ?, ?)");
                 statement1.setInt(1, indholdsStoffer.get(i));
-                statement1.setInt(2, maengde.get(i));
+                statement1.setDouble(2, maengde.get(i));
                 statement1.setBoolean(3, aktiv.get(i));
                 statement1.executeUpdate();
             }

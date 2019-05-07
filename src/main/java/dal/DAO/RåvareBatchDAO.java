@@ -36,7 +36,7 @@ public class RåvareBatchDAO implements IRåvareBatchDAO {
     }
 
     @Override
-    public RåvareBatch get(int id) throws IDAO.DALException {
+    public IRåvareBatch get(int id) throws IDAO.DALException {
         RåvareBatch råvareBatch = null;
 
         try (Connection connection = createConnection()) {
