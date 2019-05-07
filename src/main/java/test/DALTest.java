@@ -2,6 +2,7 @@ package test;
 
 import dal.DAO.*;
 import dal.DTO.*;
+import dal.DTO.MaybeUseless.IProduktBatch;
 import org.junit.Test;
 
 import java.util.*;
@@ -96,7 +97,7 @@ public class DALTest {
         if(indholdsstofDAO.get(2)!=null){
             fail();
         }
-        if(indholdsstofDAO.get(2)!=null){
+        if(indholdsstofDAO.get(3)!=null){
             fail();
         }
         if(OpskriftDAO.get(1)!=null){
@@ -120,26 +121,25 @@ public class DALTest {
         råvareMængdeList.add(20);
         //Opretter ProduktBatch
         ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList);
-        ProduktBatch test = new ProduktBatch();
         //Indsætter det i databasen
-        råvareBatchDAO.create(test);
+        produktBatchDAO.create(test);
         //henter det ned fra databasen
-        IRåvareBatch receivedRåvareBatch = råvareBatchDAO.get(10);
+        IProduktBatch receivedProduktBatch = produktBatchDAO.get(10);
 
-        assertEquals(test.getId(),receivedRåvareBatch.getId());
-        assertEquals(test.getDato(),receivedRåvareBatch.getDato());
-        assertEquals(test.getOpskriftID(),receivedRåvareBatch.getOpskriftID());
+        assertEquals(test.getId(),receivedProduktBatch.getId());
+        assertEquals(test.getDato(),receivedProduktBatch.getDato());
+        assertEquals(test.getOpskriftID(),receivedProduktBatch.getOpskriftID());
         for(int i = 0; i<test.getRavareMengde().size(); i++) {
-            assertEquals(test.getRavareMengde().get(i), receivedRåvareBatch.getRavareMengde().get(i));
+            assertEquals(test.getRavareMengde().get(i), receivedProduktBatch.getRavareMengde().get(i));
         }
         for(int j = 0; j<test.getRavareBatchIDs().size();j++) {
-            assertEquals(test.getRavareBatchIDs().get(j), receivedRåvareBatch.getRavareBatchIDs().get(j));
+            assertEquals(test.getRavareBatchIDs().get(j), receivedProduktBatch.getRavareBatchIDs().get(j));
         }
         //sletter oprettet data
-        råvareBatchDAO.delete(test);
+        produktBatchDAO.delete(test);
         //---------nedenstående skal lige verificeres------------------------------------------
         //tester om dataen er blevet slettet
-        if(råvareBatchDAO.get(10)!=null){
+        if(produktBatchDAO.get(10)!=null){
             fail();
         }
         //---------ovenstående skal lige verificeres------------------------------------------
