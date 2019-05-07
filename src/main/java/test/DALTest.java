@@ -22,12 +22,10 @@ public class DALTest {
     @Test
     public void test(){
         try{
-            //create, read, update, delete tests
             indholdsstof();
             opskrift();
             produktBatch();
             råvareBatch();
-            //Den store test
             fullTest();
         }
         catch (IDAO.DALException e) {
@@ -57,6 +55,9 @@ public class DALTest {
         IIndholdsstof Hypromellose  = new Indholdsstof(2,"Hypromellose ");
         IIndholdsstof Talcum = new Indholdsstof(3,"Talcum");
         //laver lister til opskrift
+        ArrayList<Integer>indholdsstofIDList = new ArrayList<>();
+        indholdsstofIDList.add(2);
+        indholdsstofIDList.add(3);
         ArrayList<IIndholdsstof>indholdsstofList = new ArrayList<>();
         indholdsstofList.add(Hypromellose);
         indholdsstofList.add(Talcum);
@@ -67,7 +68,7 @@ public class DALTest {
         aktivList.add(false);
         aktivList.add(false);
         //Opretter opskrift
-        Opskrift Sildenafil = new Opskrift(1,"Sildenafil",indholdsstofList,mængdeList,aktivList,30);
+        Opskrift Sildenafil = new Opskrift(1,"Sildenafil",indholdsstofIDList,mængdeList,aktivList,30);
         //Indsætter opskrift i databasen
         IOpskrift receivedOpskrift = OpskriftDAO.create(Sildenafil);
         //tester om vi får samme data tilbage
