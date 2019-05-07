@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 
 public class DALTest {
 
-    //TODO få programmet til at overholde tests.
+    //TODO  få programmet til at overholde tests.
 
 
     IDAO indholdsstofDAO = new IndholdsstofDAO();
