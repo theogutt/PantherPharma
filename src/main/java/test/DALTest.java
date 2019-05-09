@@ -3,6 +3,7 @@ package test;
 import dal.DAO.*;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.junit.Test;
 import java.util.*;
 
@@ -322,38 +323,44 @@ public class DALTest {
         assertEquals(r2PBEstrogen.getId(),2);
         assertEquals(r2PBEstrogen.getOpskriftID(),3);
         //sletter i testen oprettede data
-        indholdsstofDAO.delete(1);
-        indholdsstofDAO.delete(2);
-        indholdsstofDAO.delete(3);
-        indholdsstofDAO.delete(4);
-        indholdsstofDAO.delete(5);
-        indholdsstofDAO.delete(6);
-        OpskriftDAO.delete(2);
-        råvareBatchDAO.delete(1);
-        råvareBatchDAO.delete(2);
-        råvareBatchDAO.delete(3);
-        råvareBatchDAO.delete(4);
-        råvareBatchDAO.delete(5);
-        råvareBatchDAO.delete(7);
-        produktBatchDAO.delete(2);
-        //---------nedenstående skal lige verificeres------------------------------------------
+        indholdsstofDAO.delete(Estradiol.getId());
+        indholdsstofDAO.delete(Norethisteronacetat.getId());
+        indholdsstofDAO.delete(Opovidon.getId());
+        indholdsstofDAO.delete(Laktosemonohydrat.getId());
+        indholdsstofDAO.delete(Magnesiumstearat.getId());
+        indholdsstofDAO.delete(Majsstivelse.getId());
+        OpskriftDAO.delete(Estrogen.getId());
+        råvareBatchDAO.delete(råvareBatchEstradiol.getId());
+        råvareBatchDAO.delete(råvareBatchNorethisteronacetat.getId());
+        råvareBatchDAO.delete(råvareBatchOpovidon.getId());
+        råvareBatchDAO.delete(råvareBatchLaktosemonohydrat.getId());
+        råvareBatchDAO.delete(råvareBatchMagnesiumstearat.getId());
+        råvareBatchDAO.delete(råvareBatchMajsstivelse.getId());
+        produktBatchDAO.delete(PBEstrogen.getId());
         //tester om dataen er blevet slettet
-        for(int o = 1;o>=6;o++){
-            if(indholdsstofDAO.get(o)!=null){
+        List<IIndholdsstof>alleIndholdsstoffer = indholdsstofDAO.getList();
+        for(IIndholdsstof indholdsstof: alleIndholdsstoffer){
+            if((Estradiol.getId()== indholdsstof.getId()|| Norethisteronacetat.getId()== indholdsstof.getId() || Opovidon.getId()== indholdsstof.getId() || Laktosemonohydrat.getId()== indholdsstof.getId() || Magnesiumstearat.getId()== indholdsstof.getId() || Majsstivelse.getId()== indholdsstof.getId())){
                 fail();
             }
         }
-        if(indholdsstofDAO.get(2)!=null){
-            fail();
-        }        for(int q = 1;q>=5;q++) {
-            if (råvareBatchDAO.get(q) != null) {
+        List<IOpskrift>alleOpskrifter = OpskriftDAO.getList();
+        for(IOpskrift opskrift: alleOpskrifter){
+            if(opskrift.getId()==Estrogen.getId()){
                 fail();
             }
         }
-        råvareBatchDAO.delete(7);
-        if(produktBatchDAO.get(2)!=null){
-            fail();
+        List<IRåvareBatch>alleRåvareBatches = råvareBatchDAO.getList();
+        for(IRåvareBatch råvareBatch: alleRåvareBatches){
+            if((råvareBatch.getId()==råvareBatchEstradiol.getId()||råvareBatch.getId()==råvareBatchNorethisteronacetat.getId()||råvareBatch.getId()==råvareBatchOpovidon.getId()||råvareBatch.getId()==råvareBatchLaktosemonohydrat.getId()||råvareBatch.getId()==råvareBatchMagnesiumstearat.getId()||råvareBatch.getId()==råvareBatchMajsstivelse.getId())){
+                fail();
+            }
         }
-        //---------ovenstående skal lige verificeres------------------------------------------
+        List<IProduktBatch>alleProduktBatches = produktBatchDAO.getList();
+        for(IProduktBatch produktBatch: alleProduktBatches){
+            if(produktBatch.getId()==PBEstrogen.getId()){
+                fail();
+            }
+        }
     }
 }
