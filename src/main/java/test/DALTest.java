@@ -2,6 +2,7 @@ package test;
 import dal.DAO.*;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -36,14 +37,6 @@ public class DALTest {
             fail();
         }
     }
-
-    private Connection createConnection() throws SQLException {
-        return  DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185118?"
-                + "user=s185118&password=SNX64wUCCqEHKNVwEwumg");
-    }
-
-
-
     public void indholdsstof() throws IDAO.DALException {
         //Opretter Indholdsstof
         IIndholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat",false);
@@ -53,12 +46,14 @@ public class DALTest {
         IIndholdsstof received = indholdsstofDAO.get(1);
         //Tester om navnene stemmer overens
         assertEquals(Calciumhydrogenphospath.getName(), received.getName());
-
         //sletter i testen oprettede data
-        indholdsstofDAO.delete(1);
+        indholdsstofDAO.delete(Calciumhydrogenphospath.getId());
         //tester om dataen er blevet slettet
-        if(indholdsstofDAO.get(1)!=null){
-            fail();
+        List<IIndholdsstof>alleIndholdsstoffer = indholdsstofDAO.getList();
+        for (IIndholdsstof indholdsstof: alleIndholdsstoffer) {
+            if (indholdsstof.getId()==Calciumhydrogenphospath.getId()) {
+                fail();
+            }
         }
     }
     public void opskrift() throws IDAO.DALException {
@@ -97,20 +92,17 @@ public class DALTest {
             assertEquals(Sildenafil.getAktiv().get(i),receivedOpskrift.getAktiv().get(i));
         }
         assertEquals(Sildenafil.getOpbevaringstid(),receivedOpskrift.getOpbevaringstid());
-
         //sletter i testen oprettede data
-        OpskriftDAO.delete(1);
-        //---------nedenstående skal lige verificeres------------------------------------------
+        OpskriftDAO.delete(Sildenafil.getId());
         //tester om dataen er blevet slettet
-        if(OpskriftDAO.get(1)!=null){
-            fail();
+        List<IOpskrift>alleOpskrifter = OpskriftDAO.getList();
+        for(IOpskrift opskrift: alleOpskrifter) {
+            if (opskrift.getId()==Sildenafil.getId()) {
+                fail();
+            }
         }
-        //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void produktBatch() throws IDAO.DALException {
-        //Laver råvarer til lister
-        IRåvareBatch batch1 = new RåvareBatch(99,4,2,"Sanofi");
-        IRåvareBatch batch2 = new RåvareBatch(100,5,30,"Eli Lilly");
         //Laver lister til produktbatch
         List<Integer> råvareBatchList = new ArrayList<>();
         råvareBatchList.add(100);
@@ -135,13 +127,14 @@ public class DALTest {
             assertEquals(test.getRavareBatchIDs().get(j), receivedProduktBatch.getRavareBatchIDs().get(j));
         }
         //sletter oprettet data
-        produktBatchDAO.delete(10);
-        //---------nedenstående skal lige verificeres------------------------------------------
+        produktBatchDAO.delete(test.getId());
         //tester om dataen er blevet slettet
-        if(produktBatchDAO.get(10)!=null){
-            fail();
+        List<IProduktBatch>alleProduktBatches = produktBatchDAO.getList();
+        for(IProduktBatch produktBatch: alleProduktBatches) {
+            if (produktBatch.getId()==test.getId()) {
+                fail();
+            }
         }
-        //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void råvareBatch() throws IDAO.DALException {
         //opretter råvarebatch
@@ -153,16 +146,16 @@ public class DALTest {
         //tester om dataen er den samme
         assertEquals(test.getId(),receivedRåvareBatch.getId());
         assertEquals(test.getIndholdsstof(),receivedRåvareBatch.getIndholdsstof());
-        assertEquals(test.getMængde(),receivedRåvareBatch.getMængde());
         assertEquals(test.getProducent(),receivedRåvareBatch.getProducent());
         //sletter oprettet data
-        råvareBatchDAO.delete(21);
-        //---------nedenstående skal lige verificeres------------------------------------------
+        råvareBatchDAO.delete(test.getId());
         //tester om dataen er blevet slettet
-        if(råvareBatchDAO.get(21)!=null){
-            fail();
+        List<IRåvareBatch>alleRåvareBatches = råvareBatchDAO.getList();
+        for(IRåvareBatch råvareBatch: alleRåvareBatches) {
+            if (råvareBatch.getId()==test.getId()) {
+                fail();
+            }
         }
-        //---------ovenstående skal lige verificeres------------------------------------------
     }
     public void fullTest() throws IDAO.DALException {
         //Opretter Indholdsstoffer til Estrogen
@@ -276,7 +269,6 @@ public class DALTest {
             IRåvareBatch rinstance = råvareBatchDAO.getList().get(k);
             IRåvareBatch instance = råvareBatchList.get(k);
             assertEquals(instance.getIndholdsstof(), rinstance.getIndholdsstof());
-            assertEquals(instance.getMængde(), rinstance.getMængde());
             assertEquals(instance.getProducent(), rinstance.getProducent());
         }
         //laver ændringer i råvareBatches
@@ -290,7 +282,6 @@ public class DALTest {
         //tester om ændringer passer
         assertEquals(r7.getId(),7);
         assertEquals(r7.getIndholdsstof(),7);
-        assertEquals(r7.getMængde(),7);
         assertEquals(r7.getProducent(),"7");
         //Opretter mængdeliste og råvare liste
         List<Integer>råvareBatchIDList = new ArrayList<>();
@@ -335,38 +326,44 @@ public class DALTest {
         assertEquals(r2PBEstrogen.getId(),2);
         assertEquals(r2PBEstrogen.getOpskriftID(),3);
         //sletter i testen oprettede data
-        indholdsstofDAO.delete(1);
-        indholdsstofDAO.delete(2);
-        indholdsstofDAO.delete(3);
-        indholdsstofDAO.delete(4);
-        indholdsstofDAO.delete(5);
-        indholdsstofDAO.delete(6);
-        OpskriftDAO.delete(2);
-        råvareBatchDAO.delete(1);
-        råvareBatchDAO.delete(2);
-        råvareBatchDAO.delete(3);
-        råvareBatchDAO.delete(4);
-        råvareBatchDAO.delete(5);
-        råvareBatchDAO.delete(7);
-        produktBatchDAO.delete(2);
-        //---------nedenstående skal lige verificeres------------------------------------------
+        indholdsstofDAO.delete(Estradiol.getId());
+        indholdsstofDAO.delete(Norethisteronacetat.getId());
+        indholdsstofDAO.delete(Opovidon.getId());
+        indholdsstofDAO.delete(Laktosemonohydrat.getId());
+        indholdsstofDAO.delete(Magnesiumstearat.getId());
+        indholdsstofDAO.delete(Majsstivelse.getId());
+        OpskriftDAO.delete(Estrogen.getId());
+        råvareBatchDAO.delete(råvareBatchEstradiol.getId());
+        råvareBatchDAO.delete(råvareBatchNorethisteronacetat.getId());
+        råvareBatchDAO.delete(råvareBatchOpovidon.getId());
+        råvareBatchDAO.delete(råvareBatchLaktosemonohydrat.getId());
+        råvareBatchDAO.delete(råvareBatchMagnesiumstearat.getId());
+        råvareBatchDAO.delete(råvareBatchMajsstivelse.getId());
+        produktBatchDAO.delete(PBEstrogen.getId());
         //tester om dataen er blevet slettet
-        for(int o = 1;o>=6;o++){
-            if(indholdsstofDAO.get(o)!=null){
+        List<IIndholdsstof>alleIndholdsstoffer = indholdsstofDAO.getList();
+        for(IIndholdsstof indholdsstof: alleIndholdsstoffer){
+            if((Estradiol.getId()== indholdsstof.getId()|| Norethisteronacetat.getId()== indholdsstof.getId() || Opovidon.getId()== indholdsstof.getId() || Laktosemonohydrat.getId()== indholdsstof.getId() || Magnesiumstearat.getId()== indholdsstof.getId() || Majsstivelse.getId()== indholdsstof.getId())){
                 fail();
             }
         }
-        if(indholdsstofDAO.get(2)!=null){
-            fail();
-        }        for(int q = 1;q>=5;q++) {
-            if (råvareBatchDAO.get(q) != null) {
+        List<IOpskrift>alleOpskrifter = OpskriftDAO.getList();
+        for(IOpskrift opskrift: alleOpskrifter){
+            if(opskrift.getId()==Estrogen.getId()){
                 fail();
             }
         }
-        råvareBatchDAO.delete(7);
-        if(produktBatchDAO.get(2)!=null){
-            fail();
+        List<IRåvareBatch>alleRåvareBatches = råvareBatchDAO.getList();
+        for(IRåvareBatch råvareBatch: alleRåvareBatches){
+            if((råvareBatch.getId()==råvareBatchEstradiol.getId()||råvareBatch.getId()==råvareBatchNorethisteronacetat.getId()||råvareBatch.getId()==råvareBatchOpovidon.getId()||råvareBatch.getId()==råvareBatchLaktosemonohydrat.getId()||råvareBatch.getId()==råvareBatchMagnesiumstearat.getId()||råvareBatch.getId()==råvareBatchMajsstivelse.getId())){
+                fail();
+            }
         }
-        //---------ovenstående skal lige verificeres------------------------------------------
+        List<IProduktBatch>alleProduktBatches = produktBatchDAO.getList();
+        for(IProduktBatch produktBatch: alleProduktBatches){
+            if(produktBatch.getId()==PBEstrogen.getId()){
+                fail();
+            }
+        }
     }
 }
