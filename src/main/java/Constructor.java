@@ -1,5 +1,4 @@
 import dal.DAO.IDAO;
-import dal.DAO.IIndholdsstofDAO;
 import dal.DAO.IndholdsstofDAO;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.IIndholdsstof;
