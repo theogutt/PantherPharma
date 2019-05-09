@@ -2,12 +2,13 @@ package dal.DAO;
 
 import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.MaybeUseless.IProduktBatch;
+import dal.DTO.MaybeUseless.IUser;
 import dal.DTO.ProduktBatch;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProduktBatchDAO implements IProduktBacthDAO {
+public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
     private static final String url =
             "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";

@@ -1,4 +1,4 @@
-/*package test;
+package test;
 
 import dal.DAO.*;
 import dal.DTO.*;
@@ -14,10 +14,10 @@ public class DALTest {
     //TODO få programmet til at overholde tests.
 
 
-    IIndholdsstofDAO indholdsstofDAO = new IndholdsstofDAO();
-    IOpskriftDAO OpskriftDAO = new OpskriftDAO();
-    IProduktBacthDAO produktBatchDAO = new ProduktBatchDAO();
-    IRåvareBatchDAO råvareBatchDAO = new RåvareBatchDAO();
+    IDAO<IIndholdsstof> indholdsstofDAO = new IndholdsstofDAO();
+    IDAO<IOpskrift> OpskriftDAO = new OpskriftDAO();
+    IDAO<IProduktBatch> produktBatchDAO = new ProduktBatchDAO();
+    IDAO<IRåvareBatch> råvareBatchDAO = new RåvareBatchDAO();
 
     @Test
     public void test(){
@@ -359,4 +359,3 @@ public class DALTest {
         //---------ovenstående skal lige verificeres------------------------------------------
     }
 }
-*/

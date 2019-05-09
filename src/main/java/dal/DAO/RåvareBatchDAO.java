@@ -2,13 +2,14 @@ package dal.DAO;
 
 import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.MaybeUseless.IRåvareBatch;
+import dal.DTO.MaybeUseless.IUser;
 import dal.DTO.RåvareBatch;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RåvareBatchDAO implements IRåvareBatchDAO {
+public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
 
     private static final String url =
             "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";

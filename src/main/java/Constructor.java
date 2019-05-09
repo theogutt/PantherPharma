@@ -5,7 +5,7 @@ import dal.DTO.*;
 import dal.DTO.MaybeUseless.IIndholdsstof;
 
 public class Constructor {
-    IIndholdsstofDAO indholdsstofDAO = new IndholdsstofDAO();
+    IDAO<IIndholdsstof> indholdsstofDAO = new IndholdsstofDAO();
 
 
     public void opstart() throws IDAO.DALException {
