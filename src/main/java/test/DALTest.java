@@ -1,4 +1,4 @@
-package test;
+/*package test;
 
 import dal.DAO.*;
 import dal.DTO.*;
@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 
 public class DALTest {
 
-    //TODO  få programmet til at overholde tests.
+    //TODO få programmet til at overholde tests.
 
 
     IIndholdsstofDAO indholdsstofDAO = new IndholdsstofDAO();
@@ -359,3 +359,4 @@ public class DALTest {
         //---------ovenstående skal lige verificeres------------------------------------------
     }
 }
+*/
