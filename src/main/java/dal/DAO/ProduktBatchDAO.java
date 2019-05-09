@@ -22,7 +22,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
         ProduktBatch produktBatch = (ProduktBatch) produkt;
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
-                    ("INSERT INTO produktBatch (produktBatchID, dato, opskriftIDs, antal) VALUES (?,?,?,?)");
+                    ("INSERT INTO produktBatch (produktBatchID, dato, opskriftIDs, antal) VALUES (?,?,?,?);");
             statement.setInt(1, produktBatch.getId());
             statement.setString(2, produktBatch.getDato());
             statement.setInt(3, produktBatch.getOpskriftID());
@@ -30,8 +30,11 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
             statement.executeUpdate();
 
             PreparedStatement statement1 = connection.prepareStatement
-                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?, ?, ?) ");
+                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?, ?, ?);");
             statement1.setInt(1, produktBatch.getId());
+            PreparedStatement statement2 = connection.prepareStatement(
+                    "UPDATE råvareBatch SET mængde = (SELECT mængde FROM råvareBatch WHERE råvareBatchID = ?) - ? WHERE råvareBacthID = ?;");
+
             for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
                 statement1.setInt(2, produktBatch.getRavareBatchIDs().get(i));
                 statement1.setDouble(3, produktBatch.getRavareMengde().get(i));
@@ -50,7 +53,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
-                    ("SELECT * FROM produktBatch WHERE produktBatchID = ?");
+                    ("SELECT * FROM produktBatch WHERE produktBatchID = ?;");
             statement.setInt(1, produktBatchID);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
@@ -59,7 +62,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
             antal = resultSet.getInt("antal");
 
             PreparedStatement statement1 = connection.prepareStatement
-                    ("SELECT * FROM produkt_råvarer WHERE prouktBatchID = ?");
+                    ("SELECT * FROM produkt_råvarer WHERE prouktBatchID = ?;");
             statement1.setInt(1,produktBatchID);
             ResultSet resultSet1 = statement1.executeQuery();
 
@@ -114,7 +117,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
     public void update(IProduktBatch produktBatch){
         try (Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
-                    ("UPDATE produktBatch SET produktBatchID = ?, opskriftID = ?, dato = ?, antal = ? WHERE userId = ?");
+                    ("UPDATE produktBatch SET produktBatchID = ?, opskriftID = ?, dato = ?, antal = ? WHERE userId = ?;");
             statement.setInt(1, produktBatch.getId());
             statement.setInt(2, produktBatch.getOpskriftID());
             statement.setString(3, produktBatch.getDato());
@@ -122,12 +125,12 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
             statement.executeUpdate();
 
             PreparedStatement statement1 = connection.prepareStatement
-                    ("DELETE FROM produkt_råvare WHERE produktBatchID = ?");
+                    ("DELETE FROM produkt_råvare WHERE produktBatchID = ?;");
             statement1.setInt(1, produktBatch.getId());
             statement1.executeUpdate();
 
             PreparedStatement statement2 = connection.prepareStatement
-                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?,?,?) ");
+                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?,?,?);");
             statement2.setInt(1, produktBatch.getId());
             for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
                 statement2.setInt(2, produktBatch.getRavareBatchIDs().get(i));

@@ -21,7 +21,8 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
         try (Connection connection = createConnection()) {
 
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
             statement.setString(1, stof.getName());
             statement.setBoolean(2,stof.getGenbestil());
             statement.executeUpdate();
@@ -38,7 +39,8 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
         try (Connection connection = createConnection()) {
 
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM indholdsstoffer WHERE stofID = ?;");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM indholdsstoffer WHERE stofID = ?;");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -58,7 +60,8 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
         try (Connection connection = createConnection()) {
 
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM indholdsstoffer;");
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM indholdsstoffer;");
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

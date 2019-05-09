@@ -11,8 +11,8 @@ import java.util.List;
 public class UserDAO implements IDAO<IUser>{
     //TODONE Make a connection to the database
     private Connection createConnection() throws SQLException {
-        return  DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185118?"
-                + "user=s185118&password=SNX64wUCCqEHKNVwEwumg");
+        return  DriverManager.getConnection(
+                "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL");
     }
 
     @Override
