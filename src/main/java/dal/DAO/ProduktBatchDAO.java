@@ -22,23 +22,48 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
         ProduktBatch produktBatch = (ProduktBatch) produkt;
         try(Connection connection = createConnection()){
             PreparedStatement statement = connection.prepareStatement
-                    ("INSERT INTO produktBatch (produktBatchID, dato, opskriftIDs, antal) VALUES (?,?,?,?);");
+                    ("INSERT INTO produktBatch (produktBatchID, dato, opskriftID, tabletterAntal, batchStatus) VALUES (?,?,?,?,?);");
             statement.setInt(1, produktBatch.getId());
             statement.setString(2, produktBatch.getDato());
             statement.setInt(3, produktBatch.getOpskriftID());
             statement.setInt(4, produktBatch.getAntal());
+            statement.setString(5, produktBatch.getStatus());
             statement.executeUpdate();
 
             PreparedStatement statement1 = connection.prepareStatement
-                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?, ?, ?);");
+                    ("INSERT INTO produkt_råvarer (produktBatchID, råvareBatchID, mængde) VALUES (?,?,?);");
             statement1.setInt(1, produktBatch.getId());
             PreparedStatement statement2 = connection.prepareStatement(
                     "UPDATE råvareBatch SET mængde = (SELECT mængde FROM råvareBatch WHERE råvareBatchID = ?) - ? WHERE råvareBacthID = ?;");
+            PreparedStatement statement3 = connection.prepareStatement(
+                    "SELECT SUM(mængde) AS totalMængde FROM råvareBatch WHERE stofID = (SELECT stofID FROM råvareBatch WHERE råvareBatchID = ?);");
+            PreparedStatement statement4 = connection.prepareStatement(
+                    "SELECT MAX(mængde) FROM opskrift_indhold WHERE stofID = (SELECT stofID FROM råvareBatch WHERE råvareBatchID = ?);");
+            PreparedStatement statement5 = connection.prepareStatement(
+                    "UPDATE indholdsstoffer SET genbestil = TRUE WHERE stofID = (SELECT stofID FROM råvareBatch WHERE råvareBatchID = ?);");
 
             for (int i = 0 ; i < produktBatch.getRavareBatchIDs().size() ; i++) {
                 statement1.setInt(2, produktBatch.getRavareBatchIDs().get(i));
                 statement1.setDouble(3, produktBatch.getRavareMengde().get(i));
                 statement1.executeUpdate();
+
+                statement2.setInt(1, produktBatch.getRavareBatchIDs().get(i));
+                statement2.setDouble(2, produktBatch.getRavareMengde().get(i));
+                statement2.setInt(3, produktBatch.getRavareBatchIDs().get(i));
+                statement2.executeUpdate();
+
+                statement3.setInt(1, produktBatch.getRavareBatchIDs().get(i));
+                ResultSet totalMængde = statement3.executeQuery();
+
+                statement4.setInt(1, produktBatch.getRavareBatchIDs().get(i));
+                ResultSet opskrift = statement4.executeQuery();
+
+                totalMængde.next(); opskrift.next();
+                if (totalMængde.getInt(1) * 2 < opskrift.getInt(1)){
+                    statement5.setInt(1, produktBatch.getRavareBatchIDs().get(i));
+                    statement2.executeUpdate();
+                }
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +72,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
     public IProduktBatch get(int produktBatchID){
         int opskriftID = 0, antal = 0;
-        String dato = "";
+        String dato = "", status = "";
         ArrayList<Integer> ravareBatchID = new ArrayList<>();
         ArrayList<Double> ravareMengde = new ArrayList<>();
 
@@ -57,9 +82,10 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
             statement.setInt(1, produktBatchID);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            opskriftID = resultSet.getInt("opskriftID");
-            dato = resultSet.getString("dato");
-            antal = resultSet.getInt("antal");
+            opskriftID = resultSet.getInt(2);
+            dato = resultSet.getString(3);
+            antal = resultSet.getInt(4);
+            status = resultSet.getString(5);
 
             PreparedStatement statement1 = connection.prepareStatement
                     ("SELECT * FROM produkt_råvarer WHERE prouktBatchID = ?;");
@@ -73,12 +99,12 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde, antal);
+        return new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde, antal, status);
     }
 
     public List<IProduktBatch> getList() {
         int opskriftID, produktBatchID, antal;
-        String dato;
+        String dato, status;
         ArrayList<Integer> ravareBatchID = new ArrayList<>();
         ArrayList<Double> ravareMengde = new ArrayList<>();
         ArrayList<IProduktBatch> produktBatches = new ArrayList<>();
@@ -92,7 +118,8 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
                 opskriftID = resultSet.getInt("opskriftID");
                 dato = resultSet.getString("dato");
                 antal = resultSet.getInt("antal");
-                produktBatches.add(new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde, antal));
+                status = resultSet.getString(5);
+                produktBatches.add(new ProduktBatch(produktBatchID, dato, opskriftID, ravareBatchID, ravareMengde, antal, status));
             }
 
             PreparedStatement statement1;
@@ -116,12 +143,13 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
     public void update(IProduktBatch produktBatch){
         try (Connection connection = createConnection()){
-            PreparedStatement statement = connection.prepareStatement
-                    ("UPDATE produktBatch SET produktBatchID = ?, opskriftID = ?, dato = ?, antal = ? WHERE userId = ?;");
+            PreparedStatement statement = connection.prepareStatement(
+                            "UPDATE produktBatch SET produktBatchID = ?, opskriftID = ?, dato = ?, tabletterAntal = ?, batchStatus = ? WHERE userId = ?;");
             statement.setInt(1, produktBatch.getId());
             statement.setInt(2, produktBatch.getOpskriftID());
             statement.setString(3, produktBatch.getDato());
             statement.setInt(4, produktBatch.getAntal());
+            statement.setString(5, produktBatch.getStatus());
             statement.executeUpdate();
 
             PreparedStatement statement1 = connection.prepareStatement

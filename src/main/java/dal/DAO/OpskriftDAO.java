@@ -23,7 +23,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
 
         try (Connection c = createConnection()) {
             PreparedStatement statement = c.prepareStatement(
-                    "INSERT INTO opskrifter (navn, opbevaringstid, genbestil) VALUES (?,?,?);");
+                    "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
 
             statement.setString(1, opskrift.getNavn());
             statement.setInt(2, opskrift.getOpbevaringstid());
@@ -167,11 +167,13 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
         try (Connection c = createConnection()) {
 
             PreparedStatement statement = c.prepareStatement(
-                    "DELETE * FROM opskrifer WHERE opskriftID = ?;" +
-                            "DELETE * FROM opskrift_indhold WHERE opskriftID = ?;");
+                    "DELETE FROM opskrifer WHERE opskriftID = ?;");
+            PreparedStatement statement2 = c.prepareStatement(
+                    "DELETE FROM opskrift_indhold WHERE opskriftID = ?;");
             statement.setInt(1, id);
-            statement.setInt(2, id);
+            statement2.setInt(1, id);
             statement.executeUpdate();
+            statement2.executeUpdate();
 
         } catch (SQLException e) {
             throw new IDAO.DALException(e.getMessage());

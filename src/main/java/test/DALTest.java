@@ -107,7 +107,7 @@ public class DALTest {
         råvareMængdeList.add(10.0);
         råvareMængdeList.add(20.0);
         //Opretter ProduktBatch
-        ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList,10);
+        ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList,10, "bestilt");
         //Indsætter det i databasen
         produktBatchDAO.create(test);
         //henter det ned fra databasen
@@ -295,7 +295,7 @@ public class DALTest {
         PBmængdeList.add(1500.0);
         PBmængdeList.add(12000.0);
         //Opretter produktBatches
-        IProduktBatch PBEstrogen = new ProduktBatch(1,"07-05-2019",2,råvareBatchIDList,PBmængdeList,100);
+        IProduktBatch PBEstrogen = new ProduktBatch(1,"07-05-2019",2,råvareBatchIDList,PBmængdeList,100, "under produktion");
         //Indsætter produktBatch i databasen
         produktBatchDAO.create(PBEstrogen);
         //henter produktbatch ned fra databasen
