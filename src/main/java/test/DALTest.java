@@ -2,12 +2,8 @@ package test;
 import dal.DAO.*;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
