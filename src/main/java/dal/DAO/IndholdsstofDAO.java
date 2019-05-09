@@ -43,9 +43,8 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
                     "SELECT * FROM indholdsstoffer WHERE stofID = ?;");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-
-            stof = new Indholdsstof(id, resultSet.getString(2), resultSet.getBoolean(3));
-
+            if (resultSet.next())
+                stof = new Indholdsstof(id, resultSet.getString(2), resultSet.getBoolean(3));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,7 +103,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
         try (Connection connection = createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE indholdsstoffer WHERE stofID = ?;");
+                    "DELETE FROM indholdsstoffer WHERE stofID = ?;");
 
             statement.setInt(1, id);
             statement.executeUpdate();

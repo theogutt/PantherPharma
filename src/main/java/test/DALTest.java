@@ -1,5 +1,4 @@
 package test;
-
 import dal.DAO.*;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
