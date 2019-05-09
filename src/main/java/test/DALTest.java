@@ -4,6 +4,10 @@ import dal.DAO.*;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
 import org.junit.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -33,6 +37,14 @@ public class DALTest {
             fail();
         }
     }
+
+    private Connection createConnection() throws SQLException {
+        return  DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185118?"
+                + "user=s185118&password=SNX64wUCCqEHKNVwEwumg");
+    }
+
+
+
     public void indholdsstof() throws IDAO.DALException {
         //Opretter Indholdsstof
         IIndholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat",false);
