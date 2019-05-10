@@ -27,6 +27,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             statement.executeUpdate();
             connection.commit();//transaction
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -51,6 +52,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
                     resultSet.getString(4));
             connection.commit();//transaction
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -77,6 +79,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             }
             connection.commit();//transaction
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -102,6 +105,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             statement.executeUpdate();
             connection.commit();//transaction
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -122,6 +126,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             statement.executeUpdate();
             connection.commit();//transaction
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();

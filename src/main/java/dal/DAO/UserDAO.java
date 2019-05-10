@@ -33,6 +33,7 @@ public class UserDAO implements IDAO<IUser>{
             }
             c.commit();//transaction
         } catch (SQLException e) {
+            c.rollback();
             e.printStackTrace();
         }
         c.close();
@@ -42,6 +43,7 @@ public class UserDAO implements IDAO<IUser>{
     public IUser get(int userId) throws DALException, SQLException {
         Connection c = connectionController.createConnection();
         IUser user = new UserDTO();
+
         try {
             c.setAutoCommit(false);//transaction
 
@@ -58,6 +60,7 @@ public class UserDAO implements IDAO<IUser>{
             c.commit();//transaction
 
         } catch (SQLException e) {
+            c.rollback();
             throw new DALException(e.getMessage());
         }
         c.close();
@@ -68,8 +71,9 @@ public class UserDAO implements IDAO<IUser>{
 
     @Override
     public List<IUser> getList() throws DALException, SQLException {
-        Connection c = connectionController.createConnection();
         List<IUser> userList = new ArrayList<>();
+
+        Connection c = connectionController.createConnection();
         try {
             c.setAutoCommit(false);//transaction
 
@@ -86,6 +90,7 @@ public class UserDAO implements IDAO<IUser>{
 
 
         } catch (SQLException e) {
+            c.rollback();
             throw new DALException(e.getMessage());
         }
         c.close();
@@ -120,6 +125,7 @@ public class UserDAO implements IDAO<IUser>{
             c.commit();//transaction
 
         } catch (SQLException e) {
+            c.rollback();
             e.printStackTrace();
         }
         c.close();
@@ -137,6 +143,7 @@ public class UserDAO implements IDAO<IUser>{
             statement.executeUpdate();
             c.commit();//transaction
         } catch (SQLException e) {
+            c.rollback();
             e.printStackTrace();
         }
         c.close();

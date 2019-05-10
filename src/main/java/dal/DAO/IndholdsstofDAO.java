@@ -26,6 +26,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             connection.commit();//transaction
 
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -46,6 +47,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
                 stof = new Indholdsstof(id, resultSet.getString(2), resultSet.getBoolean(3));
 
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -71,6 +73,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             }
 
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -94,6 +97,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             statement.executeUpdate();
 
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
@@ -111,6 +115,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             statement.executeUpdate();
 
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
         connection.close();
