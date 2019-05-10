@@ -1,9 +1,7 @@
 package dal.DAO;
 
 
-import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.MaybeUseless.IOpskrift;
-import dal.DTO.MaybeUseless.IUser;
 import dal.DTO.Opskrift;
 
 import java.sql.*;
@@ -12,16 +10,12 @@ import java.util.List;
 
 public class OpskriftDAO implements IDAO<IOpskrift> {
 
-    private static final String url =
-            "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
+    ConnectionController connectionController = new ConnectionController();
 
-    private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection(url);
-    }
 
     public void create(IOpskrift opskrift) throws IDAO.DALException {
 
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
 
@@ -52,7 +46,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
 
         IOpskrift opskrift;
 
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
 
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM opskrifter WHERE opskriftID = ?;");
@@ -96,7 +90,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
         ArrayList<Double> amount = new ArrayList<>();
         ArrayList<Boolean> active = new ArrayList<>();
 
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM opskrifer;");
             ResultSet resultSet = statement.executeQuery();
@@ -136,7 +130,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
         ArrayList<Double> maengde = opskrift.getMaengde();
         ArrayList<Boolean> aktiv = opskrift.getAktiv();
 
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
             statement.setString(1, opskrift.getNavn());
@@ -165,7 +159,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
 
     public void delete(int id) throws IDAO.DALException {
 
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
 
             PreparedStatement statement = c.prepareStatement(
                     "DELETE FROM opskrifer WHERE opskriftID = ?;");

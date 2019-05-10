@@ -10,14 +10,12 @@ import java.util.List;
 //TODONE Rename class so it matches your study-number
 public class UserDAO implements IDAO<IUser>{
     //TODONE Make a connection to the database
-    private Connection createConnection() throws SQLException {
-        return  DriverManager.getConnection(
-                "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL");
-    }
+    ConnectionController connectionController = new ConnectionController();
+
 
     @Override
     public void create(IUser user) throws DALException {
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
 
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO bruger (brugerNavn) VALUES (?);");
@@ -39,7 +37,7 @@ public class UserDAO implements IDAO<IUser>{
     @Override
     public IUser get(int userId) throws DALException {
 
-        try (Connection c = createConnection()){
+        try (Connection c = connectionController.createConnection()){
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM bruger NATURAL JOIN roller WHERE brugerID = ?;");
             statement.setInt(1, userId);
@@ -61,7 +59,7 @@ public class UserDAO implements IDAO<IUser>{
     @Override
     public List<IUser> getList() throws DALException {
 
-        try (Connection c = createConnection()){
+        try (Connection c = connectionController.createConnection()){
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM bruger NATURAL JOIN roller ORDER BY brugerID;");
             ResultSet resultSet = statement.executeQuery();
@@ -83,7 +81,7 @@ public class UserDAO implements IDAO<IUser>{
     @Override
     public void update(IUser user) throws DALException {
 
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "UPDATE bruger SET brugerNavn = ? WHERE brugerID = ?;");
             statement.setString(1, user.getUserName());
@@ -111,7 +109,7 @@ public class UserDAO implements IDAO<IUser>{
     @Override
     public void delete(int userId) throws DALException {
 
-        try (Connection c = createConnection()) {
+        try (Connection c = connectionController.createConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "DELETE FROM bruger WHERE brugerID = ?;");
             statement.setInt(1, userId);

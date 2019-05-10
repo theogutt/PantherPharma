@@ -13,7 +13,7 @@ public class DALTest {
 
     //TODO få programmet til at overholde tests.
 
-
+    IDAO<IUser> userDAO = new UserDAO();
     IDAO<IIndholdsstof> indholdsstofDAO = new IndholdsstofDAO();
     IDAO<IOpskrift> OpskriftDAO = new OpskriftDAO();
     IDAO<IProduktBatch> produktBatchDAO = new ProduktBatchDAO();
@@ -52,46 +52,11 @@ public class DALTest {
     @Test
     public void indholdsstofTest(){
         try{
+            user();
             indholdsstof();
-        }
-        catch (IDAO.DALException e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
-    @Test
-    public void opskriftTest(){
-        try{
             opskrift();
-        }
-        catch (IDAO.DALException e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
-    @Test
-    public void produktBatchTest(){
-        try{
             produktBatch();
-        }
-        catch (IDAO.DALException e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
-    @Test
-    public void råvareBatchTest(){
-        try{
             råvareBatch();
-        }
-        catch (IDAO.DALException e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
-    @Test
-    public void fullTestTest(){
-        try{
             fullTest();
         }
         catch (IDAO.DALException e) {
@@ -99,8 +64,45 @@ public class DALTest {
             fail();
         }
     }
+    @Test
+    public void user() throws IDAO.DALException {
+        UserDTO userDTO = new UserDTO();
+        //opretter user
+        IUser testUser =  userDTO.createTestDTO();
+        //indsætter i databasen
+        userDAO.create(testUser);
+        //henter fra databasen
+        IUser receivedUser = userDAO.get(testUser.getUserId());
+        //tester om data er det samme
+        assertEquals(receivedUser.getUserId(),testUser.getUserId());
+        assertEquals(receivedUser.getUserName(),testUser.getUserName());
+        for(int i = 0; i<testUser.getRoles().size();i++) {
+            assertEquals(receivedUser.getRoles().get(i), testUser.getRoles().get(i));
+        }
+        //laver ændringer
+        receivedUser.setUserId(51);
+        receivedUser.setUserName("tester");
+        receivedUser.removeRole("Admin");
+        receivedUser.addRole("Pharmaceut");
+        userDAO.update(receivedUser);
+        IUser receivedUser2 = userDAO.get(receivedUser.getUserId());
+        assertEquals(receivedUser2.getUserId(),receivedUser.getUserId());
+        assertEquals(receivedUser2.getUserName(),receivedUser.getUserName());
+        for(int j = 0; j<receivedUser.getRoles().size();j++){
+            assertEquals(receivedUser2.getRoles().get(j),receivedUser.getRoles().get(j));
+        }
+        //sletter fra databasen
+        userDAO.delete(testUser.getUserId());
+        //tester om sletningen virkede
+        List<IUser>alleUsers = userDAO.getList();
+        for (IUser user: alleUsers) {
+            if (user.getUserId()==testUser.getUserId()) {
+                fail();
+            }
+        }
 
-
+    }
+    @Test
     public void indholdsstof() throws IDAO.DALException {
         //Opretter Indholdsstof
         IIndholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat",false);
@@ -120,6 +122,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void opskrift() throws IDAO.DALException {
         //Opretter Indholdsstof
         IIndholdsstof Hypromellose  = new Indholdsstof(2,"Hypromellose ", false);
@@ -167,6 +170,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void produktBatch() throws IDAO.DALException {
         //Laver lister til produktbatch
         List<Integer> råvareBatchList = new ArrayList<>();
@@ -201,6 +205,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void råvareBatch() throws IDAO.DALException {
         //opretter råvarebatch
         IRåvareBatch test = new RåvareBatch(21,10,1100,"Lundbeck");
@@ -222,6 +227,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void fullTest() throws IDAO.DALException {
         //Opretter Indholdsstoffer til Estrogen
         IIndholdsstof Estradiol = new Indholdsstof(1,"Estradiol",false);

@@ -1,3 +1,4 @@
+import dal.DAO.ConnectionController;
 import dal.DAO.IDAO;
 import dal.DAO.UserDAO;
 import dal.DTO.MaybeUseless.IUser;
@@ -17,10 +18,7 @@ public class AdminstationController {
     List<String> roler = new ArrayList<>();
     Boolean[] tilgang = new Boolean[4];
 
-    private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185118?"
-                + "user=s185118&password=SNX64wUCCqEHKNVwEwumg");
-    }
+    ConnectionController connectionController = new ConnectionController();
 
     public Boolean[] tjek(int id) throws IDAO.DALException {
 
