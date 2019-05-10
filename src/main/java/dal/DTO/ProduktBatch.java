@@ -5,19 +5,20 @@ import java.util.List;
 
 public class ProduktBatch implements IProduktBatch {
     private int id;
-    private String dato;
+    private String dato, status;
     private int opskriftID;
     private List<Integer> ravareBatchID;
     private List<Double> ravareMengde;
     private int antal;
 
-    public ProduktBatch(int id, String dato, int opskriftID, List<Integer> ravareBatchID, List<Double> ravareMengde, int antal){
+    public ProduktBatch(int id, String dato, int opskriftID, List<Integer> ravareBatchID, List<Double> ravareMengde, int antal, String status){
         this.id = id;
         this.dato = dato;
         this.opskriftID = opskriftID;
         this.ravareBatchID = ravareBatchID;
         this.ravareMengde = ravareMengde;
         this.antal = antal;
+        this.status = status;
     }
 
     @Override
@@ -31,6 +32,13 @@ public class ProduktBatch implements IProduktBatch {
 
     public List<Integer> getRavareBatchIDs() {
         return ravareBatchID;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    public String getStatus() {
+        return status;
     }
 
     public void setRavareMengde(List<Double> ravareMengde) {

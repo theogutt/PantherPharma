@@ -16,6 +16,10 @@ public interface IProduktBatch {
 
     void setRavareBatchIDs(List<Integer> ravareBatchID);
 
+    void setStatus(String status);
+
+    String getStatus() ;
+
     int getOpskriftID() ;
 
     String getDato() ;

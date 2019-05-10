@@ -14,9 +14,9 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
 
     @Override
-    public void create(IIndholdsstof stof) throws DALException {
-
-        try (Connection connection = connectionController.createConnection()) {
+    public void create(IIndholdsstof stof) throws DALException, SQLException {
+        Connection connection = connectionController.createConnection();
+        try {
             connection.setAutoCommit(false);//transaction
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
@@ -28,35 +28,37 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
     }
 
     @Override
-    public IIndholdsstof get(int id) throws DALException {
+    public IIndholdsstof get(int id) throws DALException, SQLException {
 
         IIndholdsstof stof = new Indholdsstof();
+        Connection connection = connectionController.createConnection();
+        try {
 
-        try (Connection connection = connectionController.createConnection()) {
-            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM indholdsstoffer WHERE stofID = ?;");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
                 stof = new Indholdsstof(id, resultSet.getString(2), resultSet.getBoolean(3));
-            connection.commit();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
         return stof;
     }
 
     @Override
-    public List<IIndholdsstof> getList() throws DALException {
-
+    public List<IIndholdsstof> getList() throws DALException, SQLException {
+        Connection connection = connectionController.createConnection();
         List<IIndholdsstof> stoffer = new ArrayList<>();
 
-        try (Connection connection = connectionController.createConnection()) {
-            connection.setAutoCommit(false);
+        try {
+
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM indholdsstoffer;");
             ResultSet resultSet = statement.executeQuery();
@@ -67,21 +69,22 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
                         resultSet.getInt(1),
                         resultSet.getString(2), resultSet.getBoolean(3)));
             }
-            connection.commit();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
 
         return stoffer;
     }
 
     @Override
-    public void update(IIndholdsstof object) throws DALException {
+    public void update(IIndholdsstof stof) throws DALException, SQLException {
 
-        Indholdsstof stof = (Indholdsstof) object;
+        Connection connection = connectionController.createConnection();
 
-        try (Connection connection = connectionController.createConnection()) {
-            connection.setAutoCommit(false);
+        try {
+
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE indholdsstoffer SET navn = ?, genbestil = ? WHERE stofID = ?;");
 
@@ -89,25 +92,27 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             statement.setBoolean(2, stof.getGenbestil());
             statement.setInt(3, stof.getId());
             statement.executeUpdate();
-            connection.commit();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
     }
 
     @Override
-    public void delete(int id) throws DALException {
+    public void delete(int id) throws DALException, SQLException {
+        Connection connection = connectionController.createConnection();
+        try {
 
-        try (Connection connection = connectionController.createConnection()) {
-            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM indholdsstoffer WHERE stofID = ?;");
 
             statement.setInt(1, id);
             statement.executeUpdate();
-            connection.commit();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
     }
 }

@@ -4,9 +4,6 @@ import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -21,9 +18,39 @@ public class DALTest {
     IDAO<IOpskrift> OpskriftDAO = new OpskriftDAO();
     IDAO<IProduktBatch> produktBatchDAO = new ProduktBatchDAO();
     IDAO<IRåvareBatch> råvareBatchDAO = new RåvareBatchDAO();
+    ArrayList<Integer>indholdsstofIDList = new ArrayList<>();
+    ArrayList<IIndholdsstof>indholdsstofList = new ArrayList<>();
+    IIndholdsstof estradiol  = new Indholdsstof(4,"Estradiol", false);
+    IIndholdsstof norethisteronacetat = new Indholdsstof(5,"Norethisteronacetat",false);
+    ArrayList<Double>mængdeList = new ArrayList<>();
+    ArrayList<Boolean>aktivList = new ArrayList<>();
 
     @Test
-    public void test(){
+    public void sørensTest(){
+        try{
+
+            indholdsstofIDList.add(4);
+            indholdsstofIDList.add(5);
+            indholdsstofList.add(estradiol);
+            indholdsstofList.add(norethisteronacetat);
+            mængdeList.add(1.0);
+            mængdeList.add(0.5);
+            aktivList.add(false);
+            aktivList.add(false);
+
+            Opskrift norethisteronEstrogen = new Opskrift(
+                    1,"Norethisteron/estrogen", indholdsstofIDList, mængdeList, aktivList,36, true);
+
+            //Indsætter opskrift i databasen
+            OpskriftDAO.create(norethisteronEstrogen);
+        }
+        catch (IDAO.DALException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    @Test
+    public void indholdsstofTest(){
         try{
             user();
             indholdsstof();
@@ -114,7 +141,8 @@ public class DALTest {
         aktivList.add(false);
         aktivList.add(false);
         //Opretter opskrift
-        Opskrift Sildenafil = new Opskrift(1,"Sildenafil",indholdsstofIDList,mængdeList,aktivList,30, true);
+        Opskrift Sildenafil = new Opskrift(
+                1,"Sildenafil", indholdsstofIDList, mængdeList, aktivList,30, true);
         //Indsætter opskrift i databasen
         OpskriftDAO.create(Sildenafil);
         //henter opskriften fra databasen
@@ -152,7 +180,7 @@ public class DALTest {
         råvareMængdeList.add(10.0);
         råvareMængdeList.add(20.0);
         //Opretter ProduktBatch
-        ProduktBatch test = new ProduktBatch(10,"06-05-2019", 13, råvareBatchList, råvareMængdeList,10);
+        ProduktBatch test = new ProduktBatch(10,"2019-05-10", 13, råvareBatchList, råvareMængdeList,10, "bestilt");
         //Indsætter det i databasen
         produktBatchDAO.create(test);
         //henter det ned fra databasen
@@ -342,7 +370,7 @@ public class DALTest {
         PBmængdeList.add(1500.0);
         PBmængdeList.add(12000.0);
         //Opretter produktBatches
-        IProduktBatch PBEstrogen = new ProduktBatch(1,"07-05-2019",2,råvareBatchIDList,PBmængdeList,100);
+        IProduktBatch PBEstrogen = new ProduktBatch(1,"07-05-2019",2,råvareBatchIDList,PBmængdeList,100, "under produktion");
         //Indsætter produktBatch i databasen
         produktBatchDAO.create(PBEstrogen);
         //henter produktbatch ned fra databasen
