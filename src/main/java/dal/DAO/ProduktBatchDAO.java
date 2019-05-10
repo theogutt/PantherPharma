@@ -111,7 +111,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
         try (Connection connection = createConnection()) {
             PreparedStatement statement = connection.prepareStatement
-                    ("SELECT * FROM produktBatch");
+                    ("SELECT * FROM produktBatch;");
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
                 produktBatchID = resultSet.getInt("produktBatchID");
@@ -125,7 +125,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
             PreparedStatement statement1;
             for (IProduktBatch produktBatch : produktBatches) {
                 statement1 = connection.prepareStatement
-                        ("SELECT * FORM produkt_råvarer WHERE produktBatchID = ?");
+                        ("SELECT * FORM produkt_råvarer WHERE produktBatchID = ?;");
                 statement1.setInt(1, produktBatch.getId());
                 ResultSet resultSet1 = statement1.executeQuery();
                 while (resultSet1.next()) {
@@ -172,10 +172,10 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
     public void delete(int produktBatchID){
         try (Connection connection = createConnection()) {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM produktBatch WHERE produktBatchID = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM produktBatch WHERE produktBatchID = ?;");
             statement.setInt(1, produktBatchID);
             statement.executeUpdate();
-            PreparedStatement statement1 = connection.prepareStatement("DELETE FROM produktBatch WHERE produkt_råvare = ?");
+            PreparedStatement statement1 = connection.prepareStatement("DELETE FROM produktBatch WHERE produkt_råvare = ?;");
             statement1.setInt(1, produktBatchID);
             statement1.executeUpdate();
         } catch (SQLException e) {

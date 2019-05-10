@@ -36,7 +36,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
 
             for (int i = 0; i < ihs.size(); i++) {
                 PreparedStatement statement1 = c.prepareStatement(
-                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(),?,?,?)");
+                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(),?,?,?);");
                 statement1.setInt(1, ihs.get(i));
                 statement1.setDouble(2, maengde.get(i));
                 statement1.setBoolean(3, aktiv.get(i));
@@ -54,7 +54,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
         try (Connection c = createConnection()) {
 
             PreparedStatement statement = c.prepareStatement(
-                    "SELECT * FROM opskrifter WHERE opskriftID = ?");
+                    "SELECT * FROM opskrifter WHERE opskriftID = ?;");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -63,7 +63,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
             Boolean ibrug = resultSet.getBoolean(3);
 
             PreparedStatement statement1 = c.prepareStatement(
-                    "SELECT * FROM opskrif_indhold WHERE opskriftID = ?");
+                    "SELECT * FROM opskrif_indhold WHERE opskriftID = ?;");
             statement1.setInt(1, id);
             ResultSet resultSet1 = statement1.executeQuery();
 
@@ -97,12 +97,12 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
 
         try (Connection c = createConnection()) {
             PreparedStatement statement = c.prepareStatement(
-                    "SELECT * FROM opskrifer");
+                    "SELECT * FROM opskrifer;");
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 PreparedStatement statement1 = c.prepareStatement(
-                        "SELECT * FROM opskrift_indhold WHERE opskriftID = ?");
+                        "SELECT * FROM opskrift_indhold WHERE opskriftID = ?;");
                 statement1.setInt(1, resultSet.getInt(1));
                 ResultSet resultSet1 = statement1.executeQuery();
 
@@ -145,7 +145,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
 
             for (int i = 0; i < indholdsStoffer.size(); i++) {
                 PreparedStatement statement1 = c.prepareStatement(
-                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(), ?, ?, ?)");
+                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(), ?, ?, ?);");
                 statement1.setInt(1, indholdsStoffer.get(i));
                 statement1.setDouble(2, maengde.get(i));
                 statement1.setBoolean(3, aktiv.get(i));
