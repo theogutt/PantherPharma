@@ -14,9 +14,10 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
     ConnectionController connectionController = new ConnectionController();
 
 
-    public void create(IOpskrift opskrift) throws IDAO.DALException {
-
-        try (Connection c = connectionController.createConnection()) {
+    public void create(IOpskrift opskrift) throws IDAO.DALException, SQLException {
+        Connection c = connectionController.createConnection();
+        try  {
+            c.setAutoCommit(false);
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
 
@@ -37,18 +38,20 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
                 statement1.setBoolean(3, aktiv.get(i));
                 statement1.executeUpdate();
             }
-
+            c.commit();
         } catch (SQLException e) {
+            c.rollback();
             throw new IDAO.DALException(e.getMessage());
         }
+        c.close();
     }
     @Override
-    public IOpskrift get(int id) throws IDAO.DALException {
+    public IOpskrift get(int id) throws IDAO.DALException, SQLException {
 
         IOpskrift opskrift;
-
-        try (Connection c = connectionController.createConnection()) {
-
+        Connection c = connectionController.createConnection();
+        try  {
+            c.setAutoCommit(false);
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM opskrifter WHERE opskriftID = ?;");
             statement.setInt(1, id);
@@ -74,24 +77,26 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
             }
 
             opskrift = new Opskrift(id, name, stof, amount, active, expdate, ibrug);
-
+            c.commit();
 
         } catch (SQLException e) {
+            c.rollback();
             throw new IDAO.DALException(e.getMessage());
         }
-
+        c.close();
         return opskrift;
     }
 
     @Override
-    public List<IOpskrift> getList() throws IDAO.DALException {
+    public List<IOpskrift> getList() throws IDAO.DALException, SQLException {
 
         List<IOpskrift> opskrifter = new ArrayList<>();
         ArrayList<Integer> stof = new ArrayList<>();
         ArrayList<Double> amount = new ArrayList<>();
         ArrayList<Boolean> active = new ArrayList<>();
-
-        try (Connection c = connectionController.createConnection()) {
+        Connection c = connectionController.createConnection();
+        try  {
+            c.setAutoCommit(false);
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM opskrifer;");
             ResultSet resultSet = statement.executeQuery();
@@ -117,21 +122,23 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
                 //Tømmer arraylists
                 stof.clear(); amount.clear(); active.clear();
             }
-
+            c.commit();
         } catch (SQLException e) {
+            c.rollback();
             throw new IDAO.DALException(e.getMessage());
         }
-
+        c.close();
         return opskrifter;
     }
 
-    public void update(IOpskrift opskrift) throws IDAO.DALException {
+    public void update(IOpskrift opskrift) throws IDAO.DALException, SQLException {
 
         ArrayList<Integer> indholdsStoffer = opskrift.getIndholdsStoffer();
         ArrayList<Double> maengde = opskrift.getMaengde();
         ArrayList<Boolean> aktiv = opskrift.getAktiv();
-
-        try (Connection c = connectionController.createConnection()) {
+        Connection c = connectionController.createConnection();
+        try  {
+            c.setAutoCommit(false);
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
             statement.setString(1, opskrift.getNavn());
@@ -152,16 +159,18 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
                     "UPDATE opskrifter SET aktiv = FALSE WHERE opskriftID = ?;");
             statement2.setInt(1, opskrift.getId());
             statement2.executeUpdate();
-
+            c.commit();
         } catch (SQLException e) {
+            c.rollback();
             throw new IDAO.DALException(e.getMessage());
         }
+        c.close();
     }
 
-    public void delete(int id) throws IDAO.DALException {
-
-        try (Connection c = connectionController.createConnection()) {
-
+    public void delete(int id) throws IDAO.DALException, SQLException {
+        Connection c = connectionController.createConnection();
+        try  {
+            c.setAutoCommit(false);
             PreparedStatement statement = c.prepareStatement(
                     "DELETE FROM opskrifer WHERE opskriftID = ?;");
             PreparedStatement statement2 = c.prepareStatement(
@@ -170,9 +179,11 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
             statement2.setInt(1, id);
             statement.executeUpdate();
             statement2.executeUpdate();
-
+            c.commit();
         } catch (SQLException e) {
+            c.rollback();
             throw new IDAO.DALException(e.getMessage());
         }
+        c.close();
     }
 }
