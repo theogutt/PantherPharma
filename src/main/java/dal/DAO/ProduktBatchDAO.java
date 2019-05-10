@@ -20,7 +20,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
         try{
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement
-                    ("INSERT INTO produktBatch (opskriftID , dato, tabletterAntal, batchStatus) VALUES (?,?,?,?);");
+                    ("INSERT INTO produktBatch (opskriftID , dato, tabletterAntal, batchStatus) VALUES (?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, produktBatch.getOpskriftID());
             statement.setString(2, produktBatch.getDato());
             statement.setInt(3, produktBatch.getAntal());

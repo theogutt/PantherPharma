@@ -4,6 +4,7 @@ import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -26,8 +27,11 @@ public class DALTest {
     ArrayList<Boolean>aktivList = new ArrayList<>();
 
     @Test
-    public void sørensTest(){
+    public void sørensTest() throws SQLException {
         try{
+
+            List<IUser> brugere = userDAO.getList();
+            System.out.println(brugere);
 
             indholdsstofIDList.add(4);
             indholdsstofIDList.add(5);
@@ -42,7 +46,7 @@ public class DALTest {
                     1,"Norethisteron/estrogen", indholdsstofIDList, mængdeList, aktivList,36, true);
 
             //Indsætter opskrift i databasen
-            OpskriftDAO.create(norethisteronEstrogen);
+            int bo = OpskriftDAO.create(norethisteronEstrogen);
         }
         catch (IDAO.DALException e) {
             e.printStackTrace();
@@ -50,7 +54,7 @@ public class DALTest {
         }
     }
     @Test
-    public void indholdsstofTest(){
+    public void indholdsstofTest() throws SQLException{
         try{
             user();
             indholdsstof();
@@ -65,45 +69,44 @@ public class DALTest {
         }
     }
     @Test
-    public void user() throws IDAO.DALException {
+    public void user() throws IDAO.DALException, SQLException {
         UserDTO userDTO = new UserDTO();
         //opretter user
         IUser testUser =  userDTO.createTestDTO();
         //indsætter i databasen
-        userDAO.create(testUser);
+        int brugerid = userDAO.create(testUser);
         //henter fra databasen
-        IUser receivedUser = userDAO.get(testUser.getUserId());
+        IUser receivedUser = userDAO.get(brugerid);
         //tester om data er det samme
-        assertEquals(receivedUser.getUserId(),testUser.getUserId());
         assertEquals(receivedUser.getUserName(),testUser.getUserName());
         for(int i = 0; i<testUser.getRoles().size();i++) {
             assertEquals(receivedUser.getRoles().get(i), testUser.getRoles().get(i));
         }
         //laver ændringer
-        receivedUser.setUserId(51);
+        receivedUser.setUserId(brugerid);
         receivedUser.setUserName("tester");
         receivedUser.removeRole("Admin");
         receivedUser.addRole("Pharmaceut");
         userDAO.update(receivedUser);
         IUser receivedUser2 = userDAO.get(receivedUser.getUserId());
-        assertEquals(receivedUser2.getUserId(),receivedUser.getUserId());
-        assertEquals(receivedUser2.getUserName(),receivedUser.getUserName());
-        for(int j = 0; j<receivedUser.getRoles().size();j++){
+        assertEquals(receivedUser2.getUserId(), receivedUser.getUserId());
+        assertEquals(receivedUser2.getUserName(), receivedUser.getUserName());
+        for(int j = 0; j < receivedUser.getRoles().size(); j++){
             assertEquals(receivedUser2.getRoles().get(j),receivedUser.getRoles().get(j));
         }
         //sletter fra databasen
-        userDAO.delete(testUser.getUserId());
+        userDAO.delete(brugerid);
         //tester om sletningen virkede
         List<IUser>alleUsers = userDAO.getList();
         for (IUser user: alleUsers) {
-            if (user.getUserId()==testUser.getUserId()) {
+            if (user.getUserId()==brugerid) {
                 fail();
             }
         }
 
     }
     @Test
-    public void indholdsstof() throws IDAO.DALException {
+    public void indholdsstof() throws IDAO.DALException, SQLException {
         //Opretter Indholdsstof
         IIndholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat",false);
         //Indsætter indholdstofferne i databasen
@@ -123,7 +126,7 @@ public class DALTest {
         }
     }
     @Test
-    public void opskrift() throws IDAO.DALException {
+    public void opskrift() throws IDAO.DALException, SQLException {
         //Opretter Indholdsstof
         IIndholdsstof Hypromellose  = new Indholdsstof(2,"Hypromellose ", false);
         IIndholdsstof Talcum = new Indholdsstof(3,"Talcum",false);
@@ -171,7 +174,7 @@ public class DALTest {
         }
     }
     @Test
-    public void produktBatch() throws IDAO.DALException {
+    public void produktBatch() throws IDAO.DALException, SQLException {
         //Laver lister til produktbatch
         List<Integer> råvareBatchList = new ArrayList<>();
         råvareBatchList.add(100);
@@ -206,7 +209,7 @@ public class DALTest {
         }
     }
     @Test
-    public void råvareBatch() throws IDAO.DALException {
+    public void råvareBatch() throws IDAO.DALException, SQLException {
         //opretter råvarebatch
         IRåvareBatch test = new RåvareBatch(21,10,1100,"Lundbeck");
         //Indsætter det i databasen
@@ -228,7 +231,7 @@ public class DALTest {
         }
     }
     @Test
-    public void fullTest() throws IDAO.DALException {
+    public void fullTest() throws IDAO.DALException, SQLException {
         //Opretter Indholdsstoffer til Estrogen
         IIndholdsstof Estradiol = new Indholdsstof(1,"Estradiol",false);
         IIndholdsstof Norethisteronacetat = new Indholdsstof(2, "Norethisteronacetat",false);

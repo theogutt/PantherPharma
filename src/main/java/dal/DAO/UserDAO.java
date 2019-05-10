@@ -22,7 +22,7 @@ public class UserDAO implements IDAO<IUser>{
             c.setAutoCommit(false);//transaction
 
             PreparedStatement statement = c.prepareStatement(
-                    "INSERT INTO bruger (brugerNavn) VALUES (?);");
+                    "INSERT INTO bruger (brugerNavn) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getUserName());
             statement.executeUpdate();
 

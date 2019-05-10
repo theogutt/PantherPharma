@@ -21,7 +21,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
         try {
             connection.setAutoCommit(false);//transaction
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
+                    "INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, stof.getName());
             statement.setBoolean(2, stof.getGenbestil());
             statement.executeUpdate();

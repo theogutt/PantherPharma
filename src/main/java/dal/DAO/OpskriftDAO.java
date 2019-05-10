@@ -20,7 +20,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
         try {
             c.setAutoCommit(false);
             PreparedStatement statement = c.prepareStatement(
-                    "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
+                    "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);", Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, opskrift.getNavn());
             statement.setInt(2, opskrift.getOpbevaringstid());

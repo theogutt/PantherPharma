@@ -22,7 +22,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             connection.setAutoCommit(false);//transaction
 
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO råvareBatch (stofID, mængde, producent) VALUES (?,?,?);");
+                    "INSERT INTO råvareBatch (stofID, mængde, producent) VALUES (?,?,?);", Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, batch.getIndholdsstof());
             statement.setDouble(2, batch.getMængde());
             statement.setString(3, batch.getProducent());
