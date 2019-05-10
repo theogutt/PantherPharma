@@ -15,8 +15,10 @@ public class UserDAO implements IDAO<IUser>{
 
 
     @Override
-    public void create(IUser user) throws DALException {
-        try (Connection c = connectionController.createConnection()) {
+    public void create(IUser user) throws DALException, SQLException {
+        Connection c = connectionController.createConnection();
+        try {
+            c.setAutoCommit(false);//transaction
 
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO bruger (brugerNavn) VALUES (?);");
@@ -29,38 +31,46 @@ public class UserDAO implements IDAO<IUser>{
                 statement.setString(1, user.getRoles().get(n));
                 statement.executeUpdate();
             }
-
+            c.commit();//transaction
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        c.close();
     }
 
     @Override
-    public IUser get(int userId) throws DALException {
+    public IUser get(int userId) throws DALException, SQLException {
+        Connection c = connectionController.createConnection();
 
-        try (Connection c = connectionController.createConnection()){
+        try {
+            c.setAutoCommit(false);//transaction
+
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM bruger NATURAL JOIN roller WHERE brugerID = ?;");
             statement.setInt(1, userId);
+
             ResultSet resultSet = statement.executeQuery();
 
             IUser user = new UserDTO();
 
             if(resultSet.next())
                 user = createUserDTO(resultSet);
-
+            c.commit();//transaction
             return user;
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
+        c.close();
     }
 
 
 
     @Override
-    public List<IUser> getList() throws DALException {
+    public List<IUser> getList() throws DALException, SQLException {
+        Connection c = connectionController.createConnection();
+        try {
+            c.setAutoCommit(false);//transaction
 
-        try (Connection c = connectionController.createConnection()){
             PreparedStatement statement = c.prepareStatement(
                     "SELECT * FROM bruger NATURAL JOIN roller ORDER BY brugerID;");
             ResultSet resultSet = statement.executeQuery();
@@ -70,19 +80,22 @@ public class UserDAO implements IDAO<IUser>{
             while(resultSet.next()){
                 userList.add(createUserDTO(resultSet));
             }
-
+            c.commit();//transaction
             return userList;
 
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
+        c.close();
     }
 
 
     @Override
-    public void update(IUser user) throws DALException {
+    public void update(IUser user) throws DALException, SQLException {
+        Connection c = connectionController.createConnection();
+        try {
+            c.setAutoCommit(false);//transaction
 
-        try (Connection c = connectionController.createConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "UPDATE bruger SET brugerNavn = ? WHERE brugerID = ?;");
             statement.setString(1, user.getUserName());
@@ -101,24 +114,29 @@ public class UserDAO implements IDAO<IUser>{
                 statement.setString(2, user.getRoles().get(n));
                 statement.executeUpdate();
             }
+            c.commit();//transaction
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        c.close();
     }
 
     @Override
-    public void delete(int userId) throws DALException {
+    public void delete(int userId) throws DALException, SQLException {
+        Connection c = connectionController.createConnection();
+        try {
+            c.setAutoCommit(false);//transaction
 
-        try (Connection c = connectionController.createConnection()) {
             PreparedStatement statement = c.prepareStatement(
                     "DELETE FROM bruger WHERE brugerID = ?;");
             statement.setInt(1, userId);
             statement.executeUpdate();
-
+            c.commit();//transaction
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        c.close();
     }
 
     private UserDTO createUserDTO(ResultSet resultSet) throws SQLException {
