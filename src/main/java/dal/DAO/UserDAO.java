@@ -1,5 +1,6 @@
 package dal.DAO;
 
+import dal.ConnectionController;
 import dal.DTO.MaybeUseless.IUser;
 import dal.DTO.UserDTO;
 

@@ -1,5 +1,6 @@
 package dal.DAO;
 
+import dal.ConnectionController;
 import dal.DTO.MaybeUseless.IRåvareBatch;
 import dal.DTO.RåvareBatch;
 
