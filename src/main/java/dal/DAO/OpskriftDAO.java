@@ -1,6 +1,7 @@
 package dal.DAO;
 
 
+import dal.ConnectionController;
 import dal.DTO.MaybeUseless.IOpskrift;
 import dal.DTO.Opskrift;
 
