@@ -17,12 +17,13 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
     public void create(IIndholdsstof stof) throws DALException {
 
         try (Connection connection = connectionController.createConnection()) {
-
+            connection.setAutoCommit(false);//transaction
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
             statement.setString(1, stof.getName());
             statement.setBoolean(2,stof.getGenbestil());
             statement.executeUpdate();
+            connection.commit();//transaction
 
         } catch (SQLException e) {
             e.printStackTrace();
