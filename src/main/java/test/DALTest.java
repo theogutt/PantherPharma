@@ -47,6 +47,7 @@ public class DALTest {
 
             //Indsætter opskrift i databasen
             int bo = OpskriftDAO.create(norethisteronEstrogen);
+            System.out.println(bo);
         }
         catch (IDAO.DALException e) {
             e.printStackTrace();

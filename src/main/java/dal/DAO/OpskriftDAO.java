@@ -27,6 +27,10 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
             statement.setBoolean(3,opskrift.getIbrug());
             statement.executeUpdate();
 
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next())
+                id = rs.getInt(1);
+
             ArrayList<Integer> ihs = opskrift.getIndholdsStoffer();
             ArrayList<Double> maengde = opskrift.getMaengde();
             ArrayList<Boolean> aktiv = opskrift.getAktiv();
@@ -39,10 +43,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
                 statement1.setBoolean(3, aktiv.get(i));
                 statement1.executeUpdate();
             }
-            ResultSet rs = statement.getGeneratedKeys();
-            rs.next();
 
-            id = rs.getInt(1);
             c.commit();
         } catch (SQLException e) {
             c.rollback();
@@ -183,8 +184,8 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
                     "DELETE FROM opskrift_indhold WHERE opskriftID = ?;");
             statement.setInt(1, id);
             statement2.setInt(1, id);
-            statement.executeUpdate();
             statement2.executeUpdate();
+            statement.executeUpdate();
             c.commit();
         } catch (SQLException e) {
             c.rollback();

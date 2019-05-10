@@ -27,9 +27,8 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
-            rs.next();
-
-            id = rs.getInt(1);
+            if (rs.next())
+                id = rs.getInt(1);
 
             connection.commit();//transaction
         } catch (SQLException e) {

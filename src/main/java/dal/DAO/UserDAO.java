@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODONE Rename class so it matches your study-number
-public class UserDAO implements IDAO<IUser>{
+public class UserDAO implements IDAO<IUser> {
     //TODONE Make a connection to the database
     ConnectionController connectionController = new ConnectionController();
 
@@ -26,16 +26,17 @@ public class UserDAO implements IDAO<IUser>{
             statement.setString(1, user.getUserName());
             statement.executeUpdate();
 
-            for (int n=0 ; n < user.getRoles().size() ; n++) {
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next())
+                id = rs.getInt(1);
+
+            for (int n = 0; n < user.getRoles().size(); n++) {
                 statement = c.prepareStatement(
                         "INSERT INTO roller (brugerID, rolle) VALUES (LAST_INSERT_ID(), ?);");
                 statement.setString(1, user.getRoles().get(n));
                 statement.executeUpdate();
             }
-            ResultSet rs = statement.getGeneratedKeys();
-            rs.next();
 
-            id = rs.getInt(1);
             c.commit();//transaction
         } catch (SQLException e) {
             c.rollback();
@@ -59,7 +60,7 @@ public class UserDAO implements IDAO<IUser>{
 
             ResultSet resultSet = statement.executeQuery();
 
-            if(resultSet.next())
+            if (resultSet.next())
                 user = createUserDTO(resultSet);
 
             c.commit();//transaction
@@ -70,7 +71,6 @@ public class UserDAO implements IDAO<IUser>{
         c.close();
         return user;
     }
-
 
 
     @Override
@@ -85,8 +85,8 @@ public class UserDAO implements IDAO<IUser>{
                     "SELECT * FROM bruger NATURAL JOIN roller ORDER BY brugerID;");
             ResultSet resultSet = statement.executeQuery();
 
-            
-            while(resultSet.next()){
+
+            while (resultSet.next()) {
                 userList.add(createUserDTO(resultSet));
             }
             c.commit();//transaction
@@ -118,7 +118,7 @@ public class UserDAO implements IDAO<IUser>{
             statement.setInt(1, user.getUserId());
             statement.executeUpdate();
 
-            for (int n=0 ; n < user.getRoles().size() ; n++) {
+            for (int n = 0; n < user.getRoles().size(); n++) {
                 statement = c.prepareStatement(
                         "INSERT INTO roller (brugerID, rolle) VALUES (?, ?);");
                 statement.setInt(1, user.getUserId());
@@ -140,6 +140,10 @@ public class UserDAO implements IDAO<IUser>{
         try {
             c.setAutoCommit(false);//transaction
 
+            PreparedStatement statement1 = c.prepareStatement(
+                    "DELETE FROM roller WHERE brugerID = ?;");
+            statement1.setInt(1,userId);
+            statement1.executeUpdate();
             PreparedStatement statement = c.prepareStatement(
                     "DELETE FROM bruger WHERE brugerID = ?;");
             statement.setInt(1, userId);
@@ -155,17 +159,17 @@ public class UserDAO implements IDAO<IUser>{
     private UserDTO createUserDTO(ResultSet resultSet) throws SQLException {
         UserDTO newUser = new UserDTO();
 
-        int newUserID = resultSet.getInt("userID");
+        int newUserID = resultSet.getInt("brugerID");
         newUser.setUserId(newUserID);
 
-        String userName = resultSet.getString("userName");
+        String userName = resultSet.getString("brugerNavn");
         newUser.setUserName(userName);
 
         List<String> jobArray = new ArrayList<>();
         String job;
 
-        while(!resultSet.isAfterLast() && (resultSet.getInt("userID") == newUserID)){
-            job = resultSet.getString("job");
+        while (!resultSet.isAfterLast() && (resultSet.getInt("brugerID") == newUserID)) {
+            job = resultSet.getString("rolle");
             jobArray.add(job);
 
             resultSet.next();

@@ -126,11 +126,19 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
         try {
             connection.setAutoCommit(false);//transaction
 
+            PreparedStatement statement1 = connection.prepareStatement(
+                    "DELETE produkt_råvare WHERE råvareBacthID = ?;");
+
+            statement1.setInt(1, id);
+            statement1.executeUpdate();
+
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE råvareBatch WHERE råvareBacthID = ?;");
 
             statement.setInt(1, id);
             statement.executeUpdate();
+
+
             connection.commit();//transaction
         } catch (SQLException e) {
             connection.rollback();
