@@ -14,9 +14,10 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
     ConnectionController connectionController = new ConnectionController();
 
 
-    public void create(IOpskrift opskrift) throws IDAO.DALException, SQLException {
+    public int create(IOpskrift opskrift) throws IDAO.DALException, SQLException {
         Connection c = connectionController.createConnection();
-        try  {
+        int id = -1;
+        try {
             c.setAutoCommit(false);
             PreparedStatement statement = c.prepareStatement(
                     "INSERT INTO opskrifter (navn, opbevaringstid, ibrug) VALUES (?,?,?);");
@@ -38,12 +39,17 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
                 statement1.setBoolean(3, aktiv.get(i));
                 statement1.executeUpdate();
             }
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+
+            id = rs.getInt(1);
             c.commit();
         } catch (SQLException e) {
             c.rollback();
             throw new IDAO.DALException(e.getMessage());
         }
         c.close();
+        return id;
     }
     @Override
     public IOpskrift get(int id) throws IDAO.DALException, SQLException {

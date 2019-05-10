@@ -13,9 +13,10 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
 
     @Override
-    public void create(IProduktBatch produkt) throws SQLException {
+    public int create(IProduktBatch produkt) throws SQLException {
         ProduktBatch produktBatch = (ProduktBatch) produkt;
         Connection connection = connectionController.createConnection();
+        int id = -1;
         try{
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement
@@ -60,6 +61,11 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
                     statement2.executeUpdate();
                 }
 
+                ResultSet rs = statement.getGeneratedKeys();
+                rs.next();
+
+                id = rs.getInt(1);
+
             }
             connection.commit();
         } catch (SQLException e) {
@@ -67,6 +73,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
             e.printStackTrace();
         }
         connection.close();
+        return id;
     }
 
     public IProduktBatch get(int produktBatchID) throws SQLException {

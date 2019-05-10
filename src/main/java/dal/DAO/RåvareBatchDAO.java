@@ -14,8 +14,10 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
 
 
     @Override
-    public void create(IRåvareBatch batch) throws IDAO.DALException, SQLException {
+    public int create(IRåvareBatch batch) throws IDAO.DALException, SQLException {
         Connection connection = connectionController.createConnection();
+
+        int id = -1;
         try {
             connection.setAutoCommit(false);//transaction
 
@@ -25,12 +27,17 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             statement.setDouble(2, batch.getMængde());
             statement.setString(3, batch.getProducent());
             statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+
+            id = rs.getInt(1);
             connection.commit();//transaction
         } catch (SQLException e) {
             connection.rollback();
             e.printStackTrace();
         }
         connection.close();
+        return id;
     }
 
     @Override

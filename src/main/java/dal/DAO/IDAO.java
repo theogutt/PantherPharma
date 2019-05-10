@@ -3,7 +3,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IDAO<E> {
-    void create(E objekt) throws DALException, SQLException;
+    int create(E objekt) throws DALException, SQLException;
 
     E get(int id) throws DALException, SQLException;
 

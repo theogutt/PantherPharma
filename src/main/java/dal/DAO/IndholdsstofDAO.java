@@ -10,26 +10,35 @@ import java.util.List;
 
 public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
-   ConnectionController connectionController = new ConnectionController();
+    ConnectionController connectionController = new ConnectionController();
 
 
     @Override
-    public void create(IIndholdsstof stof) throws DALException, SQLException {
+    public int create(IIndholdsstof stof) throws DALException, SQLException {
         Connection connection = connectionController.createConnection();
+        int id = -1;
+
         try {
             connection.setAutoCommit(false);//transaction
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
             statement.setString(1, stof.getName());
-            statement.setBoolean(2,stof.getGenbestil());
+            statement.setBoolean(2, stof.getGenbestil());
             statement.executeUpdate();
-            connection.commit();//transaction
 
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+
+            id = rs.getInt(1);
+
+            connection.commit();//transaction
         } catch (SQLException e) {
             connection.rollback();
             e.printStackTrace();
         }
+
         connection.close();
+        return id;
     }
 
     @Override
@@ -68,8 +77,8 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             while (resultSet.next()) {
                 stoffer.add(
                         new Indholdsstof(
-                        resultSet.getInt(1),
-                        resultSet.getString(2), resultSet.getBoolean(3)));
+                                resultSet.getInt(1),
+                                resultSet.getString(2), resultSet.getBoolean(3)));
             }
 
         } catch (SQLException e) {

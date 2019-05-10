@@ -15,8 +15,9 @@ public class UserDAO implements IDAO<IUser>{
 
 
     @Override
-    public void create(IUser user) throws DALException, SQLException {
+    public int create(IUser user) throws SQLException {
         Connection c = connectionController.createConnection();
+        int id = -1;
         try {
             c.setAutoCommit(false);//transaction
 
@@ -31,12 +32,17 @@ public class UserDAO implements IDAO<IUser>{
                 statement.setString(1, user.getRoles().get(n));
                 statement.executeUpdate();
             }
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+
+            id = rs.getInt(1);
             c.commit();//transaction
         } catch (SQLException e) {
             c.rollback();
             e.printStackTrace();
         }
         c.close();
+        return id;
     }
 
     @Override
@@ -53,12 +59,10 @@ public class UserDAO implements IDAO<IUser>{
 
             ResultSet resultSet = statement.executeQuery();
 
-
-
             if(resultSet.next())
                 user = createUserDTO(resultSet);
-            c.commit();//transaction
 
+            c.commit();//transaction
         } catch (SQLException e) {
             c.rollback();
             throw new DALException(e.getMessage());
@@ -81,8 +85,7 @@ public class UserDAO implements IDAO<IUser>{
                     "SELECT * FROM bruger NATURAL JOIN roller ORDER BY brugerID;");
             ResultSet resultSet = statement.executeQuery();
 
-
-
+            
             while(resultSet.next()){
                 userList.add(createUserDTO(resultSet));
             }
@@ -99,7 +102,7 @@ public class UserDAO implements IDAO<IUser>{
 
 
     @Override
-    public void update(IUser user) throws DALException, SQLException {
+    public void update(IUser user) throws SQLException {
         Connection c = connectionController.createConnection();
         try {
             c.setAutoCommit(false);//transaction
@@ -132,7 +135,7 @@ public class UserDAO implements IDAO<IUser>{
     }
 
     @Override
-    public void delete(int userId) throws DALException, SQLException {
+    public void delete(int userId) throws SQLException {
         Connection c = connectionController.createConnection();
         try {
             c.setAutoCommit(false);//transaction
