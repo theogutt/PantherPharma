@@ -1,16 +1,17 @@
 package dal.DAO;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IDAO<E> {
-    void create(E objekt) throws DALException;
+    void create(E objekt) throws DALException, SQLException;
 
-    E get(int id) throws DALException;
+    E get(int id) throws DALException, SQLException;
 
-    List<E> getList() throws DALException;
+    List<E> getList() throws DALException, SQLException;
 
-    void update(E objekt) throws DALException;
+    void update(E objekt) throws DALException, SQLException;
 
-    void delete(int id) throws DALException;
+    void delete(int id) throws DALException, SQLException;
 
     public class DALException extends Exception {
 

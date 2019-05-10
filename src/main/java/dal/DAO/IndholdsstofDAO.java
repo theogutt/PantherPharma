@@ -36,14 +36,14 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
         IIndholdsstof stof = new Indholdsstof();
 
         try (Connection connection = connectionController.createConnection()) {
-
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM indholdsstoffer WHERE stofID = ?;");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
                 stof = new Indholdsstof(id, resultSet.getString(2), resultSet.getBoolean(3));
-
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
         List<IIndholdsstof> stoffer = new ArrayList<>();
 
         try (Connection connection = connectionController.createConnection()) {
-
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM indholdsstoffer;");
             ResultSet resultSet = statement.executeQuery();
@@ -67,7 +67,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
                         resultSet.getInt(1),
                         resultSet.getString(2), resultSet.getBoolean(3)));
             }
-
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,7 +81,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
         Indholdsstof stof = (Indholdsstof) object;
 
         try (Connection connection = connectionController.createConnection()) {
-
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE indholdsstoffer SET navn = ?, genbestil = ? WHERE stofID = ?;");
 
@@ -89,7 +89,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             statement.setBoolean(2, stof.getGenbestil());
             statement.setInt(3, stof.getId());
             statement.executeUpdate();
-
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -99,13 +99,13 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
     public void delete(int id) throws DALException {
 
         try (Connection connection = connectionController.createConnection()) {
-
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM indholdsstoffer WHERE stofID = ?;");
 
             statement.setInt(1, id);
             statement.executeUpdate();
-
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
