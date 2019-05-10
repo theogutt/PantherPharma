@@ -41,7 +41,7 @@ public class UserDAO implements IDAO<IUser>{
     @Override
     public IUser get(int userId) throws DALException, SQLException {
         Connection c = connectionController.createConnection();
-
+        IUser user = new UserDTO();
         try {
             c.setAutoCommit(false);//transaction
 
@@ -51,16 +51,17 @@ public class UserDAO implements IDAO<IUser>{
 
             ResultSet resultSet = statement.executeQuery();
 
-            IUser user = new UserDTO();
+
 
             if(resultSet.next())
                 user = createUserDTO(resultSet);
             c.commit();//transaction
-            return user;
+
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
         c.close();
+        return user;
     }
 
 
@@ -68,6 +69,7 @@ public class UserDAO implements IDAO<IUser>{
     @Override
     public List<IUser> getList() throws DALException, SQLException {
         Connection c = connectionController.createConnection();
+        List<IUser> userList = new ArrayList<>();
         try {
             c.setAutoCommit(false);//transaction
 
@@ -75,18 +77,19 @@ public class UserDAO implements IDAO<IUser>{
                     "SELECT * FROM bruger NATURAL JOIN roller ORDER BY brugerID;");
             ResultSet resultSet = statement.executeQuery();
 
-            List<IUser> userList = new ArrayList<>();
+
 
             while(resultSet.next()){
                 userList.add(createUserDTO(resultSet));
             }
             c.commit();//transaction
-            return userList;
+
 
         } catch (SQLException e) {
             throw new DALException(e.getMessage());
         }
         c.close();
+        return userList;
     }
 
 
