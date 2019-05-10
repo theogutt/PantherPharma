@@ -16,7 +16,7 @@ public class DALTest {
 
     //TODO få programmet til at overholde tests.
 
-
+    IDAO<IUser> userDAO = new UserDAO();
     IDAO<IIndholdsstof> indholdsstofDAO = new IndholdsstofDAO();
     IDAO<IOpskrift> OpskriftDAO = new OpskriftDAO();
     IDAO<IProduktBatch> produktBatchDAO = new ProduktBatchDAO();
@@ -25,6 +25,7 @@ public class DALTest {
     @Test
     public void test(){
         try{
+            user();
             indholdsstof();
             opskrift();
             produktBatch();
@@ -35,6 +36,44 @@ public class DALTest {
             e.printStackTrace();
             fail();
         }
+    }
+    @Test
+    public void user() throws IDAO.DALException {
+        UserDTO userDTO = new UserDTO();
+        //opretter user
+        IUser testUser =  userDTO.createTestDTO();
+        //indsætter i databasen
+        userDAO.create(testUser);
+        //henter fra databasen
+        IUser receivedUser = userDAO.get(testUser.getUserId());
+        //tester om data er det samme
+        assertEquals(receivedUser.getUserId(),testUser.getUserId());
+        assertEquals(receivedUser.getUserName(),testUser.getUserName());
+        for(int i = 0; i<testUser.getRoles().size();i++) {
+            assertEquals(receivedUser.getRoles().get(i), testUser.getRoles().get(i));
+        }
+        //laver ændringer
+        receivedUser.setUserId(51);
+        receivedUser.setUserName("tester");
+        receivedUser.removeRole("Admin");
+        receivedUser.addRole("Pharmaceut");
+        userDAO.update(receivedUser);
+        IUser receivedUser2 = userDAO.get(receivedUser.getUserId());
+        assertEquals(receivedUser2.getUserId(),receivedUser.getUserId());
+        assertEquals(receivedUser2.getUserName(),receivedUser.getUserName());
+        for(int j = 0; j<receivedUser.getRoles().size();j++){
+            assertEquals(receivedUser2.getRoles().get(j),receivedUser.getRoles().get(j));
+        }
+        //sletter fra databasen
+        userDAO.delete(testUser.getUserId());
+        //tester om sletningen virkede
+        List<IUser>alleUsers = userDAO.getList();
+        for (IUser user: alleUsers) {
+            if (user.getUserId()==testUser.getUserId()) {
+                fail();
+            }
+        }
+
     }
     @Test
     public void indholdsstof() throws IDAO.DALException {
