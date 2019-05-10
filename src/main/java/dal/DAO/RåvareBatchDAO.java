@@ -11,17 +11,13 @@ import java.util.List;
 
 public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
 
-    private static final String url =
-            "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
+    ConnectionController connectionController = new ConnectionController();
 
-    private Connection createConnection() throws SQLException {
-        return  DriverManager.getConnection(url);
-    }
 
     @Override
     public void create(IRåvareBatch batch) throws IDAO.DALException {
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO råvareBatch (stofID, mængde, producent) VALUES (? ,? , ?);");
@@ -39,7 +35,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
     public IRåvareBatch get(int id) throws IDAO.DALException {
         RåvareBatch råvareBatch = null;
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM råvareBatch WHERE råvareBacthID = ?;");
             statement.setInt(1, id);
@@ -63,7 +59,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
 
         List<IRåvareBatch> stoffer = new ArrayList<>();
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM råvareBatch;");
             ResultSet resultSet = statement.executeQuery();
@@ -88,7 +84,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
 
         RåvareBatch råvareBatch = (RåvareBatch) object;
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection =connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE råvareBatch SET stofID = ?, mængde = ?, producent = ? WHERE råvareBacthID = ?;");
@@ -107,7 +103,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
     @Override
     public void delete(int id) throws IDAO.DALException {
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE råvareBatch WHERE råvareBacthID = ?;");

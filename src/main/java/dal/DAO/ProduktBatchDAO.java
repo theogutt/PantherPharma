@@ -10,17 +10,13 @@ import java.util.List;
 
 public class ProduktBatchDAO implements IDAO<IProduktBatch> {
 
-    private static final String url =
-            "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
+    ConnectionController connectionController = new ConnectionController();
 
-    private Connection createConnection() throws SQLException {
-        return  DriverManager.getConnection(url);
-    }
 
     @Override
     public void create(IProduktBatch produkt){
         ProduktBatch produktBatch = (ProduktBatch) produkt;
-        try(Connection connection = createConnection()){
+        try(Connection connection = connectionController.createConnection()){
             PreparedStatement statement = connection.prepareStatement
                     ("INSERT INTO produktBatch (produktBatchID, dato, opskriftIDs, antal) VALUES (?,?,?,?);");
             statement.setInt(1, produktBatch.getId());
@@ -51,7 +47,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
         ArrayList<Integer> ravareBatchID = new ArrayList<>();
         ArrayList<Double> ravareMengde = new ArrayList<>();
 
-        try(Connection connection = createConnection()){
+        try(Connection connection = connectionController.createConnection()){
             PreparedStatement statement = connection.prepareStatement
                     ("SELECT * FROM produktBatch WHERE produktBatchID = ?;");
             statement.setInt(1, produktBatchID);
@@ -83,7 +79,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
         ArrayList<Double> ravareMengde = new ArrayList<>();
         ArrayList<IProduktBatch> produktBatches = new ArrayList<>();
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
             PreparedStatement statement = connection.prepareStatement
                     ("SELECT * FROM produktBatch");
             ResultSet resultSet = statement.executeQuery();
@@ -115,7 +111,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
     }
 
     public void update(IProduktBatch produktBatch){
-        try (Connection connection = createConnection()){
+        try (Connection connection = connectionController.createConnection()){
             PreparedStatement statement = connection.prepareStatement
                     ("UPDATE produktBatch SET produktBatchID = ?, opskriftID = ?, dato = ?, antal = ? WHERE userId = ?;");
             statement.setInt(1, produktBatch.getId());
@@ -143,7 +139,7 @@ public class ProduktBatchDAO implements IDAO<IProduktBatch> {
     }
 
     public void delete(int produktBatchID){
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM produktBatch WHERE produktBatchID = ?");
             statement.setInt(1, produktBatchID);
             statement.executeUpdate();

@@ -2,7 +2,6 @@ package test;
 import dal.DAO.*;
 import dal.DTO.*;
 import dal.DTO.MaybeUseless.*;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -37,6 +36,7 @@ public class DALTest {
             fail();
         }
     }
+    @Test
     public void indholdsstof() throws IDAO.DALException {
         //Opretter Indholdsstof
         IIndholdsstof Calciumhydrogenphospath = new Indholdsstof(1,"Calciumhydrogenphosphat dihydrat",false);
@@ -56,6 +56,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void opskrift() throws IDAO.DALException {
         //Opretter Indholdsstof
         IIndholdsstof Hypromellose  = new Indholdsstof(2,"Hypromellose ", false);
@@ -102,6 +103,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void produktBatch() throws IDAO.DALException {
         //Laver lister til produktbatch
         List<Integer> råvareBatchList = new ArrayList<>();
@@ -136,6 +138,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void råvareBatch() throws IDAO.DALException {
         //opretter råvarebatch
         IRåvareBatch test = new RåvareBatch(21,10,1100,"Lundbeck");
@@ -157,6 +160,7 @@ public class DALTest {
             }
         }
     }
+    @Test
     public void fullTest() throws IDAO.DALException {
         //Opretter Indholdsstoffer til Estrogen
         IIndholdsstof Estradiol = new Indholdsstof(1,"Estradiol",false);

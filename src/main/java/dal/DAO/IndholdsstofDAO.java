@@ -9,17 +9,13 @@ import java.util.List;
 
 public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
-    private static final String url =
-            "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185103?user=s185103&password=A6fE9rT4KIhs53G05jsqL";
+   ConnectionController connectionController = new ConnectionController();
 
-    private Connection createConnection() throws SQLException {
-        return  DriverManager.getConnection(url);
-    }
 
     @Override
     public void create(IIndholdsstof stof) throws DALException {
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO indholdsstoffer (navn, genbestil) VALUES (?,?);");
@@ -37,7 +33,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
         IIndholdsstof stof = new Indholdsstof();
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM indholdsstoffer WHERE stofID = ?;");
@@ -57,7 +53,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
         List<IIndholdsstof> stoffer = new ArrayList<>();
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM indholdsstoffer;");
@@ -82,7 +78,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
 
         Indholdsstof stof = (Indholdsstof) object;
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE indholdsstoffer SET navn = ?, genbestil = ? WHERE stofID = ?;");
@@ -100,7 +96,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
     @Override
     public void delete(int id) throws DALException {
 
-        try (Connection connection = createConnection()) {
+        try (Connection connection = connectionController.createConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM indholdsstoffer WHERE stofID = ?;");
