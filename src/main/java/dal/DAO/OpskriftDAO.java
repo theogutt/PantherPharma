@@ -1,9 +1,7 @@
 package dal.DAO;
 
 
-import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.MaybeUseless.IOpskrift;
-import dal.DTO.MaybeUseless.IUser;
 import dal.DTO.Opskrift;
 
 import java.sql.*;

@@ -1,8 +1,6 @@
 package dal.DAO;
 
-import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.MaybeUseless.IRåvareBatch;
-import dal.DTO.MaybeUseless.IUser;
 import dal.DTO.RåvareBatch;
 
 import java.sql.*;

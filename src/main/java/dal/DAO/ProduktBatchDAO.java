@@ -1,8 +1,6 @@
 package dal.DAO;
 
-import dal.DTO.MaybeUseless.IIndholdsstof;
 import dal.DTO.MaybeUseless.IProduktBatch;
-import dal.DTO.MaybeUseless.IUser;
 import dal.DTO.ProduktBatch;
 import java.sql.*;
 import java.util.ArrayList;
