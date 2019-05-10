@@ -33,13 +33,14 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
             ArrayList<Integer> ihs = opskrift.getIndholdsStoffer();
             ArrayList<Double> maengde = opskrift.getMaengde();
             ArrayList<Boolean> aktiv = opskrift.getAktiv();
+            PreparedStatement statement1 = c.prepareStatement(
+                    "INSERT INTO opskrift_indhold (opskriftID, stofID, mængde, aktiv) VALUES (LAST_INSERT_ID(),?,?,?);");
 
             for (int i = 0; i < ihs.size(); i++) {
-                PreparedStatement statement1 = c.prepareStatement(
-                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(),?,?,?);");
                 statement1.setInt(1, ihs.get(i));
                 statement1.setDouble(2, maengde.get(i));
                 statement1.setBoolean(3, aktiv.get(i));
+                statement1.executeUpdate();
             }
 
         } catch (SQLException e) {
@@ -63,7 +64,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
             Boolean ibrug = resultSet.getBoolean(3);
 
             PreparedStatement statement1 = c.prepareStatement(
-                    "SELECT * FROM opskrif_indhold WHERE opskriftID = ?;");
+                    "SELECT * FROM opskrift_indhold WHERE opskriftID = ?;");
             statement1.setInt(1, id);
             ResultSet resultSet1 = statement1.executeQuery();
 
@@ -74,7 +75,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
             while (resultSet1.next()) {
                 stof.add(resultSet1.getInt("indholdsStoffer"));
                 active.add(resultSet1.getBoolean("aktiv"));
-                amount.add(resultSet1.getDouble("maengde"));
+                amount.add(resultSet1.getDouble("mængde"));
             }
 
             opskrift = new Opskrift(id, name, stof, amount, active, expdate, ibrug);
@@ -145,7 +146,7 @@ public class OpskriftDAO implements IDAO<IOpskrift> {
 
             for (int i = 0; i < indholdsStoffer.size(); i++) {
                 PreparedStatement statement1 = c.prepareStatement(
-                        "INSERT INTO opskrift_indhold (opskriftID, stofID, maengde, aktiv) VALUES (LAST_INSERT_ID(), ?, ?, ?);");
+                        "INSERT INTO opskrift_indhold (opskriftID, stofID, mængde, aktiv) VALUES (LAST_INSERT_ID(), ?, ?, ?);");
                 statement1.setInt(1, indholdsStoffer.get(i));
                 statement1.setDouble(2, maengde.get(i));
                 statement1.setBoolean(3, aktiv.get(i));
