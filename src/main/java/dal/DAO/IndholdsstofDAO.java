@@ -90,7 +90,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
     }
 
     @Override
-    public void update(IIndholdsstof stof) throws DALException, SQLException {
+    public int update(IIndholdsstof stof) throws DALException, SQLException {
 
         Connection connection = connectionController.createConnection();
 
@@ -109,6 +109,7 @@ public class IndholdsstofDAO implements IDAO<IIndholdsstof> {
             e.printStackTrace();
         }
         connection.close();
+        return 0;
     }
 
     @Override

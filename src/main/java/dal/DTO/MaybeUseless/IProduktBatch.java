@@ -1,5 +1,6 @@
 package dal.DTO.MaybeUseless;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface IProduktBatch {

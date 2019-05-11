@@ -1,11 +1,14 @@
 package dal.DTO;
 
 import dal.DTO.MaybeUseless.IProduktBatch;
+
+import java.sql.Date;
 import java.util.List;
 
 public class ProduktBatch implements IProduktBatch {
     private int id;
-    private String dato, status;
+    private String dato;
+    private String status;
     private int opskriftID;
     private List<Integer> ravareBatchID;
     private List<Double> ravareMengde;

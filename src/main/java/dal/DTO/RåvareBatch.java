@@ -8,11 +8,13 @@ public class RåvareBatch implements IRåvareBatch {
     private String producent;
     private int indholdsstof;
 
-    public RåvareBatch(int id, int indholdsstof, int mengde, String producent){
+    public RåvareBatch(int id, int indholdsstof, double mængde, String producent){
         this.id = id;
         this.indholdsstof = indholdsstof;
-        this.mængde = mengde;
+        this.mængde = mængde;
         this.producent = producent;
+    }
+    public RåvareBatch(){
     }
 
     @Override

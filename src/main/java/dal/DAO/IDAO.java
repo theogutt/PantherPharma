@@ -9,7 +9,7 @@ public interface IDAO<E> {
 
     List<E> getList() throws DALException, SQLException;
 
-    void update(E objekt) throws DALException, SQLException;
+    int update(E objekt) throws DALException, SQLException;
 
     void delete(int id) throws DALException, SQLException;
 

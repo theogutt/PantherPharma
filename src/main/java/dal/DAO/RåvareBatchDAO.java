@@ -14,7 +14,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
 
 
     @Override
-    public int create(IRåvareBatch batch) throws IDAO.DALException, SQLException {
+    public int create(IRåvareBatch batch) throws SQLException {
         Connection connection = connectionController.createConnection();
 
         int id = -1;
@@ -27,10 +27,11 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             statement.setDouble(2, batch.getMængde());
             statement.setString(3, batch.getProducent());
             statement.executeUpdate();
-            ResultSet rs = statement.getGeneratedKeys();
-            rs.next();
 
-            id = rs.getInt(1);
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next())
+                id = rs.getInt(1);
+
             connection.commit();//transaction
         } catch (SQLException e) {
             connection.rollback();
@@ -41,8 +42,8 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
     }
 
     @Override
-    public IRåvareBatch get(int id) throws IDAO.DALException, SQLException {
-        RåvareBatch råvareBatch = null;
+    public IRåvareBatch get(int id) throws SQLException {
+        IRåvareBatch råvareBatch = new RåvareBatch();
         Connection connection = connectionController.createConnection();
         try {
             connection.setAutoCommit(false);//transaction
@@ -52,11 +53,12 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
 
             ResultSet resultSet = statement.executeQuery();
 
-            råvareBatch = new RåvareBatch(
-                    id,
-                    resultSet.getInt(2),
-                    resultSet.getInt(3),
-                    resultSet.getString(4));
+            if (resultSet.next()) {
+                råvareBatch.setId(id);
+                råvareBatch.setIndholdsstof(resultSet.getInt(2));
+                råvareBatch.setMængde(resultSet.getDouble(3));
+                råvareBatch.setProducent(resultSet.getString(4));
+            }
             connection.commit();//transaction
         } catch (SQLException e) {
             connection.rollback();
@@ -67,7 +69,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
     }
 
     @Override
-    public List<IRåvareBatch> getList() throws IDAO.DALException,SQLException {
+    public List<IRåvareBatch> getList() throws SQLException {
 
         List<IRåvareBatch> stoffer = new ArrayList<>();
         Connection connection = connectionController.createConnection();
@@ -95,7 +97,7 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
     }
 
     @Override
-    public void update(IRåvareBatch råvareBatch) throws IDAO.DALException, SQLException {
+    public int update(IRåvareBatch råvareBatch) throws SQLException {
 
         Connection connection = connectionController.createConnection();
 
@@ -105,21 +107,23 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE råvareBatch SET stofID = ?, mængde = ?, producent = ? WHERE råvareBacthID = ?;");
 
-            statement.setInt(1,råvareBatch.getIndholdsstof());
+            statement.setInt(1, råvareBatch.getIndholdsstof());
             statement.setDouble(2, råvareBatch.getMængde());
             statement.setString(3, råvareBatch.getProducent());
             statement.setInt(4, råvareBatch.getId());
             statement.executeUpdate();
+
             connection.commit();//transaction
         } catch (SQLException e) {
             connection.rollback();
             e.printStackTrace();
         }
         connection.close();
+        return 0;
     }
 
     @Override
-    public void delete(int id) throws IDAO.DALException, SQLException {
+    public void delete(int id) throws SQLException {
 
         Connection connection = connectionController.createConnection();
 
@@ -127,13 +131,13 @@ public class RåvareBatchDAO implements IDAO<IRåvareBatch> {
             connection.setAutoCommit(false);//transaction
 
             PreparedStatement statement1 = connection.prepareStatement(
-                    "DELETE produkt_råvare WHERE råvareBacthID = ?;");
+                    "DELETE FROM produkt_råvare WHERE råvareBacthID = ?;");
 
             statement1.setInt(1, id);
             statement1.executeUpdate();
 
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE råvareBatch WHERE råvareBacthID = ?;");
+                    "DELETE FROM råvareBatch WHERE råvareBacthID = ?;");
 
             statement.setInt(1, id);
             statement.executeUpdate();

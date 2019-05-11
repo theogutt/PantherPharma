@@ -102,7 +102,7 @@ public class UserDAO implements IDAO<IUser> {
 
 
     @Override
-    public void update(IUser user) throws SQLException {
+    public int update(IUser user) throws SQLException {
         Connection c = connectionController.createConnection();
         try {
             c.setAutoCommit(false);//transaction
@@ -132,6 +132,7 @@ public class UserDAO implements IDAO<IUser> {
             e.printStackTrace();
         }
         c.close();
+        return 0;
     }
 
     @Override
